@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Forms\IncidentReportFormController;
+use App\Http\Controllers\ServiceProviderController;
 use App\Http\Controllers\Survey\CustomerSurveyController;
 use App\Http\Controllers\Survey\StaffSurveyController;
 use App\Http\Controllers\User\UsersController;
@@ -76,17 +78,19 @@ Route::middleware('auth')->group(function () {
     Route::resource('users', UsersController::class)->except(['show']);
 
     Route::prefix('forms')->name('forms.')->group(function () {
-        Route::view('/',           'pages.forms')->name('index');
+        Route::resource('incident', IncidentReportFormController::class);
+        // Route::view('/',           'pages.forms')->name('index');
         Route::view('/abc',        'pages.form-abc')->name('abc');
-        Route::view('/incident',   'pages.form-incident')->name('incident');
+        // Route::view('/incident',   'pages.form-incident')->name('incident');
         Route::view('/medication', 'pages.form-medication')->name('medication');
         Route::view('/{form}',     'pages.form-view')->name('show')->whereAlphaNumeric('form');
     });
 
-    Route::prefix('service-providers')->name('providers.')->group(function () {
-        Route::view('/',       'pages.service-providers')->name('index');
-        Route::view('/create', 'pages.service-provider-create')->name('create');
-    });
+    // Route::prefix('service-providers')->name('providers.')->group(function () {
+    //     Route::view('/',       'pages.service-providers')->name('index');
+    //     Route::view('/create', 'pages.service-provider-create')->name('create');
+    // });
+    Route::resource('service-providers', ServiceProviderController::class);
 
     Route::prefix('surveys')->name('surveys.')->group(function () {
         Route::get('/customer', [CustomerSurveyController::class, 'index'])->name('customer');

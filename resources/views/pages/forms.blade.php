@@ -5,44 +5,117 @@
 | Searchable list of all submitted forms across types.
 --}}
 @extends('layouts.app', ['title' => 'Forms'])
-@section('title','Forms')
+@section('title', 'Forms')
 @section('content')
-<div class="flex flex-wrap items-center justify-between gap-3 mb-5">
-  <div>
-    <h2 class="text-xl font-bold">Forms</h2>
-    <p class="text-sm text-slate-500 dark:text-ink-400">5 results</p>
-  </div>
-  <div class="flex gap-2">
-    <button class="px-3 py-2 rounded-lg border border-slate-200 dark:border-ink-800 bg-white dark:bg-ink-900 text-sm flex items-center gap-2"><i data-lucide="download" class="w-4 h-4"></i> Export</button>
-    <a href="#" class="px-3 py-2 rounded-lg bg-brand-600 text-white text-sm font-medium flex items-center gap-2"><i data-lucide="plus" class="w-4 h-4"></i> New form</a>
-  </div>
-</div>
-<div class="bg-white dark:bg-ink-900 rounded-2xl shadow-soft border border-slate-100 dark:border-ink-800 overflow-hidden">
-  <div class="p-4 flex flex-wrap gap-2 border-b border-slate-100 dark:border-ink-800">
-    <div class="flex items-center gap-2 flex-1 min-w-[200px] bg-slate-50 dark:bg-ink-800 rounded-lg px-3 py-2">
-      <i data-lucide="search" class="w-4 h-4 text-slate-400 dark:text-ink-500"></i>
-      <input class="bg-transparent text-sm outline-none flex-1" placeholder="Search…">
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+        <div>
+            <h2 class="text-xl font-bold">Forms</h2>
+            <p class="text-sm text-slate-500 dark:text-ink-400">{{ $incidents->total() }} results</p>
+        </div>
+        <div class="flex gap-2">
+            <button
+                class="px-3 py-2 rounded-lg border border-slate-200 dark:border-ink-800 bg-white dark:bg-ink-900 text-sm flex items-center gap-2"><i
+                    data-lucide="download" class="w-4 h-4"></i> Export</button>
+            <a href="{{ route('forms.incident.create') }}"
+                class="px-3 py-2 rounded-lg bg-brand-600 text-white text-sm font-medium flex items-center gap-2"><i
+                    data-lucide="plus" class="w-4 h-4"></i> New form</a>
+        </div>
     </div>
-    
-<select class="px-3 py-2 rounded-lg border border-slate-200 dark:border-ink-800 bg-white dark:bg-ink-900 text-sm"><option>All form types</option><option>Incident</option><option>Medication</option><option>ABC Monitoring</option></select>
-<select class="px-3 py-2 rounded-lg border border-slate-200 dark:border-ink-800 bg-white dark:bg-ink-900 text-sm"><option>All states</option><option>Perth</option><option>Victoria</option></select>
-<input type="date" class="px-3 py-2 rounded-lg border border-slate-200 dark:border-ink-800 bg-white dark:bg-ink-900 text-sm">
 
-  </div>
-  <div class="overflow-x-auto scrollbar-thin">
-    <table class="w-full">
-      <thead class="bg-slate-50 dark:bg-ink-800"><tr><th class="text-left font-medium text-xs text-slate-500 dark:text-ink-400 uppercase tracking-wider px-4 py-3">Ref</th><th class="text-left font-medium text-xs text-slate-500 dark:text-ink-400 uppercase tracking-wider px-4 py-3">Type</th><th class="text-left font-medium text-xs text-slate-500 dark:text-ink-400 uppercase tracking-wider px-4 py-3">Participant</th><th class="text-left font-medium text-xs text-slate-500 dark:text-ink-400 uppercase tracking-wider px-4 py-3">Status</th><th class="text-left font-medium text-xs text-slate-500 dark:text-ink-400 uppercase tracking-wider px-4 py-3">Location</th><th class="text-left font-medium text-xs text-slate-500 dark:text-ink-400 uppercase tracking-wider px-4 py-3">Submitted</th><th class="text-left font-medium text-xs text-slate-500 dark:text-ink-400 uppercase tracking-wider px-4 py-3"></th></tr></thead>
-      <tbody><tr class="border-t border-slate-100 dark:border-ink-800 hover:bg-slate-50 dark:bg-ink-800"><td class="px-4 py-3 text-sm">#IN-2042</td><td class="px-4 py-3 text-sm">Incident Report</td><td class="px-4 py-3 text-sm">Mark Webb</td><td class="px-4 py-3 text-sm"><span class="text-xs px-2 py-1 rounded-full bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-medium">Submitted</span></td><td class="px-4 py-3 text-sm">Perth</td><td class="px-4 py-3 text-sm">8 Jun 2026</td><td class="px-4 py-3 text-sm"><div class="flex gap-1"><button class="p-1.5 rounded hover:bg-slate-100 dark:bg-ink-800"><i data-lucide="eye" class="w-4 h-4 text-slate-500 dark:text-ink-400"></i></button><button class="p-1.5 rounded hover:bg-slate-100 dark:bg-ink-800"><i data-lucide="pencil" class="w-4 h-4 text-slate-500 dark:text-ink-400"></i></button><button class="p-1.5 rounded hover:bg-slate-100 dark:bg-ink-800"><i data-lucide="trash-2" class="w-4 h-4 text-rose-500"></i></button></div></td></tr><tr class="border-t border-slate-100 dark:border-ink-800 hover:bg-slate-50 dark:bg-ink-800"><td class="px-4 py-3 text-sm">#MD-0114</td><td class="px-4 py-3 text-sm">Medication Error</td><td class="px-4 py-3 text-sm">Sophie L.</td><td class="px-4 py-3 text-sm"><span class="text-xs px-2 py-1 rounded-full bg-amber-50 dark:bg-amber-500/15 text-amber-700 dark:text-amber-300 font-medium">In review</span></td><td class="px-4 py-3 text-sm">Victoria</td><td class="px-4 py-3 text-sm">8 Jun 2026</td><td class="px-4 py-3 text-sm"><div class="flex gap-1"><button class="p-1.5 rounded hover:bg-slate-100 dark:bg-ink-800"><i data-lucide="eye" class="w-4 h-4 text-slate-500 dark:text-ink-400"></i></button><button class="p-1.5 rounded hover:bg-slate-100 dark:bg-ink-800"><i data-lucide="pencil" class="w-4 h-4 text-slate-500 dark:text-ink-400"></i></button><button class="p-1.5 rounded hover:bg-slate-100 dark:bg-ink-800"><i data-lucide="trash-2" class="w-4 h-4 text-rose-500"></i></button></div></td></tr><tr class="border-t border-slate-100 dark:border-ink-800 hover:bg-slate-50 dark:bg-ink-800"><td class="px-4 py-3 text-sm">#AB-0571</td><td class="px-4 py-3 text-sm">ABC Monitoring</td><td class="px-4 py-3 text-sm">Tara N.</td><td class="px-4 py-3 text-sm"><span class="text-xs px-2 py-1 rounded-full bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-medium">Submitted</span></td><td class="px-4 py-3 text-sm">Perth</td><td class="px-4 py-3 text-sm">7 Jun 2026</td><td class="px-4 py-3 text-sm"><div class="flex gap-1"><button class="p-1.5 rounded hover:bg-slate-100 dark:bg-ink-800"><i data-lucide="eye" class="w-4 h-4 text-slate-500 dark:text-ink-400"></i></button><button class="p-1.5 rounded hover:bg-slate-100 dark:bg-ink-800"><i data-lucide="pencil" class="w-4 h-4 text-slate-500 dark:text-ink-400"></i></button><button class="p-1.5 rounded hover:bg-slate-100 dark:bg-ink-800"><i data-lucide="trash-2" class="w-4 h-4 text-rose-500"></i></button></div></td></tr><tr class="border-t border-slate-100 dark:border-ink-800 hover:bg-slate-50 dark:bg-ink-800"><td class="px-4 py-3 text-sm">#IN-2041</td><td class="px-4 py-3 text-sm">Incident Report</td><td class="px-4 py-3 text-sm">Mark Webb</td><td class="px-4 py-3 text-sm"><span class="text-xs px-2 py-1 rounded-full bg-slate-100 dark:bg-ink-800 text-slate-600 dark:text-ink-300 font-medium">Closed</span></td><td class="px-4 py-3 text-sm">Victoria</td><td class="px-4 py-3 text-sm">5 Jun 2026</td><td class="px-4 py-3 text-sm"><div class="flex gap-1"><button class="p-1.5 rounded hover:bg-slate-100 dark:bg-ink-800"><i data-lucide="eye" class="w-4 h-4 text-slate-500 dark:text-ink-400"></i></button><button class="p-1.5 rounded hover:bg-slate-100 dark:bg-ink-800"><i data-lucide="pencil" class="w-4 h-4 text-slate-500 dark:text-ink-400"></i></button><button class="p-1.5 rounded hover:bg-slate-100 dark:bg-ink-800"><i data-lucide="trash-2" class="w-4 h-4 text-rose-500"></i></button></div></td></tr><tr class="border-t border-slate-100 dark:border-ink-800 hover:bg-slate-50 dark:bg-ink-800"><td class="px-4 py-3 text-sm">#MD-0113</td><td class="px-4 py-3 text-sm">Medication Error</td><td class="px-4 py-3 text-sm">Sophie L.</td><td class="px-4 py-3 text-sm"><span class="text-xs px-2 py-1 rounded-full bg-slate-100 dark:bg-ink-800 text-slate-600 dark:text-ink-300 font-medium">Closed</span></td><td class="px-4 py-3 text-sm">Perth</td><td class="px-4 py-3 text-sm">4 Jun 2026</td><td class="px-4 py-3 text-sm"><div class="flex gap-1"><button class="p-1.5 rounded hover:bg-slate-100 dark:bg-ink-800"><i data-lucide="eye" class="w-4 h-4 text-slate-500 dark:text-ink-400"></i></button><button class="p-1.5 rounded hover:bg-slate-100 dark:bg-ink-800"><i data-lucide="pencil" class="w-4 h-4 text-slate-500 dark:text-ink-400"></i></button><button class="p-1.5 rounded hover:bg-slate-100 dark:bg-ink-800"><i data-lucide="trash-2" class="w-4 h-4 text-rose-500"></i></button></div></td></tr></tbody>
-    </table>
-  </div>
-  <div class="p-4 flex items-center justify-between border-t border-slate-100 dark:border-ink-800 text-sm text-slate-500 dark:text-ink-400">
-    <div>Showing 1–5 of 5</div>
-    <div class="flex gap-1">
-      <button class="px-3 py-1.5 rounded-md border border-slate-200 dark:border-ink-800">Prev</button>
-      <button class="px-3 py-1.5 rounded-md bg-brand-600 text-white">1</button>
-      <button class="px-3 py-1.5 rounded-md border border-slate-200 dark:border-ink-800">2</button>
-      <button class="px-3 py-1.5 rounded-md border border-slate-200 dark:border-ink-800">Next</button>
+    @if (session('success'))
+        <div class="mb-4 px-4 py-3 rounded-lg bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 text-sm border border-green-200 dark:border-green-800">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    <div
+        class="bg-white dark:bg-ink-900 rounded-2xl shadow-soft border border-slate-100 dark:border-ink-800 overflow-hidden">
+        <form method="GET" action="{{ route('forms.incident.index') }}"
+            class="p-4 flex flex-wrap gap-2 border-b border-slate-100 dark:border-ink-800">
+            <div class="flex items-center gap-2 flex-1 min-w-[200px] bg-slate-50 dark:bg-ink-800 rounded-lg px-3 py-2">
+                <i data-lucide="search" class="w-4 h-4 text-slate-400 dark:text-ink-500"></i>
+                <input name="search" value="{{ request('search') }}"
+                    class="bg-transparent text-sm outline-none flex-1" placeholder="Search reporter, participant…">
+            </div>
+            <select name="city"
+                class="px-3 py-2 rounded-lg border border-slate-200 dark:border-ink-800 bg-white dark:bg-ink-900 text-sm"
+                onchange="this.form.submit()">
+                <option value="">All states</option>
+                <option value="Perth" @selected(request('city') === 'Perth')>Perth</option>
+                <option value="Victoria" @selected(request('city') === 'Victoria')>Victoria</option>
+            </select>
+            <input type="date" name="date" value="{{ request('date') }}"
+                class="px-3 py-2 rounded-lg border border-slate-200 dark:border-ink-800 bg-white dark:bg-ink-900 text-sm"
+                onchange="this.form.submit()">
+            @if(request()->hasAny(['search', 'city', 'date']))
+                <a href="{{ route('forms.incident.index') }}"
+                    class="px-3 py-2 rounded-lg border border-slate-200 dark:border-ink-800 bg-white dark:bg-ink-900 text-sm text-slate-500 hover:text-slate-700 flex items-center gap-1">
+                    <i data-lucide="x" class="w-3.5 h-3.5"></i> Clear
+                </a>
+            @endif
+        </form>
+        <div class="overflow-x-auto scrollbar-thin">
+            <table class="w-full">
+                <thead class="bg-slate-50 dark:bg-ink-800">
+                    <tr>
+                      <th class="text-left font-medium text-xs text-slate-500 dark:text-ink-400 uppercase tracking-wider px-4 py-3">Sr. No.</th>
+                        <th class="text-left font-medium text-xs text-slate-500 dark:text-ink-400 uppercase tracking-wider px-4 py-3">Submitted</th>
+                        <th class="text-left font-medium text-xs text-slate-500 dark:text-ink-400 uppercase tracking-wider px-4 py-3">Reporter Name</th>
+                        <th class="text-left font-medium text-xs text-slate-500 dark:text-ink-400 uppercase tracking-wider px-4 py-3">Contact</th>
+                        <th class="text-left font-medium text-xs text-slate-500 dark:text-ink-400 uppercase tracking-wider px-4 py-3">IR Number</th>
+                        <th class="text-left font-medium text-xs text-slate-500 dark:text-ink-400 uppercase tracking-wider px-4 py-3">Position</th>
+                        <th class="text-left font-medium text-xs text-slate-500 dark:text-ink-400 uppercase tracking-wider px-4 py-3">City</th>
+                        <th class="text-left font-medium text-xs text-slate-500 dark:text-ink-400 uppercase tracking-wider px-4 py-3">Status</th>
+                        <th class="text-left font-medium text-xs text-slate-500 dark:text-ink-400 uppercase tracking-wider px-4 py-3">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($incidents as $incident)
+                        <tr class="border-t border-slate-100 dark:border-ink-800 hover:bg-slate-50 dark:hover:bg-ink-800">
+                              <td class="px-4 py-3 text-sm">{{ $loop->iteration + ($incidents->currentPage() - 1) * $incidents->perPage() }}</td>
+                            <td class="px-4 py-3 text-sm">{{ $incident->created_at->format('d M Y') }}</td>
+                            <td class="px-4 py-3 text-sm">{{ $incident->name ?? '—' }}</td>
+                            <td class="px-4 py-3 text-sm">{{ $incident->contact ?? '—' }}</td>
+                            <td class="px-4 py-3 text-sm">{{ $incident->ir_number ?? '—' }}</td>
+                            <td class="px-4 py-3 text-sm">{{ $incident->position_title ?? '—' }}</td>
+                            <td class="px-4 py-3 text-sm">{{ config('settings.city_name')[$incident->city] ?? '—' }}</td>
+                            <td class="px-4 py-3 text-sm">
+                                @if($incident->completed)
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">Completed</span>
+                                @else
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">Pending</span>
+                                @endif
+                            </td>
+                            <td class="px-4 py-3 text-sm flex items-center gap-3">
+                                <a href="{{ route('forms.incident.edit', $incident) }}"
+                                    class="text-brand-600 hover:underline">Edit</a>
+                                <form method="POST" action="{{ route('forms.incident.destroy', $incident) }}"
+                                    onsubmit="return confirm('Delete this incident report?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-600 hover:underline">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="8" class="px-4 py-8 text-center text-sm text-slate-400 dark:text-ink-500">
+                                No incident reports found.
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+        <div class="p-4 flex items-center justify-between border-t border-slate-100 dark:border-ink-800 text-sm text-slate-500 dark:text-ink-400">
+            <div>
+                @if($incidents->total())
+                    Showing {{ $incidents->firstItem() }}–{{ $incidents->lastItem() }} of {{ $incidents->total() }}
+                @else
+                    No results
+                @endif
+            </div>
+            <div>{{ $incidents->links() }}</div>
+        </div>
     </div>
-  </div>
-</div>
 @endsection

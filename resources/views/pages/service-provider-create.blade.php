@@ -1,77 +1,272 @@
-{{--
+{{-- 
 |--------------------------------------------------------------------------
 | Page: New Service Provider
 |--------------------------------------------------------------------------
 | Form to register a new external service provider.
 --}}
 @extends('layouts.app', ['title' => 'Add Service Provider'])
-@section('title','Add Service Provider')
+@section('title', 'Add Service Provider')
+
 @section('content')
-<section class="bg-white dark:bg-ink-900 rounded-2xl shadow-soft border border-slate-100 dark:border-ink-800 p-6 mb-6">
-  <h3 class="text-base font-semibold mb-1">Provider details</h3>
-  <div class="h-px bg-slate-100 dark:bg-ink-800 mb-5"></div>
-  <div class="grid md:grid-cols-12 gap-4"><div class="md:col-span-8"><label class="text-sm font-medium text-slate-700 dark:text-ink-200">Provider name</label><div class="mt-1.5"><input type="text" placeholder="" class="w-full px-3.5 py-2.5 rounded-lg border border-slate-200 dark:border-ink-800 focus:border-brand-500 focus:ring-2 focus:ring-brand-100 outline-none text-sm" /></div></div><div class="md:col-span-4"><label class="text-sm font-medium text-slate-700 dark:text-ink-200">ABN</label><div class="mt-1.5"><input type="text" placeholder="" class="w-full px-3.5 py-2.5 rounded-lg border border-slate-200 dark:border-ink-800 focus:border-brand-500 focus:ring-2 focus:ring-brand-100 outline-none text-sm" /></div></div></div>
-</section>
-<section class="bg-white dark:bg-ink-900 rounded-2xl shadow-soft border border-slate-100 dark:border-ink-800 p-6 mb-6">
-  <h3 class="text-base font-semibold mb-1">Services offered</h3>
-  <div class="h-px bg-slate-100 dark:bg-ink-800 mb-5"></div>
-  <div class="grid md:grid-cols-12 gap-4"><div class="md:col-span-12"><label class="text-sm font-medium text-slate-700 dark:text-ink-200">Select all that apply</label><div class="mt-1.5"><div class="grid sm:grid-cols-2 gap-2"><label class="flex items-center gap-2.5 p-2.5 rounded-lg border border-slate-200 dark:border-ink-800 hover:border-brand-300 hover:bg-brand-50/30 cursor-pointer text-sm">
-          <input type="checkbox" name="services[]" class="peer sr-only">
-          <span class="chk-box w-4 h-4 rounded border border-slate-300 dark:border-ink-700 grid place-items-center"><svg class="w-3 h-3 text-white opacity-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
-          <span>Assessment Counselling and Therapy</span></label><label class="flex items-center gap-2.5 p-2.5 rounded-lg border border-slate-200 dark:border-ink-800 hover:border-brand-300 hover:bg-brand-50/30 cursor-pointer text-sm">
-          <input type="checkbox" name="services[]" class="peer sr-only">
-          <span class="chk-box w-4 h-4 rounded border border-slate-300 dark:border-ink-700 grid place-items-center"><svg class="w-3 h-3 text-white opacity-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
-          <span>Assistance for Daily Activities</span></label><label class="flex items-center gap-2.5 p-2.5 rounded-lg border border-slate-200 dark:border-ink-800 hover:border-brand-300 hover:bg-brand-50/30 cursor-pointer text-sm">
-          <input type="checkbox" name="services[]" class="peer sr-only">
-          <span class="chk-box w-4 h-4 rounded border border-slate-300 dark:border-ink-700 grid place-items-center"><svg class="w-3 h-3 text-white opacity-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
-          <span>High intensity Support</span></label><label class="flex items-center gap-2.5 p-2.5 rounded-lg border border-slate-200 dark:border-ink-800 hover:border-brand-300 hover:bg-brand-50/30 cursor-pointer text-sm">
-          <input type="checkbox" name="services[]" class="peer sr-only">
-          <span class="chk-box w-4 h-4 rounded border border-slate-300 dark:border-ink-700 grid place-items-center"><svg class="w-3 h-3 text-white opacity-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
-          <span>SIL/STA/MTA</span></label><label class="flex items-center gap-2.5 p-2.5 rounded-lg border border-slate-200 dark:border-ink-800 hover:border-brand-300 hover:bg-brand-50/30 cursor-pointer text-sm">
-          <input type="checkbox" name="services[]" class="peer sr-only">
-          <span class="chk-box w-4 h-4 rounded border border-slate-300 dark:border-ink-700 grid place-items-center"><svg class="w-3 h-3 text-white opacity-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
-          <span>Participate community</span></label><label class="flex items-center gap-2.5 p-2.5 rounded-lg border border-slate-200 dark:border-ink-800 hover:border-brand-300 hover:bg-brand-50/30 cursor-pointer text-sm">
-          <input type="checkbox" name="services[]" class="peer sr-only">
-          <span class="chk-box w-4 h-4 rounded border border-slate-300 dark:border-ink-700 grid place-items-center"><svg class="w-3 h-3 text-white opacity-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
-          <span>Group recreation and leisure</span></label><label class="flex items-center gap-2.5 p-2.5 rounded-lg border border-slate-200 dark:border-ink-800 hover:border-brand-300 hover:bg-brand-50/30 cursor-pointer text-sm">
-          <input type="checkbox" name="services[]" class="peer sr-only">
-          <span class="chk-box w-4 h-4 rounded border border-slate-300 dark:border-ink-700 grid place-items-center"><svg class="w-3 h-3 text-white opacity-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
-          <span>Support coordination</span></label><label class="flex items-center gap-2.5 p-2.5 rounded-lg border border-slate-200 dark:border-ink-800 hover:border-brand-300 hover:bg-brand-50/30 cursor-pointer text-sm">
-          <input type="checkbox" name="services[]" class="peer sr-only">
-          <span class="chk-box w-4 h-4 rounded border border-slate-300 dark:border-ink-700 grid place-items-center"><svg class="w-3 h-3 text-white opacity-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
-          <span>Individual skill development and Coaching</span></label><label class="flex items-center gap-2.5 p-2.5 rounded-lg border border-slate-200 dark:border-ink-800 hover:border-brand-300 hover:bg-brand-50/30 cursor-pointer text-sm">
-          <input type="checkbox" name="services[]" class="peer sr-only">
-          <span class="chk-box w-4 h-4 rounded border border-slate-300 dark:border-ink-700 grid place-items-center"><svg class="w-3 h-3 text-white opacity-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
-          <span>Assistive Technology</span></label><label class="flex items-center gap-2.5 p-2.5 rounded-lg border border-slate-200 dark:border-ink-800 hover:border-brand-300 hover:bg-brand-50/30 cursor-pointer text-sm">
-          <input type="checkbox" name="services[]" class="peer sr-only">
-          <span class="chk-box w-4 h-4 rounded border border-slate-300 dark:border-ink-700 grid place-items-center"><svg class="w-3 h-3 text-white opacity-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
-          <span>Meal delivery</span></label><label class="flex items-center gap-2.5 p-2.5 rounded-lg border border-slate-200 dark:border-ink-800 hover:border-brand-300 hover:bg-brand-50/30 cursor-pointer text-sm">
-          <input type="checkbox" name="services[]" class="peer sr-only">
-          <span class="chk-box w-4 h-4 rounded border border-slate-300 dark:border-ink-700 grid place-items-center"><svg class="w-3 h-3 text-white opacity-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
-          <span>Community Nursing</span></label><label class="flex items-center gap-2.5 p-2.5 rounded-lg border border-slate-200 dark:border-ink-800 hover:border-brand-300 hover:bg-brand-50/30 cursor-pointer text-sm">
-          <input type="checkbox" name="services[]" class="peer sr-only">
-          <span class="chk-box w-4 h-4 rounded border border-slate-300 dark:border-ink-700 grid place-items-center"><svg class="w-3 h-3 text-white opacity-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
-          <span>SDA</span></label><label class="flex items-center gap-2.5 p-2.5 rounded-lg border border-slate-200 dark:border-ink-800 hover:border-brand-300 hover:bg-brand-50/30 cursor-pointer text-sm">
-          <input type="checkbox" name="services[]" class="peer sr-only">
-          <span class="chk-box w-4 h-4 rounded border border-slate-300 dark:border-ink-700 grid place-items-center"><svg class="w-3 h-3 text-white opacity-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
-          <span>Assist Employment</span></label><label class="flex items-center gap-2.5 p-2.5 rounded-lg border border-slate-200 dark:border-ink-800 hover:border-brand-300 hover:bg-brand-50/30 cursor-pointer text-sm">
-          <input type="checkbox" name="services[]" class="peer sr-only">
-          <span class="chk-box w-4 h-4 rounded border border-slate-300 dark:border-ink-700 grid place-items-center"><svg class="w-3 h-3 text-white opacity-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
-          <span>Cleaning & Gardening</span></label><label class="flex items-center gap-2.5 p-2.5 rounded-lg border border-slate-200 dark:border-ink-800 hover:border-brand-300 hover:bg-brand-50/30 cursor-pointer text-sm">
-          <input type="checkbox" name="services[]" class="peer sr-only">
-          <span class="chk-box w-4 h-4 rounded border border-slate-300 dark:border-ink-700 grid place-items-center"><svg class="w-3 h-3 text-white opacity-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
-          <span>Mental health services</span></label><label class="flex items-center gap-2.5 p-2.5 rounded-lg border border-slate-200 dark:border-ink-800 hover:border-brand-300 hover:bg-brand-50/30 cursor-pointer text-sm">
-          <input type="checkbox" name="services[]" class="peer sr-only">
-          <span class="chk-box w-4 h-4 rounded border border-slate-300 dark:border-ink-700 grid place-items-center"><svg class="w-3 h-3 text-white opacity-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
-          <span>Other</span></label></div></div></div></div>
-</section>
-<section class="bg-white dark:bg-ink-900 rounded-2xl shadow-soft border border-slate-100 dark:border-ink-800 p-6 mb-6">
-  <h3 class="text-base font-semibold mb-1">Location & contact</h3>
-  <div class="h-px bg-slate-100 dark:bg-ink-800 mb-5"></div>
-  <div class="grid md:grid-cols-12 gap-4"><div class="md:col-span-4"><label class="text-sm font-medium text-slate-700 dark:text-ink-200">State</label><div class="mt-1.5"><select class="w-full px-3.5 py-2.5 rounded-lg border border-slate-200 dark:border-ink-800 bg-white dark:bg-ink-900 focus:border-brand-500 focus:ring-2 focus:ring-brand-100 outline-none text-sm"><option>Please select</option><option>WA</option><option>VIC</option><option>NSW</option><option>QLD</option><option>SA</option><option>TAS</option><option>NT</option><option>ACT</option></select></div></div><div class="md:col-span-4"><label class="text-sm font-medium text-slate-700 dark:text-ink-200">City</label><div class="mt-1.5"><input type="text" placeholder="" class="w-full px-3.5 py-2.5 rounded-lg border border-slate-200 dark:border-ink-800 focus:border-brand-500 focus:ring-2 focus:ring-brand-100 outline-none text-sm" /></div></div><div class="md:col-span-4"><label class="text-sm font-medium text-slate-700 dark:text-ink-200">Postcode</label><div class="mt-1.5"><input type="text" placeholder="" class="w-full px-3.5 py-2.5 rounded-lg border border-slate-200 dark:border-ink-800 focus:border-brand-500 focus:ring-2 focus:ring-brand-100 outline-none text-sm" /></div></div><div class="md:col-span-12"><label class="text-sm font-medium text-slate-700 dark:text-ink-200">Address</label><div class="mt-1.5"><input type="text" placeholder="" class="w-full px-3.5 py-2.5 rounded-lg border border-slate-200 dark:border-ink-800 focus:border-brand-500 focus:ring-2 focus:ring-brand-100 outline-none text-sm" /></div></div><div class="md:col-span-4"><label class="text-sm font-medium text-slate-700 dark:text-ink-200">Phone</label><div class="mt-1.5"><input type="tel" placeholder="" class="w-full px-3.5 py-2.5 rounded-lg border border-slate-200 dark:border-ink-800 focus:border-brand-500 focus:ring-2 focus:ring-brand-100 outline-none text-sm" /></div></div><div class="md:col-span-4"><label class="text-sm font-medium text-slate-700 dark:text-ink-200">Email</label><div class="mt-1.5"><input type="email" placeholder="" class="w-full px-3.5 py-2.5 rounded-lg border border-slate-200 dark:border-ink-800 focus:border-brand-500 focus:ring-2 focus:ring-brand-100 outline-none text-sm" /></div></div><div class="md:col-span-4"><label class="text-sm font-medium text-slate-700 dark:text-ink-200">Website</label><div class="mt-1.5"><input type="text" placeholder="https://" class="w-full px-3.5 py-2.5 rounded-lg border border-slate-200 dark:border-ink-800 focus:border-brand-500 focus:ring-2 focus:ring-brand-100 outline-none text-sm" /></div></div></div>
-</section>
-<div class="flex justify-end gap-2 mb-10">
-  <button class="px-4 py-2.5 rounded-lg border border-slate-200 dark:border-ink-800 bg-white dark:bg-ink-900 text-sm font-medium">Cancel</button>
-  <button class="px-5 py-2.5 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold shadow-soft">Add provider</button>
-</div>
+    <form id="serviceProviderForm" method="POST" action="{{ route('service-providers.store') }}">
+        @csrf
+
+        <section
+            class="bg-white dark:bg-ink-900 rounded-2xl shadow-soft border border-slate-100 dark:border-ink-800 p-6 mb-6">
+            <div class="mb-6">
+                <h3 class="text-lg font-semibold text-slate-900 dark:text-white">
+                    Add Service Provider
+                </h3>
+                <p class="text-sm text-slate-500 dark:text-ink-400 mt-1">
+                    Enter provider basic details and contact information.
+                </p>
+            </div>
+
+            <div class="h-px bg-slate-100 dark:bg-ink-800 mb-6"></div>
+
+            <div class="grid md:grid-cols-12 gap-4">
+
+                {{-- Provider Name --}}
+                <div class="md:col-span-6">
+                    <label class="text-sm font-medium text-slate-700 dark:text-ink-200">
+                        Provider Name <span class="text-red-500">*</span>
+                    </label>
+
+                    <div class="mt-1.5">
+                        <input type="text" name="provider_name" id="provider_name" value="{{ old('provider_name') }}"
+                            placeholder="Enter provider name"
+                            class="form-input w-full px-3.5 py-2.5 rounded-lg border border-slate-200 dark:border-ink-800 bg-white dark:bg-ink-900 text-slate-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-100 outline-none text-sm">
+                        <p class="error-message hidden mt-1 text-xs text-red-500"></p>
+                    </div>
+                </div>
+
+                {{-- State --}}
+                <div class="md:col-span-6">
+                    <label class="text-sm font-medium text-slate-700 dark:text-ink-200">
+                        State <span class="text-red-500">*</span>
+                    </label>
+
+                    <div class="mt-1.5">
+                        <select name="state" id="state"
+                            class="form-input w-full px-3.5 py-2.5 rounded-lg border border-slate-200 dark:border-ink-800 bg-white dark:bg-ink-900 text-slate-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-100 outline-none text-sm">
+                            <option value="">Please select</option>
+                            @foreach (config('settings.state_names') as $id => $state)
+                                <option value="{{ $id }}" @selected(old('state') == $id)>
+                                    {{ $state }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <p class="error-message hidden mt-1 text-xs text-red-500"></p>
+                    </div>
+                </div>
+                {{-- Services Offered --}}
+                <div class="md:col-span-12">
+                    <label class="text-sm font-medium text-slate-700 dark:text-ink-200">
+                        Services Offered <span class="text-red-500">*</span>
+                    </label>
+
+                    <div class="mt-4 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4" id="servicesBox">
+                        @foreach (config('settings.service_lists') as $id => $name)
+                            <label class="flex items-center gap-2 cursor-pointer text-sm text-slate-700 dark:text-ink-200">
+                                <input type="checkbox" name="provider_services[]" value="{{ $id }}"
+                                    class="service-checkbox h-4 w-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500">
+                                <span>{{ $name }}</span>
+                            </label>
+                        @endforeach
+                    </div>
+
+                    <p id="servicesError" class="hidden mt-2 text-xs text-red-500">
+                        Please select at least one service.
+                    </p>
+                </div>
+                {{-- Address --}}
+                <div class="md:col-span-12">
+                    <label class="text-sm font-medium text-slate-700 dark:text-ink-200">
+                        Address <span class="text-red-500">*</span>
+                    </label>
+
+                    <div class="mt-1.5">
+                        <input type="text" name="address" id="address" value="{{ old('address') }}"
+                            placeholder="Enter address"
+                            class="form-input w-full px-3.5 py-2.5 rounded-lg border border-slate-200 dark:border-ink-800 bg-white dark:bg-ink-900 text-slate-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-100 outline-none text-sm">
+                        <p class="error-message hidden mt-1 text-xs text-red-500"></p>
+                    </div>
+                </div>
+
+                {{-- Phone --}}
+                <div class="md:col-span-4">
+                    <label class="text-sm font-medium text-slate-700 dark:text-ink-200">
+                        Phone <span class="text-red-500">*</span>
+                    </label>
+
+                    <div class="mt-1.5">
+                        <input type="tel" name="phone" id="phone" value="{{ old('phone') }}"
+                            placeholder="Enter phone"
+                            class="form-input w-full px-3.5 py-2.5 rounded-lg border border-slate-200 dark:border-ink-800 bg-white dark:bg-ink-900 text-slate-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-100 outline-none text-sm">
+                        <p class="error-message hidden mt-1 text-xs text-red-500"></p>
+                    </div>
+                </div>
+
+                {{-- Email --}}
+                <div class="md:col-span-4">
+                    <label class="text-sm font-medium text-slate-700 dark:text-ink-200">
+                        Email <span class="text-red-500">*</span>
+                    </label>
+
+                    <div class="mt-1.5">
+                        <input type="email" name="email" id="email" value="{{ old('email') }}"
+                            placeholder="Enter email"
+                            class="form-input w-full px-3.5 py-2.5 rounded-lg border border-slate-200 dark:border-ink-800 bg-white dark:bg-ink-900 text-slate-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-100 outline-none text-sm">
+                        <p class="error-message hidden mt-1 text-xs text-red-500"></p>
+                    </div>
+                </div>
+
+                {{-- Website --}}
+                <div class="md:col-span-4">
+                    <label class="text-sm font-medium text-slate-700 dark:text-ink-200">
+                        Website
+                    </label>
+
+                    <div class="mt-1.5">
+                        <input type="text" name="website" id="website" value="{{ old('website') }}"
+                            placeholder="https://example.com"
+                            class="form-input w-full px-3.5 py-2.5 rounded-lg border border-slate-200 dark:border-ink-800 bg-white dark:bg-ink-900 text-slate-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-100 outline-none text-sm">
+                        <p class="error-message hidden mt-1 text-xs text-red-500"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-2 mt-8">
+                <a href="{{ route('service-providers.index') }}"
+                    class="px-4 py-2.5 rounded-lg border border-slate-200 dark:border-ink-800 bg-white dark:bg-ink-900 text-slate-700 dark:text-ink-200 text-sm font-medium">
+                    Cancel
+                </a>
+
+                <button type="submit"
+                    class="px-5 py-2.5 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold shadow-soft">
+                    Add Provider
+                </button>
+            </div>
+        </section>
+    </form>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('serviceProviderForm');
+
+        if (!form) return;
+
+        const fields = {
+            provider_name: 'Provider name is required.',
+            state: 'State is required.',
+            address: 'Address is required.',
+            phone: 'Phone is required.',
+            email: 'Email is required.',
+        };
+
+        function setError(input, message) {
+            input.classList.remove('border-slate-200', 'dark:border-ink-800');
+            input.classList.add('border-red-500', 'focus:border-red-500', 'focus:ring-red-100');
+
+            const error = input.parentElement.querySelector('.error-message');
+            if (error) {
+                error.textContent = message;
+                error.classList.remove('hidden');
+            }
+        }
+
+        function clearError(input) {
+            input.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-100');
+            input.classList.add('border-slate-200', 'dark:border-ink-800');
+
+            const error = input.parentElement.querySelector('.error-message');
+            if (error) {
+                error.textContent = '';
+                error.classList.add('hidden');
+            }
+        }
+
+        function isValidEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        function validateServices() {
+            const serviceChecked = document.querySelectorAll('.service-checkbox:checked').length;
+            const servicesError = document.getElementById('servicesError');
+            const servicesBox = document.getElementById('servicesBox');
+
+            if (!servicesError || !servicesBox) return true;
+
+            if (serviceChecked === 0) {
+                servicesError.classList.remove('hidden');
+                servicesBox.classList.add('rounded-lg', 'border', 'border-red-500', 'p-3');
+                return false;
+            }
+
+            servicesError.classList.add('hidden');
+            servicesBox.classList.remove('rounded-lg', 'border', 'border-red-500', 'p-3');
+            return true;
+        }
+
+        form.addEventListener('submit', function (e) {
+            let valid = true;
+
+            Object.keys(fields).forEach(function (id) {
+                const input = document.getElementById(id);
+
+                if (!input) return;
+
+                if (!input.value.trim()) {
+                    setError(input, fields[id]);
+                    valid = false;
+                } else {
+                    clearError(input);
+                }
+            });
+
+            const email = document.getElementById('email');
+
+            if (email && email.value.trim() && !isValidEmail(email.value.trim())) {
+                setError(email, 'Please enter a valid email address.');
+                valid = false;
+            }
+
+            if (!validateServices()) {
+                valid = false;
+            }
+
+            if (!valid) {
+                e.preventDefault();
+
+                const firstError = document.querySelector('.border-red-500');
+                if (firstError) {
+                    firstError.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                }
+            }
+        });
+
+        document.querySelectorAll('.form-input').forEach(function (input) {
+            input.addEventListener('input', function () {
+                if (input.value.trim()) {
+                    clearError(input);
+                }
+            });
+
+            input.addEventListener('change', function () {
+                if (input.value.trim()) {
+                    clearError(input);
+                }
+            });
+        });
+
+        document.querySelectorAll('.service-checkbox').forEach(function (checkbox) {
+            checkbox.addEventListener('change', function () {
+                validateServices();
+            });
+        });
+    });
+</script>
 @endsection

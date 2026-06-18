@@ -14,14 +14,14 @@
         ['label'=>'New User',      'route'=>'users.create'],
     ]],
     ['label'=>'Forms',             'route'=>'forms.index',     'icon'=>'clipboard-list', 'children'=>[
-        ['label'=>'All Forms',     'route'=>'forms.index'],
+        ['label'=>'All Forms',     'route'=>'forms.incident.index'],
         ['label'=>'ABC Form',      'route'=>'forms.abc'],
-        ['label'=>'Incident Form', 'route'=>'forms.incident'],
+        ['label'=>'Incident Form', 'route'=>'forms.incident.create'],
         ['label'=>'Medication',    'route'=>'forms.medication'],
     ]],
-    ['label'=>'Service Providers', 'route'=>'providers.index', 'icon'=>'building-2', 'children'=>[
-        ['label'=>'All Providers', 'route'=>'providers.index'],
-        ['label'=>'New Provider',  'route'=>'providers.create'],
+    ['label'=>'Service Providers', 'route'=>'service-providers', 'icon'=>'building-2', 'children'=>[
+        ['label'=>'All Providers', 'route'=>'service-providers.index'],
+        ['label'=>'New Provider',  'route'=>'service-providers.create'],
     ]],
     ['label'=>'Surveys',           'route'=>'surveys.index',   'icon'=>'vote', 'children'=>[
         ['label'=>'Customer',    'route'=>'surveys.customer'],
