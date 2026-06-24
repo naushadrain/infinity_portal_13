@@ -11,31 +11,7 @@
 
 <body class="bg-slate-50 text-slate-800">
 
-    <header class="bg-white shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 py-6 flex items-start justify-start gap-10 text-sm font-semibold text-slate-800">
-            <span class="flex items-center gap-2">
-                <i data-lucide="mail" class="w-5 h-5 text-sky-500"></i>
-                info@infiniteability.com.au
-            </span>
-            <span class="flex items-center gap-2">
-                <i data-lucide="phone" class="w-5 h-5 text-sky-500"></i>
-                1300044422
-            </span>
-        </div>
-        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-            <div>
-                <img src="https://infiniteability.com.au/wp-content/uploads/2024/10/logo-ndis.png" class="h-14" alt="Infinite Ability Logo">
-            </div>
-            <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
-                <a href="#" class="hover:text-sky-600">About Us</a>
-                <a href="#" class="hover:text-sky-600">Services</a>
-                <a href="#" class="hover:text-sky-600">About NDIS</a>
-                <a href="#" class="text-lime-500">Referral</a>
-                <a href="#" class="hover:text-sky-600">Gallery</a>
-                <a href="#" class="hover:text-sky-600">Contact Us</a>
-            </nav>
-        </div>
-    </header>
+    @include('public-form.partials._header')
 
     <section class="relative h-[350px] flex items-center justify-center overflow-hidden">
         <div class="absolute inset-0">
@@ -381,36 +357,7 @@
         </div>
     </main>
 
-    <footer class="bg-slate-900 text-white mt-10">
-        <div class="max-w-7xl mx-auto px-4 py-10 grid md:grid-cols-4 gap-8">
-            <div>
-                <img src="https://infiniteability.com.au/wp-content/uploads/2024/10/logo-ndis.png" class="h-14 bg-white rounded p-1 mb-4" alt="Logo">
-                <p class="text-sm text-slate-300">Infinite Ability incident report form.</p>
-            </div>
-            <div>
-                <h3 class="font-bold mb-3">Quick Links</h3>
-                <ul class="space-y-2 text-sm text-slate-300">
-                    <li>Home</li><li>About Us</li><li>About NDIS</li>
-                </ul>
-            </div>
-            <div>
-                <h3 class="font-bold mb-3">Services</h3>
-                <ul class="space-y-2 text-sm text-slate-300">
-                    <li>Supported Independent Living</li>
-                    <li>NDIS Support Coordination</li>
-                    <li>Personal Care</li>
-                </ul>
-            </div>
-            <div>
-                <h3 class="font-bold mb-3">Contact</h3>
-                <p class="text-sm text-slate-300">info@infiniteability.com.au</p>
-                <p class="text-sm text-slate-300">1300044422</p>
-            </div>
-        </div>
-        <div class="border-t border-slate-700 py-4 text-center text-sm text-slate-400">
-            Copyright &copy; 2026 Infinite Ability. All rights reserved.
-        </div>
-    </footer>
+    @include('public-form.partials._footer')
 
     <script>
         lucide.createIcons();
