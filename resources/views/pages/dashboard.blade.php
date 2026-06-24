@@ -386,24 +386,36 @@
         </div>
     </div>
 
-    <!-- Latest submissions -->
-    <div
-        class="bg-white dark:bg-ink-900 rounded-2xl shadow-soft border border-slate-100 dark:border-ink-800 overflow-hidden">
+    <!-- Public form links -->
+    <div class="mb-6">
+        <div class="flex items-center justify-between mb-3">
+            <div>
+                <h3 class="font-semibold">Public form links</h3>
+                <p class="text-xs text-slate-500 dark:text-ink-400 mt-0.5">Share these URLs with participants / staff</p>
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- Latest submissions (real data) -->
+    <div class="bg-white dark:bg-ink-900 rounded-2xl shadow-soft border border-slate-100 dark:border-ink-800 overflow-hidden">
         <div class="p-5 flex items-center justify-between border-b border-slate-100 dark:border-ink-800">
             <div>
                 <h3 class="font-semibold">Latest submissions</h3>
-                <p class="text-xs text-slate-500 dark:text-ink-400 mt-0.5">Most recent forms across all regions</p>
+                <p class="text-xs text-slate-500 dark:text-ink-400 mt-0.5">Most recent forms across all types</p>
             </div>
-            <a href="forms.html"
-                class="text-xs font-semibold text-brand-600 dark:text-brand-300 hover:text-brand-700 dark:text-brand-300 inline-flex items-center gap-1">View
-                all <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></a>
+            <a href="{{ route('forms.incident.index') }}"
+               class="text-xs font-semibold text-brand-600 dark:text-brand-300 hover:text-brand-700 inline-flex items-center gap-1">
+                View all <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </a>
         </div>
 
-        <!-- Desktop / tablet: table -->
+        @if($latestSubmissions->isNotEmpty())
+
+        {{-- Desktop table --}}
         <div class="hidden sm:block overflow-x-auto scrollbar-thin">
             <table class="w-full text-sm">
-                <thead
-                    class="bg-slate-50 dark:bg-ink-800/60 dark:bg-ink-800/60 text-[11px] uppercase tracking-wider text-slate-500 dark:text-ink-400">
+                <thead class="bg-slate-50 dark:bg-ink-800/60 text-[11px] uppercase tracking-wider text-slate-500 dark:text-ink-400">
                     <tr>
                         <th class="text-left font-semibold px-5 py-3">Ref</th>
                         <th class="text-left font-semibold px-5 py-3">Type</th>
@@ -414,89 +426,83 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr
-                        class="border-t border-slate-100 dark:border-ink-800 hover:bg-slate-50 dark:bg-ink-800/60 dark:hover:bg-ink-800/40">
-                        <td class="px-5 py-3 font-medium">#IN-2042</td>
-                        <td class="px-5 py-3">Incident</td>
-                        <td class="px-5 py-3">James Kelly</td>
-                        <td class="px-5 py-3">Perth</td>
-                        <td class="px-5 py-3"><span
-                                class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-semibold">Submitted</span>
+                    @foreach($latestSubmissions as $row)
+                    @php
+                        $typeColor = match($row['type']) {
+                            'Incident'   => 'bg-brand-50 dark:bg-brand-500/15 text-brand-700 dark:text-brand-300',
+                            'Medication' => 'bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300',
+                            'ABC Chart'  => 'bg-amber-50 dark:bg-amber-500/15 text-amber-700 dark:text-amber-300',
+                            default      => 'bg-slate-100 dark:bg-ink-700 text-slate-600 dark:text-ink-300',
+                        };
+                    @endphp
+                    <tr class="border-t border-slate-100 dark:border-ink-800 hover:bg-slate-50 dark:hover:bg-ink-800/40 transition">
+                        <td class="px-5 py-3 font-medium font-mono text-xs">{{ $row['ref'] }}</td>
+                        <td class="px-5 py-3">
+                            <span class="text-[11px] px-2 py-0.5 rounded-full font-semibold {{ $typeColor }}">
+                                {{ $row['type'] }}
+                            </span>
                         </td>
-                        <td class="px-5 py-3 text-slate-500 dark:text-ink-400">12 min ago</td>
-                    </tr>
-                    <tr
-                        class="border-t border-slate-100 dark:border-ink-800 hover:bg-slate-50 dark:bg-ink-800/60 dark:hover:bg-ink-800/40">
-                        <td class="px-5 py-3 font-medium">#MD-0114</td>
-                        <td class="px-5 py-3">Medication</td>
-                        <td class="px-5 py-3">Sophie L.</td>
-                        <td class="px-5 py-3">Victoria</td>
-                        <td class="px-5 py-3"><span
-                                class="text-[11px] px-2 py-0.5 rounded-full bg-amber-50 dark:bg-amber-500/15 text-amber-700 dark:text-amber-300 font-semibold">In
-                                review</span></td>
-                        <td class="px-5 py-3 text-slate-500 dark:text-ink-400">1 h ago</td>
-                    </tr>
-                    <tr
-                        class="border-t border-slate-100 dark:border-ink-800 hover:bg-slate-50 dark:bg-ink-800/60 dark:hover:bg-ink-800/40">
-                        <td class="px-5 py-3 font-medium">#AB-0571</td>
-                        <td class="px-5 py-3">ABC chart</td>
-                        <td class="px-5 py-3">Tara N.</td>
-                        <td class="px-5 py-3">Perth</td>
-                        <td class="px-5 py-3"><span
-                                class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-semibold">Submitted</span>
+                        <td class="px-5 py-3">{{ $row['name'] ?? '—' }}</td>
+                        <td class="px-5 py-3">{{ $row['city'] }}</td>
+                        <td class="px-5 py-3">
+                            <span class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-semibold">
+                                Submitted
+                            </span>
                         </td>
-                        <td class="px-5 py-3 text-slate-500 dark:text-ink-400">3 h ago</td>
-                    </tr>
-                    <tr
-                        class="border-t border-slate-100 dark:border-ink-800 hover:bg-slate-50 dark:bg-ink-800/60 dark:hover:bg-ink-800/40">
-                        <td class="px-5 py-3 font-medium">#IN-2041</td>
-                        <td class="px-5 py-3">Incident</td>
-                        <td class="px-5 py-3">Mark Webb</td>
-                        <td class="px-5 py-3">Victoria</td>
-                        <td class="px-5 py-3"><span
-                                class="text-[11px] px-2 py-0.5 rounded-full bg-slate-100 dark:bg-ink-700 text-slate-600 dark:text-ink-300 font-semibold">Closed</span>
+                        <td class="px-5 py-3 text-slate-500 dark:text-ink-400">
+                            {{ $row['when'] ? $row['when']->diffForHumans() : '—' }}
                         </td>
-                        <td class="px-5 py-3 text-slate-500 dark:text-ink-400">Yesterday</td>
                     </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
 
-        <!-- Mobile: stacked cards -->
+        {{-- Mobile cards --}}
         <ul class="sm:hidden divide-y divide-slate-100 dark:divide-ink-800">
+            @foreach($latestSubmissions as $row)
+            @php
+                $typeColor = match($row['type']) {
+                    'Incident'   => 'bg-brand-50 dark:bg-brand-500/15 text-brand-700 dark:text-brand-300',
+                    'Medication' => 'bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300',
+                    'ABC Chart'  => 'bg-amber-50 dark:bg-amber-500/15 text-amber-700 dark:text-amber-300',
+                    default      => 'bg-slate-100 dark:bg-ink-700 text-slate-600 dark:text-ink-300',
+                };
+            @endphp
             <li class="p-4">
                 <div class="flex items-center justify-between gap-3">
-                    <div class="font-semibold text-sm">#IN-2042</div><span
-                        class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-semibold">Submitted</span>
+                    <div class="font-semibold text-sm font-mono">{{ $row['ref'] }}</div>
+                    <span class="text-[11px] px-2 py-0.5 rounded-full font-semibold {{ $typeColor }}">
+                        {{ $row['type'] }}
+                    </span>
                 </div>
-                <div class="mt-1 text-sm">Incident · James Kelly</div>
-                <div class="mt-0.5 text-xs text-slate-500 dark:text-ink-400">Perth · 12 min ago</div>
-            </li>
-            <li class="p-4">
-                <div class="flex items-center justify-between gap-3">
-                    <div class="font-semibold text-sm">#MD-0114</div><span
-                        class="text-[11px] px-2 py-0.5 rounded-full bg-amber-50 dark:bg-amber-500/15 text-amber-700 dark:text-amber-300 font-semibold">In
-                        review</span>
+                <div class="mt-1 text-sm">{{ $row['name'] ?? '—' }}</div>
+                <div class="mt-0.5 text-xs text-slate-500 dark:text-ink-400">
+                    {{ $row['city'] }} · {{ $row['when'] ? $row['when']->diffForHumans() : '—' }}
                 </div>
-                <div class="mt-1 text-sm">Medication · Sophie L.</div>
-                <div class="mt-0.5 text-xs text-slate-500 dark:text-ink-400">Victoria · 1 h ago</div>
             </li>
-            <li class="p-4">
-                <div class="flex items-center justify-between gap-3">
-                    <div class="font-semibold text-sm">#AB-0571</div><span
-                        class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-semibold">Submitted</span>
-                </div>
-                <div class="mt-1 text-sm">ABC chart · Tara N.</div>
-                <div class="mt-0.5 text-xs text-slate-500 dark:text-ink-400">Perth · 3 h ago</div>
-            </li>
-            <li class="p-4">
-                <div class="flex items-center justify-between gap-3">
-                    <div class="font-semibold text-sm">#IN-2041</div><span
-                        class="text-[11px] px-2 py-0.5 rounded-full bg-slate-100 dark:bg-ink-700 text-slate-600 dark:text-ink-300 font-semibold">Closed</span>
-                </div>
-                <div class="mt-1 text-sm">Incident · Mark Webb</div>
-                <div class="mt-0.5 text-xs text-slate-500 dark:text-ink-400">Victoria · Yesterday</div>
-            </li>
+            @endforeach
         </ul>
+
+        @else
+        <div class="flex flex-col items-center justify-center py-16 text-center text-slate-400 dark:text-ink-500">
+            <i data-lucide="inbox" class="w-10 h-10 mb-3 opacity-40"></i>
+            <p class="text-sm font-medium">No submissions yet</p>
+            <p class="text-xs mt-1">Forms submitted will appear here automatically.</p>
+        </div>
+        @endif
     </div>
+
+    <script>
+        function copyUrl(id, btn) {
+            const text = document.getElementById(id).textContent.trim();
+            navigator.clipboard.writeText(text).then(function () {
+                const icon = btn.querySelector('[data-lucide]');
+                if (icon) { icon.setAttribute('data-lucide', 'check'); lucide.createIcons(); }
+                setTimeout(function () {
+                    if (icon) { icon.setAttribute('data-lucide', 'copy'); lucide.createIcons(); }
+                }, 1800);
+            });
+        }
+    </script>
 @endsection
