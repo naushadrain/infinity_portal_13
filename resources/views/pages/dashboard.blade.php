@@ -54,13 +54,14 @@
             <div class="flex items-center justify-between">
                 <div
                     class="w-10 h-10 rounded-xl bg-brand-50 dark:bg-brand-500/15 text-brand-600 dark:text-brand-300 grid place-items-center">
-                    <i data-lucide="users" class="w-5 h-5"></i></div>
+                    <i data-lucide="users" class="w-5 h-5"></i>
+                </div>
                 <span
                     class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-semibold flex items-center gap-1"><i
-                        data-lucide="trending-up" class="w-3 h-3"></i>+8</span>
+                        data-lucide="trending-up" class="w-3 h-3"></i>+{{ $newUsersCount }} new</span>
             </div>
-            <div class="mt-4 text-2xl sm:text-3xl font-bold tracking-tight">142</div>
-            <div class="text-xs text-slate-500 dark:text-ink-400 mt-0.5">Active staff</div>
+            <div class="mt-4 text-2xl sm:text-3xl font-bold tracking-tight">{{ $totalUsers }}</div>
+            <div class="text-xs text-slate-500 dark:text-ink-400 mt-0.5">Active staff/members</div>
             <svg viewBox="0 0 100 24" class="w-full h-6 mt-3" preserveAspectRatio="none">
                 <polyline fill="none" stroke="#4f46e5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
                     points="0,18 14,15 28,17 42,10 56,12 70,8 84,9 100,4" />
@@ -71,7 +72,8 @@
             <div class="flex items-center justify-between">
                 <div
                     class="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-500/15 text-emerald-600 dark:text-emerald-300 grid place-items-center">
-                    <i data-lucide="clipboard-check" class="w-5 h-5"></i></div>
+                    <i data-lucide="clipboard-check" class="w-5 h-5"></i>
+                </div>
                 <span
                     class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-semibold flex items-center gap-1"><i
                         data-lucide="trending-up" class="w-3 h-3"></i>+12%</span>
@@ -88,12 +90,13 @@
             <div class="flex items-center justify-between">
                 <div
                     class="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-500/15 text-amber-600 dark:text-amber-300 grid place-items-center">
-                    <i data-lucide="alert-triangle" class="w-5 h-5"></i></div>
+                    <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+                </div>
                 <span
                     class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-semibold flex items-center gap-1"><i
                         data-lucide="trending-down" class="w-3 h-3"></i>-3</span>
             </div>
-            <div class="mt-4 text-2xl sm:text-3xl font-bold tracking-tight">7</div>
+            <div class="mt-4 text-2xl sm:text-3xl font-bold tracking-tight">{{$fromIncidentsCount}}</div>
             <div class="text-xs text-slate-500 dark:text-ink-400 mt-0.5">Open incidents</div>
             <svg viewBox="0 0 100 24" class="w-full h-6 mt-3" preserveAspectRatio="none">
                 <polyline fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
@@ -105,7 +108,8 @@
             <div class="flex items-center justify-between">
                 <div
                     class="w-10 h-10 rounded-xl bg-rose-50 dark:bg-rose-500/15 text-rose-600 dark:text-rose-300 grid place-items-center">
-                    <i data-lucide="message-square-heart" class="w-5 h-5"></i></div>
+                    <i data-lucide="message-square-heart" class="w-5 h-5"></i>
+                </div>
                 <span
                     class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-semibold flex items-center gap-1"><i
                         data-lucide="trending-up" class="w-3 h-3"></i>+24%</span>
@@ -179,7 +183,8 @@
             </div>
         </div>
 
-        <div class="bg-white dark:bg-ink-900 rounded-2xl p-4 sm:p-6 shadow-soft border border-slate-100 dark:border-ink-800 flex flex-col">
+        <div
+            class="bg-white dark:bg-ink-900 rounded-2xl p-4 sm:p-6 shadow-soft border border-slate-100 dark:border-ink-800 flex flex-col">
             <div class="flex items-center justify-between mb-4">
                 <div>
                     <h3 class="font-semibold">Recent activity</h3>
@@ -198,15 +203,16 @@
                 ];
             @endphp
 
-            @if($recentUsers->isNotEmpty())
-                <ol class="relative space-y-5 text-sm flex-1 before:absolute before:top-1 before:bottom-1 before:left-[7px] before:w-px before:bg-slate-100 dark:before:bg-ink-800">
-                    @foreach($recentUsers as $i => $u)
+            @if ($recentUsers->isNotEmpty())
+                <ol
+                    class="relative space-y-5 text-sm flex-1 before:absolute before:top-1 before:bottom-1 before:left-[7px] before:w-px before:bg-slate-100 dark:before:bg-ink-800">
+                    @foreach ($recentUsers as $i => $u)
                         @php
-                            $dot      = $dotColors[$i % count($dotColors)];
+                            $dot = $dotColors[$i % count($dotColors)];
                             $initials = collect(explode(' ', $u->name))
-                                          ->map(fn($w) => strtoupper($w[0] ?? ''))
-                                          ->take(2)
-                                          ->implode('');
+                                ->map(fn($w) => strtoupper($w[0] ?? ''))
+                                ->take(2)
+                                ->implode('');
                         @endphp
                         <li class="relative pl-7">
                             <span class="absolute left-0 top-1 w-3.5 h-3.5 rounded-full ring-4 {{ $dot }}"></span>
@@ -222,21 +228,22 @@
                     @endforeach
                 </ol>
             @else
-                <div class="flex-1 flex flex-col items-center justify-center py-8 text-center text-sm text-slate-400 dark:text-ink-500">
+                <div
+                    class="flex-1 flex flex-col items-center justify-center py-8 text-center text-sm text-slate-400 dark:text-ink-500">
                     <i data-lucide="activity" class="w-8 h-8 mb-2 opacity-40"></i>
                     <p>No recent activity yet.</p>
                 </div>
             @endif
 
             <a href="{{ route('users.index') }}"
-               class="mt-5 inline-flex items-center justify-center gap-1 text-xs font-semibold text-brand-600 dark:text-brand-300 hover:text-brand-700 border-t border-slate-100 dark:border-ink-800 pt-4">
+                class="mt-5 inline-flex items-center justify-center gap-1 text-xs font-semibold text-brand-600 dark:text-brand-300 hover:text-brand-700 border-t border-slate-100 dark:border-ink-800 pt-4">
                 View all staff <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
             </a>
         </div>
     </div>
 
     <!-- Donut, tasks, quick actions -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-6 mb-6">
         <div
             class="bg-white dark:bg-ink-900 rounded-2xl p-4 sm:p-6 shadow-soft border border-slate-100 dark:border-ink-800">
             <h3 class="font-semibold mb-1">Forms by type</h3>
@@ -247,20 +254,23 @@
                         <circle cx="18" cy="18" r="15.915" fill="none"
                             class="stroke-slate-100 dark:stroke-ink-800" stroke-width="3.5" />
                         <circle cx="18" cy="18" r="15.915" fill="none" stroke="#4f46e5"
-                            stroke-width="3.5" stroke-dasharray="47 100" stroke-linecap="round" />
+                            stroke-width="3.5" stroke-dasharray="{{ $incidentPercent }} 100" stroke-linecap="round" />
                         <circle cx="18" cy="18" r="15.915" fill="none" stroke="#10b981"
-                            stroke-width="3.5" stroke-dasharray="24 100" stroke-dashoffset="-47"
+                            stroke-width="3.5" stroke-dasharray="{{ $medicationPercent }} 100"
+                            stroke-dashoffset="-{{ $incidentPercent }}"
                             stroke-linecap="round" />
                         <circle cx="18" cy="18" r="15.915" fill="none" stroke="#f59e0b"
-                            stroke-width="3.5" stroke-dasharray="19 100" stroke-dashoffset="-71"
+                            stroke-width="3.5" stroke-dasharray="{{ $abcChartPercent }} 100"
+                            stroke-dashoffset="-{{ $incidentPercent + $medicationPercent }}"
                             stroke-linecap="round" />
                         <circle cx="18" cy="18" r="15.915" fill="none" stroke="#f43f5e"
-                            stroke-width="3.5" stroke-dasharray="10 100" stroke-dashoffset="-90"
+                            stroke-width="3.5" stroke-dasharray="{{ $otherPercent }} 100"
+                            stroke-dashoffset="-{{ $incidentPercent + $medicationPercent + $abcChartPercent }}"
                             stroke-linecap="round" />
                     </svg>
                     <div class="absolute inset-0 grid place-items-center text-center">
                         <div>
-                            <div class="text-2xl font-bold leading-none">389</div>
+                            <div class="text-2xl font-bold leading-none">{{ $formsTotal }}</div>
                             <div class="text-[10px] text-slate-500 dark:text-ink-400 mt-1">Total</div>
                         </div>
                     </div>
@@ -268,21 +278,21 @@
                 <ul class="text-sm space-y-2 flex-1 w-full">
                     <li class="flex items-center justify-between"><span class="flex items-center gap-2"><span
                                 class="w-2 h-2 rounded-full bg-brand-500"></span>Incident</span><span
-                            class="font-medium">182</span></li>
+                            class="font-medium">{{ $incidentCount }}</span></li>
                     <li class="flex items-center justify-between"><span class="flex items-center gap-2"><span
                                 class="w-2 h-2 rounded-full bg-emerald-500"></span>Medication</span><span
-                            class="font-medium">94</span></li>
+                            class="font-medium">{{ $medicationCount }}</span></li>
                     <li class="flex items-center justify-between"><span class="flex items-center gap-2"><span
                                 class="w-2 h-2 rounded-full bg-amber-500"></span>ABC chart</span><span
-                            class="font-medium">73</span></li>
+                            class="font-medium">{{ $abcChartCount }}</span></li>
                     <li class="flex items-center justify-between"><span class="flex items-center gap-2"><span
                                 class="w-2 h-2 rounded-full bg-rose-500"></span>Other</span><span
-                            class="font-medium">40</span></li>
+                            class="font-medium">{{ $otherCount }}</span></li>
                 </ul>
             </div>
         </div>
 
-        <div
+        {{-- <div
             class="bg-white dark:bg-ink-900 rounded-2xl p-4 sm:p-6 shadow-soft border border-slate-100 dark:border-ink-800">
             <div class="flex items-center justify-between mb-4">
                 <div>
@@ -329,42 +339,46 @@
                         class="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 dark:bg-ink-700 text-slate-600 dark:text-ink-300 font-semibold">LOW</span>
                 </li>
             </ul>
-        </div>
+        </div> --}}
 
         <div
             class="bg-white dark:bg-ink-900 rounded-2xl p-4 sm:p-6 shadow-soft border border-slate-100 dark:border-ink-800 md:col-span-2 lg:col-span-1">
             <h3 class="font-semibold mb-1">Quick actions</h3>
             <p class="text-xs text-slate-500 dark:text-ink-400 mb-4">Jump straight to common workflows</p>
             <div class="grid grid-cols-2 gap-3">
-                <a href="form-incident.html"
+                <a href={{ route('forms.incident.index') }}
                     class="group p-4 rounded-xl border border-slate-100 dark:border-ink-800 hover:border-brand-300 hover:bg-brand-50/40 dark:hover:bg-brand-500/10 transition">
                     <div
                         class="w-9 h-9 rounded-lg bg-brand-50 dark:bg-brand-500/15 text-brand-600 dark:text-brand-300 grid place-items-center mb-2 group-hover:bg-brand-600 group-hover:text-white transition">
-                        <i data-lucide="alert-triangle" class="w-5 h-5"></i></div>
+                        <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+                    </div>
                     <div class="font-semibold text-sm">Incident</div>
                     <div class="text-[11px] text-slate-500 dark:text-ink-400 mt-0.5">Report new</div>
                 </a>
-                <a href="form-medication.html"
+                <a href={{ route('forms.medication.index') }}
                     class="group p-4 rounded-xl border border-slate-100 dark:border-ink-800 hover:border-emerald-300 hover:bg-emerald-50/40 dark:hover:bg-emerald-500/10 transition">
                     <div
                         class="w-9 h-9 rounded-lg bg-emerald-50 dark:bg-emerald-500/15 text-emerald-600 dark:text-emerald-300 grid place-items-center mb-2 group-hover:bg-emerald-600 group-hover:text-white transition">
-                        <i data-lucide="pill" class="w-5 h-5"></i></div>
+                        <i data-lucide="pill" class="w-5 h-5"></i>
+                    </div>
                     <div class="font-semibold text-sm">Medication</div>
                     <div class="text-[11px] text-slate-500 dark:text-ink-400 mt-0.5">Log error</div>
                 </a>
-                <a href="form-abc.html"
+                <a href={{ route('forms.abc-monitoring-chart.index') }}
                     class="group p-4 rounded-xl border border-slate-100 dark:border-ink-800 hover:border-amber-300 hover:bg-amber-50/40 dark:hover:bg-amber-500/10 transition">
                     <div
                         class="w-9 h-9 rounded-lg bg-amber-50 dark:bg-amber-500/15 text-amber-600 dark:text-amber-300 grid place-items-center mb-2 group-hover:bg-amber-600 group-hover:text-white transition">
-                        <i data-lucide="line-chart" class="w-5 h-5"></i></div>
+                        <i data-lucide="line-chart" class="w-5 h-5"></i>
+                    </div>
                     <div class="font-semibold text-sm">ABC chart</div>
                     <div class="text-[11px] text-slate-500 dark:text-ink-400 mt-0.5">Monitor</div>
                 </a>
-                <a href="surveys.html"
+                <a href={{ url('forms/survey') }}
                     class="group p-4 rounded-xl border border-slate-100 dark:border-ink-800 hover:border-rose-300 hover:bg-rose-50/40 dark:hover:bg-rose-500/10 transition">
                     <div
                         class="w-9 h-9 rounded-lg bg-rose-50 dark:bg-rose-500/15 text-rose-600 dark:text-rose-300 grid place-items-center mb-2 group-hover:bg-rose-600 group-hover:text-white transition">
-                        <i data-lucide="message-square-heart" class="w-5 h-5"></i></div>
+                        <i data-lucide="message-square-heart" class="w-5 h-5"></i>
+                    </div>
                     <div class="font-semibold text-sm">Survey</div>
                     <div class="text-[11px] text-slate-500 dark:text-ink-400 mt-0.5">Send out</div>
                 </a>

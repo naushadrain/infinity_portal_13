@@ -6,10 +6,11 @@
 --}}
 <header class="sticky top-0 z-30 h-16 bg-white/80 dark:bg-ink-900/80 backdrop-blur border-b border-slate-200 dark:border-ink-800 flex items-center px-4 lg:px-8 gap-3">
 
-  {{-- Mobile sidebar toggle --}}
-  <button onclick="document.getElementById('sidebar').classList.remove('-translate-x-full');document.getElementById('sb-overlay').classList.remove('hidden')"
-          class="lg:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-ink-800">
-    <i data-lucide="menu" class="w-5 h-5"></i>
+  {{-- Sidebar toggle (mobile + desktop) --}}
+  <button onclick="toggleSidebar()"
+          class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-ink-800"
+          title="Toggle sidebar">
+    <i data-lucide="panel-left" class="w-5 h-5"></i>
   </button>
 
   {{-- Page title --}}

@@ -1,0 +1,112 @@
+<?php
+
+namespace App\Http\Controllers\Forms;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\AbcParticipantDetail;
+
+class ABCMonitoringChart extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $abcMonitoringCharts = AbcParticipantDetail::orderBy('created_at', 'desc')->paginate(10);
+        return view('pages.abc-monitoring-chart', compact('abcMonitoringCharts'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view('pages.form-abc');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'participant_name'          => 'required|string|max:255',
+            'participant_date_of_birth' => 'required|date',
+            'participant_address'       => 'required|string|max:500',
+            'BSP_practices'             => 'nullable|string',
+        ]);
+
+        try {
+            AbcParticipantDetail::create([
+                'participant_name'          => $request->participant_name,
+                'participant_date_of_birth' => $request->participant_date_of_birth,
+                'participant_address'       => $request->participant_address,
+                'BSP_practices'             => $request->BSP_practices,
+            ]);
+
+            return redirect()->route('forms.abc-monitoring-chart.index')
+                ->with('success', 'ABC monitoring chart submitted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Failed to submit the chart. Please try again.');
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        $abc = AbcParticipantDetail::findOrFail($id);
+        return view('pages.abc-show', compact('abc'));
+    }
+
+    public function edit(string $id)
+    {
+        $abc = AbcParticipantDetail::findOrFail($id);
+        return view('pages.abc-edit', compact('abc'));
+    }
+
+    public function update(Request $request, string $id)
+    {
+        $abc = AbcParticipantDetail::findOrFail($id);
+
+        $request->validate([
+            'participant_name'          => 'required|string|max:255',
+            'participant_date_of_birth' => 'required|date',
+            'participant_address'       => 'required|string|max:500',
+            'BSP_practices'             => 'nullable|string',
+        ]);
+
+        try {
+            $abc->update([
+                'participant_name'          => $request->participant_name,
+                'participant_date_of_birth' => $request->participant_date_of_birth,
+                'participant_address'       => $request->participant_address,
+                'BSP_practices'             => $request->BSP_practices,
+            ]);
+
+            return redirect()->route('forms.abc-monitoring-chart.index')
+                ->with('success', 'ABC monitoring chart updated successfully.');
+        } catch (\Exception) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Failed to update. Please try again.');
+        }
+    }
+
+    public function destroy(string $id)
+    {
+        try {
+            AbcParticipantDetail::findOrFail($id)->delete();
+
+            return redirect()->route('forms.abc-monitoring-chart.index')
+                ->with('success', 'Record deleted successfully.');
+        } catch (\Exception) {
+            return redirect()->back()
+                ->with('error', 'Failed to delete. Please try again.');
+        }
+    }
+}

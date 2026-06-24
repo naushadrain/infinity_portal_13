@@ -16,10 +16,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>@yield('title', 'Dashboard') · Infinity Back Office</title>
-    <link rel="icon" href="/favicon.ico " />
-    <link rel="shortcut icon" type="image/x-icon" href={{ asset('assets/logo.png') }} />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    {{-- Apply persisted/system theme before first paint to avoid a flash --}}
+    <link rel="icon" type="image/png" href="{{ asset('assets/logo.png') }}" />
+    <link rel="shortcut icon" type="image/png" href="{{ asset('assets/logo.png') }}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/logo.png') }}">
+    {{-- Apply persisted theme + sidebar state before first paint (no FOUC) --}}
     <script>
         (function () {
             try {
@@ -28,6 +28,11 @@
                     ? saved === 'dark'
                     : window.matchMedia('(prefers-color-scheme: dark)').matches;
                 if (dark) document.documentElement.classList.add('dark');
+            } catch (e) {}
+            try {
+                if (localStorage.getItem('sidebar') === 'hidden') {
+                    document.documentElement.classList.add('sb-collapsed');
+                }
             } catch (e) {}
         })();
     </script>
@@ -66,6 +71,13 @@
         .scrollbar-thin::-webkit-scrollbar       { width: 6px; height: 6px; }
         .scrollbar-thin::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
         .dark .scrollbar-thin::-webkit-scrollbar-thumb { background: #334155; }
+
+        /* Sidebar toggle — desktop only */
+        #main-wrapper { transition: padding-left 0.3s ease; }
+        @media (min-width: 1024px) {
+            html.sb-collapsed #sidebar      { transform: translateX(-100%) !important; }
+            html.sb-collapsed #main-wrapper { padding-left: 0 !important; }
+        }
     </style>
 
     @stack('head')
@@ -79,7 +91,7 @@
          onclick="document.getElementById('sidebar').classList.add('-translate-x-full'); this.classList.add('hidden');"
          class="hidden lg:hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-30"></div>
 
-    <div class="lg:pl-64 min-h-screen w-full">
+    <div id="main-wrapper" class="lg:pl-64 min-h-screen w-full">
         @include('partials.topbar', ['title' => $title ?? 'Dashboard'])
 
         <main class="p-4 sm:p-6 lg:p-8 2xl:p-10 w-full max-w-none xl:max-w-[1500px] 2xl:max-w-[1800px] mx-auto">
@@ -88,17 +100,54 @@
     </div>
 
     <script>
-        // Render Lucide icons once on load (pages can call lucide.createIcons() again after AJAX swaps).
         lucide.createIcons();
 
-        // Manual theme toggle — persists to localStorage so the inline head script picks it up on reload.
         document.getElementById('theme-toggle')?.addEventListener('click', function () {
             var isDark = document.documentElement.classList.toggle('dark');
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
             lucide.createIcons();
         });
+
+        function toggleSidebar() {
+            var isDesktop = window.innerWidth >= 1024;
+            if (isDesktop) {
+                var collapsed = document.documentElement.classList.toggle('sb-collapsed');
+                localStorage.setItem('sidebar', collapsed ? 'hidden' : 'visible');
+            } else {
+                var sidebar = document.getElementById('sidebar');
+                var overlay = document.getElementById('sb-overlay');
+                var isHidden = sidebar.classList.contains('-translate-x-full');
+                sidebar.classList.toggle('-translate-x-full', !isHidden);
+                if (overlay) overlay.classList.toggle('hidden', !isHidden);
+            }
+            lucide.createIcons();
+        }
     </script>
 
     @stack('scripts')
+
+    {{-- Flash toast (success / error) --}}
+    @if(session('success') || session('error'))
+    @php $isSuccess = session('success'); @endphp
+    <div id="flash-toast"
+         style="position:fixed;top:1.25rem;right:1.25rem;z-index:9999;
+                display:flex;align-items:center;gap:0.75rem;
+                border-radius:0.75rem;padding:0.875rem 1.25rem;
+                font-size:0.875rem;font-weight:600;
+                box-shadow:0 8px 24px rgba(0,0,0,.18);max-width:22rem;
+                {{ $isSuccess ? 'background:#059669;color:#fff' : 'background:#dc2626;color:#fff' }}">
+        <span style="flex:1">{{ session('success') ?? session('error') }}</span>
+        <button onclick="document.getElementById('flash-toast').remove()"
+                style="background:none;border:none;color:inherit;cursor:pointer;font-size:1.25rem;line-height:1;opacity:.8">
+            &times;
+        </button>
+    </div>
+    <script>
+        setTimeout(function () {
+            var t = document.getElementById('flash-toast');
+            if (t) t.remove();
+        }, 5000);
+    </script>
+    @endif
 </body>
 </html>

@@ -5,11 +5,14 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Forms\IncidentReportFormController;
+use App\Http\Controllers\Forms\MedicationIncidentController;
 use App\Http\Controllers\ServiceProviderController;
 use App\Http\Controllers\Survey\CustomerSurveyController;
 use App\Http\Controllers\Survey\StaffSurveyController;
 use App\Http\Controllers\User\UsersController;
 use App\Http\Controllers\User\UsersProfileController;
+use App\Http\Controllers\Forms\ABCMonitoringChart;
+use App\Http\Controllers\Public\CustomerSatisfyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +21,16 @@ use App\Http\Controllers\User\UsersProfileController;
 | Only guests can access login / forgot password / reset password.
 | If already logged in, redirect to dashboard.
 */
+
+Route::get('/customersatisfy/Perth', [CustomerSatisfyController::class, 'index']);
+Route::post('/customersatisfy/Perth', [CustomerSatisfyController::class, 'store'])->name('customer-satisfy-perth.store');
+Route::get('/customersatisfy/Victoria', [CustomerSatisfyController::class, 'getVictoria']);
+Route::post('/customersatisfy/Victoria', [CustomerSatisfyController::class, 'storeVictoria'])->name('customer-satisfy-victoria.store');
+
+Route::get('/incident/create-incident', function(){
+    return view('public-form.add-incident');
+});
+
 
 Route::middleware('guest')->group(function () {
     Route::get('/', function () {
@@ -79,10 +92,13 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('forms')->name('forms.')->group(function () {
         Route::resource('incident', IncidentReportFormController::class);
+        Route::get('/reportpdf/{r_id}', [IncidentReportFormController::class, 'showPdf'])->name('reportpdf');
+        Route::resource('medication', MedicationIncidentController::class);
+        Route::resource('abc-monitoring-chart', ABCMonitoringChart::class);
         // Route::view('/',           'pages.forms')->name('index');
-        Route::view('/abc',        'pages.form-abc')->name('abc');
+        //Route::view('/abc',        'pages.form-abc')->name('abc');
         // Route::view('/incident',   'pages.form-incident')->name('incident');
-        Route::view('/medication', 'pages.form-medication')->name('medication');
+        // Route::view('/medication', 'pages.form-medication')->name('medication');
         Route::view('/{form}',     'pages.form-view')->name('show')->whereAlphaNumeric('form');
     });
 

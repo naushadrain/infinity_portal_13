@@ -65,6 +65,7 @@
                         <th class="text-left font-medium text-xs text-slate-500 dark:text-ink-400 uppercase tracking-wider px-4 py-3">IR Number</th>
                         <th class="text-left font-medium text-xs text-slate-500 dark:text-ink-400 uppercase tracking-wider px-4 py-3">Position</th>
                         <th class="text-left font-medium text-xs text-slate-500 dark:text-ink-400 uppercase tracking-wider px-4 py-3">City</th>
+                        <th class="text-left font-medium text-xs text-slate-500 dark:text-ink-400 uppercase tracking-wider px-4 py-3">Links</th>
                         <th class="text-left font-medium text-xs text-slate-500 dark:text-ink-400 uppercase tracking-wider px-4 py-3">Status</th>
                         <th class="text-left font-medium text-xs text-slate-500 dark:text-ink-400 uppercase tracking-wider px-4 py-3">Action</th>
                     </tr>
@@ -79,6 +80,9 @@
                             <td class="px-4 py-3 text-sm">{{ $incident->ir_number ?? '—' }}</td>
                             <td class="px-4 py-3 text-sm">{{ $incident->position_title ?? '—' }}</td>
                             <td class="px-4 py-3 text-sm">{{ config('settings.city_name')[$incident->city] ?? '—' }}</td>
+                            <td class="px-4 py-3 text-sm">
+                               <a href="{{ route('forms.reportpdf', $incident->id) }}" target="_blank" class="text-brand-600 hover:underline">View PDF</a>
+                            </td>
                             <td class="px-4 py-3 text-sm">
                                 @if($incident->completed)
                                     <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">Completed</span>

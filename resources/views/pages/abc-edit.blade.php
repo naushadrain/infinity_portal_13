@@ -1,21 +1,23 @@
-{{--
-|--------------------------------------------------------------------------
-| Page: ABC Form
-|--------------------------------------------------------------------------
-| Antecedent-Behavior-Consequence incident capture form.
---}}
-@extends('layouts.app', ['title' => 'ABC Monitoring Chart'])
-@section('title', 'ABC Monitoring Chart')
+@extends('layouts.app', ['title' => 'Edit ABC Monitoring Chart'])
+@section('title', 'Edit ABC Monitoring Chart')
 @section('content')
 
-    <form id="abc-form"
-          action="{{ route('forms.abc-monitoring-chart.store') }}"
+    <form id="abc-edit-form"
+          action="{{ route('forms.abc-monitoring-chart.update', $abc->id) }}"
           method="POST"
           novalidate>
         @csrf
+        @method('PUT')
 
         <section class="bg-white dark:bg-ink-900 rounded-2xl shadow-soft border border-slate-100 dark:border-ink-800 p-6 mb-6">
-            <h3 class="text-base font-semibold mb-1">Participant details</h3>
+
+            <div class="flex items-center justify-between mb-1">
+                <h3 class="text-base font-semibold">Participant details</h3>
+                <a href="{{ route('forms.abc-monitoring-chart.index') }}"
+                   class="text-sm text-slate-500 hover:text-brand-600 dark:text-ink-400 dark:hover:text-brand-400 flex items-center gap-1">
+                    <i data-lucide="arrow-left" class="h-4 w-4"></i> Back to list
+                </a>
+            </div>
             <div class="h-px bg-slate-100 dark:bg-ink-800 mb-5"></div>
 
             <div class="grid md:grid-cols-12 gap-4">
@@ -28,7 +30,7 @@
                         <input type="text"
                                id="participant_name"
                                name="participant_name"
-                               value="{{ old('participant_name') }}"
+                               value="{{ old('participant_name', $abc->participant_name) }}"
                                class="abc-input w-full px-3.5 py-2.5 rounded-lg border border-slate-200 dark:border-ink-800 focus:border-brand-500 focus:ring-2 focus:ring-brand-100 outline-none text-sm"
                                data-label="Participant name" />
                     </div>
@@ -42,7 +44,7 @@
                         <input type="date"
                                id="participant_date_of_birth"
                                name="participant_date_of_birth"
-                               value="{{ old('participant_date_of_birth') }}"
+                               value="{{ old('participant_date_of_birth', $abc->participant_date_of_birth) }}"
                                class="abc-input w-full px-3.5 py-2.5 rounded-lg border border-slate-200 dark:border-ink-800 focus:border-brand-500 focus:ring-2 focus:ring-brand-100 outline-none text-sm"
                                data-label="Date of birth" />
                     </div>
@@ -56,7 +58,7 @@
                         <input type="text"
                                id="participant_address"
                                name="participant_address"
-                               value="{{ old('participant_address') }}"
+                               value="{{ old('participant_address', $abc->participant_address) }}"
                                class="abc-input w-full px-3.5 py-2.5 rounded-lg border border-slate-200 dark:border-ink-800 focus:border-brand-500 focus:ring-2 focus:ring-brand-100 outline-none text-sm"
                                data-label="Participant address" />
                     </div>
@@ -68,7 +70,7 @@
                         <textarea id="BSP_practices"
                                   name="BSP_practices"
                                   rows="4"
-                                  class="w-full px-3.5 py-2.5 rounded-lg border border-slate-200 dark:border-ink-800 focus:border-brand-500 focus:ring-2 focus:ring-brand-100 outline-none text-sm resize-none">{{ old('BSP_practices') }}</textarea>
+                                  class="w-full px-3.5 py-2.5 rounded-lg border border-slate-200 dark:border-ink-800 focus:border-brand-500 focus:ring-2 focus:ring-brand-100 outline-none text-sm resize-none">{{ old('BSP_practices', $abc->BSP_practices) }}</textarea>
                     </div>
                 </div>
 
@@ -76,14 +78,13 @@
         </section>
 
         <div class="flex justify-end gap-2 mb-10">
-            <button type="button"
-                    onclick="window.history.back()"
-                    class="px-4 py-2.5 rounded-lg border border-slate-200 dark:border-ink-800 bg-white dark:bg-ink-900 text-sm font-medium">
+            <a href="{{ route('forms.abc-monitoring-chart.index') }}"
+               class="px-4 py-2.5 rounded-lg border border-slate-200 dark:border-ink-800 bg-white dark:bg-ink-900 text-sm font-medium">
                 Cancel
-            </button>
+            </a>
             <button type="submit"
                     class="px-5 py-2.5 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold shadow-soft">
-                Submit chart
+                Save changes
             </button>
         </div>
 
@@ -92,13 +93,12 @@
 @push('scripts')
 <script>
 (function () {
-    var form = document.getElementById('abc-form');
+    var form = document.getElementById('abc-edit-form');
 
     form.addEventListener('submit', function (e) {
-        var fields = form.querySelectorAll('.abc-input[data-label]');
         var errors = [];
 
-        fields.forEach(function (field) {
+        form.querySelectorAll('.abc-input[data-label]').forEach(function (field) {
             field.style.borderColor = '';
             field.style.boxShadow  = '';
 
@@ -116,7 +116,6 @@
         }
     });
 
-    // Clear error style on input
     form.querySelectorAll('.abc-input[data-label]').forEach(function (field) {
         field.addEventListener('input', function () {
             if (this.value.trim()) {

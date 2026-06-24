@@ -7,7 +7,7 @@
             'form-input w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-ink-700 bg-white dark:bg-ink-950 text-slate-900 dark:text-ink-100 placeholder:text-slate-400 dark:placeholder:text-ink-500 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none text-sm transition';
 
         $labelClass = 'text-sm font-medium text-slate-700 dark:text-ink-200';
-        $sectionTitle = 'text-base font-semibold text-slate-900 dark:text-white';
+        $sectionTitle = 'mb-4 text-sm font-black uppercase tracking-wide text-brand-600 dark:text-brand-400';
 
         $toastMessage = session('success') ?? session('error') ?? ($errors->any() ? $errors->first() : null);
         $toastType = session('success') ? 'success' : 'error';

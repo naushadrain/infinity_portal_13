@@ -8,7 +8,7 @@
 @section('title','Edit Staff')
 @section('content')
 
-<form method="POST" action="{{ route('users.update', $user) }}">
+<form id="update-user-form" method="POST" action="{{ route('users.update', $user) }}">
 @csrf
 @method('PUT')
 
@@ -134,6 +134,8 @@
   </div>
 </section>
 
+</form>
+
 {{-- Actions --}}
 <div class="flex justify-between gap-2 mb-10">
   {{-- Delete --}}
@@ -156,12 +158,10 @@
        class="px-4 py-2.5 rounded-lg border border-slate-200 dark:border-ink-800 bg-white dark:bg-ink-900 text-sm font-medium hover:bg-slate-50 dark:hover:bg-ink-800 transition">
       Cancel
     </a>
-    <button type="submit"
+    <button type="submit" form="update-user-form"
             class="px-5 py-2.5 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold shadow-soft transition">
       Save changes
     </button>
   </div>
 </div>
-
-</form>
 @endsection
