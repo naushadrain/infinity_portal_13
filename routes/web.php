@@ -12,6 +12,7 @@ use App\Http\Controllers\Survey\StaffSurveyController;
 use App\Http\Controllers\User\UsersController;
 use App\Http\Controllers\User\UsersProfileController;
 use App\Http\Controllers\Forms\ABCMonitoringChart;
+use App\Http\Controllers\Public\CreateIncidentController;
 use App\Http\Controllers\Public\CustomerSatisfyController;
 
 /*
@@ -27,9 +28,8 @@ Route::post('/customersatisfy/Perth', [CustomerSatisfyController::class, 'store'
 Route::get('/customersatisfy/Victoria', [CustomerSatisfyController::class, 'getVictoria']);
 Route::post('/customersatisfy/Victoria', [CustomerSatisfyController::class, 'storeVictoria'])->name('customer-satisfy-victoria.store');
 
-Route::get('/incident/create-incident', function(){
-    return view('public-form.add-incident');
-});
+Route::get('/incident/create-incident', [CreateIncidentController::class,'index'])->name('incident.public.create');
+Route::post('/incident/create-incident', [CreateIncidentController::class,'store'])->name('incident.public.store');
 
 
 Route::middleware('guest')->group(function () {
