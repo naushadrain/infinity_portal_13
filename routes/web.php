@@ -90,7 +90,10 @@ Route::middleware('auth')->group(function () {
     Route::put('/profile',          [UsersProfileController::class, 'update'])->name('profile.update');
     Route::put('/profile/password', [UsersProfileController::class, 'updatePassword'])->name('profile.password');
 
-    Route::resource('users', UsersController::class)->except(['show']);
+    Route::middleware('restrict.managers')
+        ->group(function () {
+            Route::resource('users', UsersController::class)->except(['show']);
+        });
 
     Route::prefix('forms')->name('forms.')->group(function () {
         Route::get('incident/export', [IncidentReportFormController::class, 'export'])->name('incident.export');
