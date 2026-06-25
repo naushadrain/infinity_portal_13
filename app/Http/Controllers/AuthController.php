@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -52,6 +53,8 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
+        ActivityLog::record('login', 'User logged in', $request->ip());
+
         $destination = Auth::user()->role_id === 2
             ? route('forms.incident.index')
             : route('dashboard');
@@ -61,6 +64,8 @@ class AuthController extends Controller
 
     public function logout(Request $request): RedirectResponse
     {
+        ActivityLog::record('logout', 'User logged out', $request->ip());
+
         Auth::logout();
 
         $request->session()->invalidate();

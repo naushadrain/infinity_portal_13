@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Forms;
 
 use App\Http\Controllers\Controller;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use App\Models\IncidentForm;
 use App\Models\IncidentDetail;
@@ -643,6 +644,12 @@ class IncidentReportFormController extends Controller
             ]);
 
             DB::commit();
+
+            ActivityLog::record(
+                'incident.submitted',
+                'Incident report submitted (Reporter: ' . $validated['reporter_name'] . ', City: ' . $validated['city'] . ')',
+                $request->ip()
+            );
 
             return redirect()
                 ->route('forms.incident.index')

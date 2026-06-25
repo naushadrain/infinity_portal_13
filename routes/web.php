@@ -14,6 +14,7 @@ use App\Http\Controllers\User\UsersProfileController;
 use App\Http\Controllers\Forms\ABCMonitoringChart;
 use App\Http\Controllers\Public\CreateIncidentController;
 use App\Http\Controllers\Public\CustomerSatisfyController;
+use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\SignatureBannerController;
 
@@ -122,7 +123,8 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::get('/reports', [ReportsController::class, 'index'])->name('reports.index');
-    Route::view('/activity-logs', 'pages.activity-logs')->name('activity.index');
+    Route::get('/activity-logs', [ActivityLogController::class, 'index'])->name('activity.index');
+    Route::delete('/activity-logs/{log}', [ActivityLogController::class, 'destroy'])->name('activity.destroy');
     Route::resource('/signature-banner', SignatureBannerController::class)
         ->except(['create', 'edit', 'show'])
         ->names('banner');

@@ -77,7 +77,11 @@
 
                     <div class="md:col-span-6">
                         <label class="form-label">Location of incident/error <span class="text-red-500">*</span></label>
-                        <input type="text" name="cd_location" value="{{ old('cd_location') }}" class="form-input" data-required>
+                        <select name="cd_location" class="form-input" data-required>
+                            <option value="">Please Select</option>
+                            <option value="Perth" {{ old('cd_location') === 'Perth' ? 'selected' : '' }}>Perth</option>
+                            <option value="Victoria" {{ old('cd_location') === 'Victoria' ? 'selected' : '' }}>Victoria</option>
+                        </select>
                     </div>
 
                     <div class="md:col-span-12">

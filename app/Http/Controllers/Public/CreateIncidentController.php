@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -140,6 +141,14 @@ class CreateIncidentController extends Controller
             ]);
 
             DB::commit();
+
+            ActivityLog::record(
+                'public.incident.submitted',
+                'Public incident report submitted (Reporter: ' . $request->reporter_name . ', City: ' . $request->city . ')',
+                $request->ip(),
+                null,
+                $request->reporter_name
+            );
 
             return redirect()->route('incident.public.create')
                 ->with('success', 'Incident report submitted successfully. Thank you.');

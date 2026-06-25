@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Forms;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\ActivityLog;
 use App\Models\AbcParticipantDetail;
+use Illuminate\Http\Request;
 
 class ABCMonitoringChart extends Controller
 {
@@ -44,6 +45,12 @@ class ABCMonitoringChart extends Controller
                 'participant_address'       => $request->participant_address,
                 'BSP_practices'             => $request->BSP_practices,
             ]);
+
+            ActivityLog::record(
+                'abc.submitted',
+                'ABC monitoring chart submitted (Participant: ' . $request->participant_name . ')',
+                $request->ip()
+            );
 
             return redirect()->route('forms.abc-monitoring-chart.index')
                 ->with('success', 'ABC monitoring chart submitted successfully.');

@@ -1,0 +1,12 @@
+DROP TABLE IF EXISTS activity_logs;
+
+CREATE TABLE activity_logs (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT UNSIGNED NULL,
+    user_name VARCHAR(255) NULL,
+    event VARCHAR(100) NOT NULL,
+    description VARCHAR(500) NOT NULL,
+    ip_address VARCHAR(45) NULL,
+    created_at TIMESTAMP NULL DEFAULT NULL,
+    updated_at TIMESTAMP NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

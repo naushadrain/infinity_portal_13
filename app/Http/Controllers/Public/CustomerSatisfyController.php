@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
+use App\Models\ActivityLog;
 use App\Models\CustomerSatisfaction;
 use Illuminate\Http\Request;
 
@@ -31,14 +32,19 @@ class CustomerSatisfyController extends Controller
             'meet_needs'          => 'required|integer|min:1|max:5',
             'suggestions'         => 'nullable|string|max:1000',
         ]);
-        // Store data in database
         CustomerSatisfaction::create($validated);
 
-        // Return success response
+        ActivityLog::record(
+            'customer.survey.submitted',
+            'Customer satisfaction survey submitted (City: ' . $validated['city_name'] . ')',
+            $request->ip(),
+            null,
+            'Guest'
+        );
+
         return redirect()->back()->with('success', 'Thank you for your feedback!');
     }
 
-    // store the cities name victoria
     public function storeVictoria(Request $request)
     {
         $validated = $request->validate([
@@ -53,10 +59,17 @@ class CustomerSatisfyController extends Controller
             'meet_needs'          => 'required|integer|min:1|max:5',
             'suggestions'         => 'nullable|string|max:1000',
         ]);
-        // Store data in database
+
         CustomerSatisfaction::create($validated);
 
-        // Return success response
+        ActivityLog::record(
+            'customer.survey.submitted',
+            'Customer satisfaction survey submitted (City: ' . $validated['city_name'] . ')',
+            $request->ip(),
+            null,
+            'Guest'
+        );
+
         return redirect()->back()->with('success', 'Thank you for your feedback!');
     }
 }

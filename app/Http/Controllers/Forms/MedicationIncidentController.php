@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Forms;
 
 use App\Http\Controllers\Controller;
+use App\Models\ActivityLog;
 use App\Models\Medication;
 use Illuminate\Http\Request;
 
@@ -75,6 +76,12 @@ class MedicationIncidentController extends Controller
                 'date_completed'          => $request->date_completed,
                 'signature'               => $request->signature,
             ]);
+
+            ActivityLog::record(
+                'medication.submitted',
+                'Medication incident report submitted (Client: ' . $request->cd_name . ', Location: ' . $request->cd_location . ')',
+                $request->ip()
+            );
 
             return redirect()->route('forms.medication.index')
                 ->with('success', 'Medication incident report submitted successfully.');

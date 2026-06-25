@@ -35,7 +35,7 @@
                 ['label' => 'Staff',    'route' => 'surveys.staff'],
             ],
         ],
-        ['label' => 'Reports',          'route' => 'reports.index',  'icon' => 'bar-chart-3', 'staffHidden' => true],
+        // ['label' => 'Reports',          'route' => 'reports.index',  'icon' => 'bar-chart-3', 'staffHidden' => true],
         ['label' => 'Activity Logs',    'route' => 'activity.index', 'icon' => 'activity', 'managerHidden' => true],
         ['label' => 'Signature Banner', 'route' => 'banner.index',   'icon' => 'image'],
     ];
