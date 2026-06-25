@@ -667,7 +667,17 @@ class IncidentReportFormController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $reporter     = ReporterDetail::findOrFail($id);
+        $incident     = IncidentDetail::where('r_id', $reporter->id)->first();
+        $incidentType = IncidentType::where('r_id', $reporter->id)->first();
+        $participant  = ParticipantsDetail::where('r_id', $reporter->id)->first();
+        $staff        = StaffCarer::where('r_id', $reporter->id)->first();
+        $whatHappend  = WhatHappend::where('r_id', $reporter->id)->first();
+        $manager      = ManagerReport::where('r_id', $reporter->id)->first();
+
+        return view('pages.incident-show', compact(
+            'reporter', 'incident', 'incidentType', 'participant', 'staff', 'whatHappend', 'manager'
+        ));
     }
 
     /**
