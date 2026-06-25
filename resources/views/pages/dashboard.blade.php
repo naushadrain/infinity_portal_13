@@ -143,17 +143,18 @@
     <!-- Chart + activity -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mb-6">
 
-        {{-- Line chart: Form submissions Perth vs Victoria --}}
+        {{-- Line chart: Form submissions by type --}}
         <div class="lg:col-span-2 bg-white dark:bg-ink-900 rounded-2xl p-4 sm:p-6 shadow-soft border border-slate-100 dark:border-ink-800">
             <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
                 <div>
                     <h3 class="font-semibold">Form submissions</h3>
-                    <p class="text-xs text-slate-500 dark:text-ink-400 mt-0.5">Daily activity across both regions</p>
+                    <p class="text-xs text-slate-500 dark:text-ink-400 mt-0.5">Incident · Medication · ABC chart over time</p>
                 </div>
                 <div class="flex items-center gap-3 flex-wrap">
                     <div class="flex items-center gap-3 text-xs text-slate-500 dark:text-ink-400">
-                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-brand-500"></span>Perth</span>
-                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>Victoria</span>
+                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-brand-500"></span>Incident</span>
+                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>Medication</span>
+                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>ABC Chart</span>
                     </div>
                     <div class="flex gap-0.5 p-0.5 bg-slate-100 dark:bg-ink-800 rounded-lg text-xs">
                         <button data-range="month"
@@ -423,8 +424,8 @@
             labels: raw.month.labels,
             datasets: [
                 {
-                    label: 'Perth',
-                    data: raw.month.perth,
+                    label: 'Incident',
+                    data: raw.month.incident,
                     borderColor: '#4f46e5',
                     backgroundColor: 'rgba(99,102,241,.10)',
                     fill: true,
@@ -434,10 +435,21 @@
                     borderWidth: 2.5,
                 },
                 {
-                    label: 'Victoria',
-                    data: raw.month.victoria,
+                    label: 'Medication',
+                    data: raw.month.medication,
                     borderColor: '#10b981',
                     backgroundColor: 'rgba(16,185,129,.08)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 3,
+                    pointHoverRadius: 5,
+                    borderWidth: 2.5,
+                },
+                {
+                    label: 'ABC Chart',
+                    data: raw.month.abc,
+                    borderColor: '#f59e0b',
+                    backgroundColor: 'rgba(245,158,11,.08)',
                     fill: true,
                     tension: 0.4,
                     pointRadius: 3,
@@ -478,9 +490,10 @@
         btn.addEventListener('click', function () {
             const range = this.dataset.range;
 
-            chart.data.labels              = raw[range].labels;
-            chart.data.datasets[0].data   = raw[range].perth;
-            chart.data.datasets[1].data   = raw[range].victoria;
+            chart.data.labels            = raw[range].labels;
+            chart.data.datasets[0].data  = raw[range].incident;
+            chart.data.datasets[1].data  = raw[range].medication;
+            chart.data.datasets[2].data  = raw[range].abc;
             chart.update();
 
             document.querySelectorAll('.range-tab').forEach(b => {

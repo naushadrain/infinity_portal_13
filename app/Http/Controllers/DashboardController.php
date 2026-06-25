@@ -96,7 +96,6 @@ class DashboardController extends Controller
 
     private function buildChartData(): array
     {
-        // Find the earliest record across all form types to bound the "All" tab
         $earliestDate = collect([
             ReporterDetail::min('created_at'),
             Medication::min('created_at'),
@@ -107,61 +106,38 @@ class DashboardController extends Controller
         $allYears  = max(now()->year - $startYear + 1, 1);
         $fetchFrom = \Carbon\Carbon::create($startYear)->startOfYear();
 
-        $all = collect();
+        $incidents = ReporterDetail::where('created_at', '>=', $fetchFrom)
+            ->select('created_at')->get()->map(fn($r) => $r->created_at);
 
-        ReporterDetail::where('created_at', '>=', $fetchFrom)
-            ->select('created_at', 'city')
-            ->get()
-            ->each(fn($r) => $all->push([
-                'date'   => $r->created_at,
-                'region' => $this->detectRegion($r->city),
-            ]));
+        $medications = Medication::where('created_at', '>=', $fetchFrom)
+            ->select('created_at')->get()->map(fn($r) => $r->created_at);
 
-        Medication::where('created_at', '>=', $fetchFrom)
-            ->select('created_at', 'cd_location')
-            ->get()
-            ->each(fn($r) => $all->push([
-                'date'   => $r->created_at,
-                'region' => $this->detectRegion($r->cd_location),
-            ]));
-
-        // ABC forms have no location field – default to Victoria
-        AbcParticipantDetail::where('created_at', '>=', $fetchFrom)
-            ->select('created_at')
-            ->get()
-            ->each(fn($r) => $all->push([
-                'date'   => $r->created_at,
-                'region' => 'Victoria',
-            ]));
+        $abcCharts = AbcParticipantDetail::where('created_at', '>=', $fetchFrom)
+            ->select('created_at')->get()->map(fn($r) => $r->created_at);
 
         return [
-            'month' => $this->aggregate($all, 'month', 12),
-            'year'  => $this->aggregate($all, 'year',  min($allYears, 5)),
-            'all'   => $this->aggregate($all, 'year',  $allYears),
+            'month' => $this->aggregateByType($incidents, $medications, $abcCharts, 'month', 12),
+            'year'  => $this->aggregateByType($incidents, $medications, $abcCharts, 'year', min($allYears, 5)),
+            'all'   => $this->aggregateByType($incidents, $medications, $abcCharts, 'year', $allYears),
         ];
     }
 
-    private function detectRegion(?string $location): string
-    {
-        if (!$location) return 'Victoria';
-        return stripos($location, 'Perth') !== false ? 'Perth' : 'Victoria';
-    }
-
-    private function aggregate(\Illuminate\Support\Collection $all, string $unit, int $count): array
-    {
-        $labels   = [];
-        $perth    = [];
-        $victoria = [];
+    private function aggregateByType(
+        \Illuminate\Support\Collection $incidents,
+        \Illuminate\Support\Collection $medications,
+        \Illuminate\Support\Collection $abcCharts,
+        string $unit,
+        int $count
+    ): array {
+        $labels     = [];
+        $incidentD  = [];
+        $medicationD = [];
+        $abcD       = [];
 
         for ($i = $count - 1; $i >= 0; $i--) {
             [$label, $start, $end] = match ($unit) {
-                'day' => [
-                    now()->subDays($i)->format('D'),
-                    now()->subDays($i)->copy()->startOfDay(),
-                    now()->subDays($i)->copy()->endOfDay(),
-                ],
                 'month' => [
-                    now()->startOfMonth()->subMonths($i)->format('M'),
+                    now()->startOfMonth()->subMonths($i)->format('M y'),
                     now()->startOfMonth()->subMonths($i)->copy(),
                     now()->startOfMonth()->subMonths($i)->copy()->endOfMonth(),
                 ],
@@ -172,14 +148,18 @@ class DashboardController extends Controller
                 ],
             };
 
-            $slice = $all->filter(fn($r) => $r['date'] >= $start && $r['date'] <= $end);
-
-            $labels[]   = $label;
-            $perth[]    = $slice->where('region', 'Perth')->count();
-            $victoria[] = $slice->where('region', 'Victoria')->count();
+            $labels[]      = $label;
+            $incidentD[]   = $incidents->filter(fn($d)   => $d >= $start && $d <= $end)->count();
+            $medicationD[] = $medications->filter(fn($d) => $d >= $start && $d <= $end)->count();
+            $abcD[]        = $abcCharts->filter(fn($d)   => $d >= $start && $d <= $end)->count();
         }
 
-        return compact('labels', 'perth', 'victoria');
+        return [
+            'labels'     => $labels,
+            'incident'   => $incidentD,
+            'medication' => $medicationD,
+            'abc'        => $abcD,
+        ];
     }
 
     private function buildLatestSubmissions(): \Illuminate\Support\Collection
