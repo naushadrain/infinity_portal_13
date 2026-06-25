@@ -90,6 +90,13 @@
                             </td>
                             <td class="px-4 py-3 text-sm">
                                 <div class="flex items-center gap-2">
+                                    @if($isAdmin)
+                                        <a href="{{ route('forms.incident.show', $incident) }}"
+                                            class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-slate-50 text-slate-600 hover:bg-slate-100 dark:bg-ink-800 dark:text-ink-300 transition"
+                                            title="View">
+                                            <i data-lucide="eye" class="w-4 h-4"></i>
+                                        </a>
+                                    @endif
                                     @if($isAdmin || !$incident->completed)
                                         <a href="{{ route('forms.incident.edit', $incident) }}"
                                             class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 dark:bg-blue-500/10 dark:text-blue-400 transition"
