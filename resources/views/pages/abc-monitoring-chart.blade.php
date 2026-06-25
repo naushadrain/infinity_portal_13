@@ -1,6 +1,6 @@
-@extends('layouts.app', ['title' => 'Manage ABC Monitoring Chart'])
+@extends('layouts.app', ['title' => 'ABC Monitoring Charts'])
 
-@section('title', 'Manage ABC Monitoring Chart')
+@section('title', 'ABC Monitoring Charts')
 
 @section('content')
 <div class="space-y-5">

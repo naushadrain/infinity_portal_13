@@ -4,8 +4,8 @@
 |--------------------------------------------------------------------------
 | Antecedent-Behavior-Consequence incident capture form.
 --}}
-@extends('layouts.app', ['title' => 'ABC Monitoring Chart'])
-@section('title', 'ABC Monitoring Chart')
+@extends('layouts.app', ['title' => 'New ABC Monitoring Chart'])
+@section('title', 'New ABC Monitoring Chart')
 @section('content')
 
     <form id="abc-form"

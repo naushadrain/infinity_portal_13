@@ -1,6 +1,6 @@
-@extends('layouts.app', ['title' => 'Medication Incident / Error Form'])
+@extends('layouts.app', ['title' => 'New Medication Report'])
 
-@section('title','Medication Incident / Error Form')
+@section('title', 'New Medication Report')
 
 @section('content')
 <div class="mx-auto max-w-full px-4 py-6">

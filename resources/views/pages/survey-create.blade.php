@@ -4,8 +4,8 @@
 |--------------------------------------------------------------------------
 | Builder for creating a new survey with question types.
 --}}
-@extends('layouts.app', ['title' => 'Create survey'])
-@section('title','Create survey')
+@extends('layouts.app', ['title' => 'Create Survey'])
+@section('title', 'Create Survey')
 @section('content')
 <section class="bg-white dark:bg-ink-900 rounded-2xl shadow-soft border border-slate-100 dark:border-ink-800 p-6 mb-6">
   <h3 class="text-base font-semibold mb-1">Basics</h3>

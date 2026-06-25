@@ -4,8 +4,8 @@
 |--------------------------------------------------------------------------
 | Searchable list of all submitted forms across types.
 --}}
-@extends('layouts.app', ['title' => 'Forms'])
-@section('title', 'Forms')
+@extends('layouts.app', ['title' => 'Incident Reports'])
+@section('title', 'Incident Reports')
 @php $isAdmin = auth()->user()->role_id == 1; @endphp
 @section('content')
     <div class="flex flex-wrap items-center justify-between gap-3 mb-5">

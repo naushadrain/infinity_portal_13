@@ -4,8 +4,8 @@
 |--------------------------------------------------------------------------
 | Read-only display of a submitted form, including history and signatures.
 --}}
-@extends('layouts.app', ['title' => 'Incident #IN-2042'])
-@section('title','Incident #IN-2042')
+@extends('layouts.app', ['title' => 'Incident Report — View'])
+@section('title', 'Incident Report — View')
 @section('content')
 <div class="flex flex-wrap justify-between gap-3 mb-5">
   <div><h2 class="text-xl font-bold">Incident Report #IN-2042</h2><p class="text-sm text-slate-500 dark:text-ink-400">Submitted by James Kelly · 8 Jun 2026</p></div>

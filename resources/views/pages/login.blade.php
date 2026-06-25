@@ -5,7 +5,7 @@
 | Public login screen for staff members.
 --}}
 @extends('layouts.auth')
-@section('title','Sign in')
+@section('title', 'Sign In')
 @section('content')
 <div class="min-h-screen grid lg:grid-cols-2">
   <!-- Brand panel -->

@@ -1,5 +1,5 @@
-@extends('layouts.app', ['title' => 'Service Providers Edit'])
-@section('title', 'Service Providers Edit')
+@extends('layouts.app', ['title' => 'Edit Service Provider'])
+@section('title', 'Edit Service Provider')
 
 @section('content')
 @php

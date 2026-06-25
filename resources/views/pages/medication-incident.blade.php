@@ -1,6 +1,6 @@
-@extends('layouts.app', ['title' => 'Medication Incident'])
+@extends('layouts.app', ['title' => 'Medication Reports'])
 
-@section('title', 'Medication Incident')
+@section('title', 'Medication Reports')
 
 @section('content')
 <div class="space-y-5">
@@ -11,9 +11,9 @@
             <h2 class="text-xl font-bold text-slate-900 dark:text-white">
                 Medication Incident
             </h2>
-            <p class="text-sm text-slate-500 dark:text-slate-400">
+            {{-- <p class="text-sm text-slate-500 dark:text-slate-400">
                 Medication incident / error submitted forms
-            </p>
+            </p> --}}
         </div>
 
         <div class="flex gap-2">

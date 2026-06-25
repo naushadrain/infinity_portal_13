@@ -4,8 +4,8 @@
 |--------------------------------------------------------------------------
 | Edit an existing back-office staff account.
 --}}
-@extends('layouts.app', ['title' => 'Edit Staff'])
-@section('title','Edit Staff')
+@extends('layouts.app', ['title' => 'Edit Staff Account'])
+@section('title', 'Edit Staff Account')
 @section('content')
 
 <form id="update-user-form" method="POST" action="{{ route('users.update', $user) }}">

@@ -4,8 +4,8 @@
 |--------------------------------------------------------------------------
 | Public-facing survey response form.
 --}}
-@extends('layouts.app', ['title' => 'Take survey'])
-@section('title','Take survey')
+@extends('layouts.app', ['title' => 'Fill Survey'])
+@section('title', 'Fill Survey')
 @section('content')
 <div class="max-w-2xl mx-auto">
   <div class="bg-white dark:bg-ink-900 rounded-2xl shadow-soft border border-slate-100 dark:border-ink-800 overflow-hidden">

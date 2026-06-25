@@ -4,8 +4,8 @@
 |--------------------------------------------------------------------------
 | Admin form to create a new back-office staff account.
 --}}
-@extends('layouts.app', ['title' => 'Add Staff'])
-@section('title','Add Staff')
+@extends('layouts.app', ['title' => 'Add Staff Account'])
+@section('title', 'Add Staff Account')
 @section('content')
 
 <form method="POST" action="{{ route('users.store') }}">

@@ -1,5 +1,5 @@
 @extends('layouts.auth')
-@section('title', 'Set new password')
+@section('title', 'Reset Password')
 @section('content')
 
 <div class="min-h-screen grid lg:grid-cols-2">
