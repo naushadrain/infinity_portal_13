@@ -6,6 +6,7 @@
 --}}
 @extends('layouts.app', ['title' => 'Forms'])
 @section('title', 'Forms')
+@php $isAdmin = auth()->user()->role_id === 1; @endphp
 @section('content')
     <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
         <div>
@@ -89,12 +90,24 @@
                             </td>
                             <td class="px-4 py-3 text-sm">
                                 <div class="flex items-center gap-2">
-                                    @if(!$incident->completed)
+                                    @if($isAdmin || !$incident->completed)
                                         <a href="{{ route('forms.incident.edit', $incident) }}"
                                             class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 dark:bg-blue-500/10 dark:text-blue-400 transition"
                                             title="Edit">
                                             <i data-lucide="pencil" class="w-4 h-4"></i>
                                         </a>
+                                    @endif
+                                    @if($isAdmin)
+                                        <form method="POST" action="{{ route('forms.incident.destroy', $incident) }}"
+                                            onsubmit="return confirm('Delete this incident report? This cannot be undone.')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-500/10 dark:text-red-400 transition"
+                                                title="Delete">
+                                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                            </button>
+                                        </form>
                                     @endif
                                 </div>
                             </td>

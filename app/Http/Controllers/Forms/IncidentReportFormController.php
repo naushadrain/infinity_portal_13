@@ -691,11 +691,15 @@ class IncidentReportFormController extends Controller
      */
     public function destroy(string $id)
     {
-        $incident = IncidentForm::findOrFail($id);
+        $reporter = ReporterDetail::findOrFail($id);
 
-        IncidentDetail::where('r_id', $incident->getKey())->delete();
-        IncidentType::where('r_id', $incident->getKey())->delete();
-        $incident->delete();
+        IncidentDetail::where('r_id', $reporter->id)->delete();
+        IncidentType::where('r_id', $reporter->id)->delete();
+        ParticipantsDetail::where('r_id', $reporter->id)->delete();
+        StaffCarer::where('r_id', $reporter->id)->delete();
+        WhatHappend::where('r_id', $reporter->id)->delete();
+        ManagerReport::where('r_id', $reporter->id)->delete();
+        $reporter->delete();
 
         return redirect()->route('forms.incident.index')->with('success', 'Incident report deleted.');
     }
