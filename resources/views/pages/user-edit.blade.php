@@ -4,7 +4,7 @@
 |--------------------------------------------------------------------------
 | Edit an existing back-office staff account.
 --}}
-@extends('layouts.app', ['title' => 'Edit Staff Account'])
+@extends('layouts.app', ['title' => 'Edit Users Account'])
 @section('title', 'Edit Staff Account')
 @section('content')
 

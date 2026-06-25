@@ -4,8 +4,8 @@
 |--------------------------------------------------------------------------
 | Searchable, filterable directory of back-office users.
 --}}
-@extends('layouts.app', ['title' => 'Staff Accounts'])
-@section('title', 'Staff Accounts')
+@extends('layouts.app', ['title' => 'Users Management'])
+@section('title', 'Users Accounts Management')
 @section('content')
 
     {{-- Toaster Flash Message --}}
@@ -87,7 +87,7 @@
         <div class="flex gap-2">
             <a href="{{ route('users.create') }}"
                 class="px-3 py-2 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-sm font-medium flex items-center gap-2 transition">
-                <i data-lucide="plus" class="w-4 h-4"></i> Add staff
+                <i data-lucide="plus" class="w-4 h-4"></i> Add New Users
             </a>
         </div>
     </div>

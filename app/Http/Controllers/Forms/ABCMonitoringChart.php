@@ -12,10 +12,68 @@ class ABCMonitoringChart extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $abcMonitoringCharts = AbcParticipantDetail::orderBy('created_at', 'desc')->paginate(10);
+        $query = AbcParticipantDetail::latest();
+
+        if ($search = $request->input('search')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('participant_name', 'like', "%{$search}%")
+                  ->orWhere('participant_address', 'like', "%{$search}%");
+            });
+        }
+
+        if ($date = $request->input('date')) {
+            $query->whereDate('created_at', $date);
+        }
+
+        $abcMonitoringCharts = $query->paginate(10)->withQueryString();
+
         return view('pages.abc-monitoring-chart', compact('abcMonitoringCharts'));
+    }
+
+    public function export(Request $request)
+    {
+        $query = AbcParticipantDetail::latest();
+
+        if ($search = $request->input('search')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('participant_name', 'like', "%{$search}%")
+                  ->orWhere('participant_address', 'like', "%{$search}%");
+            });
+        }
+
+        if ($date = $request->input('date')) {
+            $query->whereDate('created_at', $date);
+        }
+
+        $records = $query->get();
+
+        $headers = [
+            'Content-Type'        => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="abc-monitoring-charts.csv"',
+        ];
+
+        $callback = function () use ($records) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, ['Sr. No.', 'Participant Name', 'Address', 'Date of Birth', 'Submitted']);
+
+            foreach ($records as $i => $row) {
+                fputcsv($file, [
+                    $i + 1,
+                    $row->participant_name ?? '',
+                    $row->participant_address ?? '',
+                    $row->participant_date_of_birth
+                        ? \Carbon\Carbon::parse($row->participant_date_of_birth)->format('d M Y')
+                        : '',
+                    $row->created_at->format('d M Y'),
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 
     /**

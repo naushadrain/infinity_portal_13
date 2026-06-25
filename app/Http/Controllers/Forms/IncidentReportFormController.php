@@ -692,7 +692,11 @@ class IncidentReportFormController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $reporter = ReporterDetail::findOrFail($id);
+        $incident = IncidentDetail::where('r_id', $reporter->id)->first();
+        $cities   = config('settings.city_name', []);
+
+        return view('pages.incident-edit', compact('reporter', 'incident', 'cities'));
     }
 
     /**
@@ -700,7 +704,49 @@ class IncidentReportFormController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $reporter = ReporterDetail::findOrFail($id);
+
+        $validated = $request->validate([
+            'name'           => ['required', 'string', 'max:255'],
+            'contact'        => ['required', 'string', 'max:30'],
+            'ir_number'      => ['nullable', 'string', 'max:100'],
+            'position_title' => ['nullable', 'string', 'max:255'],
+            'city'           => ['nullable'],
+            'completed'      => ['boolean'],
+            'doi'            => ['nullable', 'date'],
+            'toi'            => ['nullable'],
+            'address'        => ['nullable', 'string', 'max:500'],
+            'incident_background' => ['nullable', 'string'],
+        ]);
+
+        $reporter->update([
+            'name'           => $validated['name'],
+            'contact'        => $validated['contact'],
+            'ir_number'      => $validated['ir_number'] ?? null,
+            'position_title' => $validated['position_title'] ?? null,
+            'city'           => $validated['city'] ?? null,
+            'completed'      => $request->boolean('completed'),
+        ]);
+
+        $incident = IncidentDetail::where('r_id', $reporter->id)->first();
+        if ($incident) {
+            $incident->update([
+                'doi'                => $validated['doi'] ?? null,
+                'toi'                => $validated['toi'] ?? null,
+                'address'            => $validated['address'] ?? null,
+                'incident_background'=> $validated['incident_background'] ?? null,
+            ]);
+        }
+
+        ActivityLog::record(
+            'incident.updated',
+            'Incident report updated (Reporter: ' . $validated['name'] . ', ID: ' . $reporter->id . ')',
+            $request->ip()
+        );
+
+        return redirect()
+            ->route('forms.incident.index')
+            ->with('success', 'Incident report updated successfully.');
     }
 
     /**

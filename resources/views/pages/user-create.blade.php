@@ -4,7 +4,7 @@
 |--------------------------------------------------------------------------
 | Admin form to create a new back-office staff account.
 --}}
-@extends('layouts.app', ['title' => 'Add Staff Account'])
+@extends('layouts.app', ['title' => 'Add New Users Account'])
 @section('title', 'Add Staff Account')
 @section('content')
 

@@ -100,7 +100,9 @@ Route::middleware('auth')->group(function () {
         Route::get('incident/export', [IncidentReportFormController::class, 'export'])->name('incident.export');
         Route::resource('incident', IncidentReportFormController::class);
         Route::get('/reportpdf/{r_id}', [IncidentReportFormController::class, 'showPdf'])->name('reportpdf');
+        Route::get('medication/export', [MedicationIncidentController::class, 'export'])->name('medication.export');
         Route::resource('medication', MedicationIncidentController::class);
+        Route::get('abc-monitoring-chart/export', [ABCMonitoringChart::class, 'export'])->name('abc-monitoring-chart.export');
         Route::resource('abc-monitoring-chart', ABCMonitoringChart::class);
         // Route::view('/',           'pages.forms')->name('index');
         //Route::view('/abc',        'pages.form-abc')->name('abc');

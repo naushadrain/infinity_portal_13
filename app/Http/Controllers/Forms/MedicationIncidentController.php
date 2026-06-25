@@ -12,10 +12,99 @@ class MedicationIncidentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $medications = Medication::latest()->paginate(10);
-        return view('pages.medication-incident', compact('medications'));
+        $query = Medication::latest();
+
+        if ($search = $request->input('search')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('pr_name', 'like', "%{$search}%")
+                  ->orWhere('cd_name', 'like', "%{$search}%")
+                  ->orWhere('pr_incident_reported_to', 'like', "%{$search}%");
+            });
+        }
+
+        if ($location = $request->input('location')) {
+            $query->where('cd_location', $location);
+        }
+
+        if ($type = $request->input('type')) {
+            $query->where('incident_type', 'like', "%{$type}%");
+        }
+
+        if ($date = $request->input('date')) {
+            $query->whereDate('created_at', $date);
+        }
+
+        $medications = $query->paginate(10)->withQueryString();
+
+        $locations = Medication::select('cd_location')
+            ->distinct()
+            ->whereNotNull('cd_location')
+            ->orderBy('cd_location')
+            ->pluck('cd_location');
+
+        $types = Medication::select('incident_type')
+            ->distinct()
+            ->whereNotNull('incident_type')
+            ->orderBy('incident_type')
+            ->pluck('incident_type');
+
+        return view('pages.medication-incident', compact('medications', 'locations', 'types'));
+    }
+
+    public function export(Request $request)
+    {
+        $query = Medication::latest();
+
+        if ($search = $request->input('search')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('pr_name', 'like', "%{$search}%")
+                  ->orWhere('cd_name', 'like', "%{$search}%")
+                  ->orWhere('pr_incident_reported_to', 'like', "%{$search}%");
+            });
+        }
+
+        if ($location = $request->input('location')) {
+            $query->where('cd_location', $location);
+        }
+
+        if ($type = $request->input('type')) {
+            $query->where('incident_type', 'like', "%{$type}%");
+        }
+
+        if ($date = $request->input('date')) {
+            $query->whereDate('created_at', $date);
+        }
+
+        $medications = $query->get();
+
+        $headers = [
+            'Content-Type'        => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="medication-incidents.csv"',
+        ];
+
+        $callback = function () use ($medications) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, ['Sr. No.', 'Submitted', 'Reporter Name', 'Participant', 'Incident Type', 'Position', 'Location', 'Date Occurred']);
+
+            foreach ($medications as $i => $row) {
+                fputcsv($file, [
+                    $i + 1,
+                    $row->created_at->format('d M Y'),
+                    $row->pr_name ?? '',
+                    $row->cd_name ?? '',
+                    $row->incident_type ?? '',
+                    $row->pr_position ?? '',
+                    $row->cd_location ?? '',
+                    $row->pr_date_occured ?? '',
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 
     /**
