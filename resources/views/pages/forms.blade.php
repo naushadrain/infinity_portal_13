@@ -6,7 +6,7 @@
 --}}
 @extends('layouts.app', ['title' => 'Forms'])
 @section('title', 'Forms')
-@php $isAdmin = auth()->user()->role_id === 1; @endphp
+@php $isAdmin = auth()->user()->role_id == 1; @endphp
 @section('content')
     <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
         <div>
