@@ -5,40 +5,18 @@
 | Primary left navigation. Auto-expands the group containing the active route.
 --}}
 @php
-    // Top-level nav. Each item may carry a `children` array; if any child route
-    // is active the parent expands and highlights.
-    // $nav = [
-    //   ['label'=>'Dashboard',         'route'=>'dashboard',       'icon'=>'layout-dashboard'],
-    //   ['label'=>'User Management',   'route'=>'users.index',     'icon'=>'users', 'children'=>[
-    //       ['label'=>'All Users',     'route'=>'users.index'],
-    //       ['label'=>'New User',      'route'=>'users.create'],
-    //   ]],
-    //   ['label'=>'Forms',             'route'=>'forms.index',     'icon'=>'clipboard-list', 'children'=>[
-    //       ['label'=>'All Forms',     'route'=>'forms.incident.index'],
-    //       ['label'=>'ABC Form',      'route'=>'forms.abc'],
-    //       ['label'=>'Incident Form', 'route'=>'forms.incident.create'],
-    //       ['label'=>'Medication',    'route'=>'forms.medication'],
-    //   ]],
-    //   ['label'=>'Service Providers', 'route'=>'service-providers', 'icon'=>'building-2', 'children'=>[
-    //       ['label'=>'All Providers', 'route'=>'service-providers.index'],
-    //       ['label'=>'New Provider',  'route'=>'service-providers.create'],
-    //   ]],
-    //   ['label'=>'Surveys',           'route'=>'surveys.index',   'icon'=>'vote', 'children'=>[
-    //       ['label'=>'Customer',    'route'=>'surveys.customer'],
-    //       ['label'=>'Staff',   'route'=>'surveys.staff'],
+    
+    $isManager = auth()->user()->role_id === 2;
+    $isStaff   = auth()->user()->role_id === 3;
 
-    //   ]],
-    //   ['label'=>'Reports',           'route'=>'reports.index',   'icon'=>'bar-chart-3'],
-    //   ['label'=>'Activity Logs',     'route'=>'activity.index',  'icon'=>'activity'],
-    //   ['label'=>'Signature Banner',  'route'=>'banner.index',    'icon'=>'image'],
-    // ];
     $nav = [
-        ['label' => 'Dashboard',   'route' => 'dashboard',        'icon' => 'layout-dashboard'],
+        ['label' => 'Dashboard',   'route' => 'dashboard',        'icon' => 'layout-dashboard', 'managerHidden' => true],
         [
             'label'  => 'User Management',
             'route'  => 'users.index',
             'prefix' => 'users',
             'icon'   => 'users',
+            'managerHidden' => true,
             'children' => [
                 ['label' => 'All Users', 'route' => 'users.index'],
                 ['label' => 'New User',  'route' => 'users.create'],
@@ -57,8 +35,8 @@
                 ['label' => 'Staff',    'route' => 'surveys.staff'],
             ],
         ],
-        ['label' => 'Reports',          'route' => 'reports.index',  'icon' => 'bar-chart-3'],
-        ['label' => 'Activity Logs',    'route' => 'activity.index', 'icon' => 'activity'],
+        ['label' => 'Reports',          'route' => 'reports.index',  'icon' => 'bar-chart-3', 'staffHidden' => true],
+        ['label' => 'Activity Logs',    'route' => 'activity.index', 'icon' => 'activity', 'managerHidden' => true],
         ['label' => 'Signature Banner', 'route' => 'banner.index',   'icon' => 'image'],
     ];
 
@@ -92,7 +70,9 @@
                 $open         = $parentActive || $childActive;
             @endphp
 
-            @if (empty($item['children']))
+            @if ((!empty($item['managerHidden']) && $isManager) || (!empty($item['staffHidden']) && $isStaff))
+                {{-- hidden by role --}}
+            @elseif (empty($item['children']))
                 <a href="{{ route($item['route']) }}"
                     class="flex items-center gap-3 px-3 py-2.5 rounded-lg
                   {{ $parentActive

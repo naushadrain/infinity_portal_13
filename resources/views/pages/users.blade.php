@@ -224,16 +224,16 @@
                             <td class="px-4 py-3 text-sm">
                                 <div class="flex items-center gap-2">
                                     <a href="{{ route('users.edit', $user) }}"
-                                        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 dark:bg-blue-500/10 dark:text-blue-400 text-xs font-medium transition">
+                                        class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 dark:bg-blue-500/10 dark:text-blue-400 transition"
+                                        title="Edit">
                                         <i data-lucide="pencil" class="w-4 h-4"></i>
-                                        Edit
                                     </a>
 
                                     <button type="button"
                                         onclick="openDeleteModal('{{ route('users.destroy', $user) }}', '{{ addslashes($user->name) }}')"
-                                        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 dark:bg-rose-500/10 dark:text-rose-400 text-xs font-medium transition">
+                                        class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 dark:bg-rose-500/10 dark:text-rose-400 transition"
+                                        title="Delete">
                                         <i data-lucide="trash-2" class="w-4 h-4"></i>
-                                        Delete
                                     </button>
                                 </div>
                             </td>

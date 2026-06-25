@@ -42,9 +42,60 @@ class IncidentReportFormController extends Controller
             $query->whereDate('created_at', $date);
         }
 
-        $incidents = $query->paginate(10)->withQueryString();
+        $incidents = $query->paginate(50)->withQueryString();
 
         return view('pages.forms', compact('incidents'));
+    }
+
+    public function export(Request $request)
+    {
+        $query = ReporterDetail::latest();
+
+        if ($search = $request->input('search')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('ir_number', 'like', "%{$search}%")
+                    ->orWhere('contact', 'like', "%{$search}%");
+            });
+        }
+
+        if ($city = $request->input('city')) {
+            $query->where('city', $city);
+        }
+
+        if ($date = $request->input('date')) {
+            $query->whereDate('created_at', $date);
+        }
+
+        $incidents = $query->get();
+        $cityNames = config('settings.city_name', []);
+
+        $headers = [
+            'Content-Type'        => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="incidents.csv"',
+        ];
+
+        $callback = function () use ($incidents, $cityNames) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, ['Sr. No.', 'Submitted', 'Reporter Name', 'Contact', 'IR Number', 'Position', 'City', 'Status']);
+
+            foreach ($incidents as $i => $incident) {
+                fputcsv($file, [
+                    $i + 1,
+                    $incident->created_at->format('d M Y'),
+                    $incident->name ?? '',
+                    $incident->contact ?? '',
+                    $incident->ir_number ?? '',
+                    $incident->position_title ?? '',
+                    $cityNames[$incident->city] ?? $incident->city ?? '',
+                    $incident->completed ? 'Completed' : 'Pending',
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 
     /**

@@ -13,7 +13,9 @@ class AuthController extends Controller
     public function showLogin(): View|RedirectResponse
     {
         if (Auth::check()) {
-            return redirect()->route('dashboard');
+            return Auth::user()->role_id === 2
+                ? redirect()->route('forms.incident.index')
+                : redirect()->route('dashboard');
         }
 
         return view('pages.login');
@@ -50,7 +52,11 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard'));
+        $destination = Auth::user()->role_id === 2
+            ? route('forms.incident.index')
+            : route('dashboard');
+
+        return redirect()->intended($destination);
     }
 
     public function logout(Request $request): RedirectResponse

@@ -13,9 +13,10 @@
             <p class="text-sm text-slate-500 dark:text-ink-400">{{ $incidents->total() }} results</p>
         </div>
         <div class="flex gap-2">
-            <button
-                class="px-3 py-2 rounded-lg border border-slate-200 dark:border-ink-800 bg-white dark:bg-ink-900 text-sm flex items-center gap-2"><i
-                    data-lucide="download" class="w-4 h-4"></i> Export</button>
+            <a href="{{ route('forms.incident.export', request()->only(['search','city','date'])) }}"
+                class="px-3 py-2 rounded-lg border border-slate-200 dark:border-ink-800 bg-white dark:bg-ink-900 text-sm flex items-center gap-2">
+                <i data-lucide="download" class="w-4 h-4"></i> Export
+            </a>
             <a href="{{ route('forms.incident.create') }}"
                 class="px-3 py-2 rounded-lg bg-brand-600 text-white text-sm font-medium flex items-center gap-2"><i
                     data-lucide="plus" class="w-4 h-4"></i> New form</a>
@@ -65,7 +66,6 @@
                         <th class="text-left font-medium text-xs text-slate-500 dark:text-ink-400 uppercase tracking-wider px-4 py-3">IR Number</th>
                         <th class="text-left font-medium text-xs text-slate-500 dark:text-ink-400 uppercase tracking-wider px-4 py-3">Position</th>
                         <th class="text-left font-medium text-xs text-slate-500 dark:text-ink-400 uppercase tracking-wider px-4 py-3">City</th>
-                        <th class="text-left font-medium text-xs text-slate-500 dark:text-ink-400 uppercase tracking-wider px-4 py-3">Links</th>
                         <th class="text-left font-medium text-xs text-slate-500 dark:text-ink-400 uppercase tracking-wider px-4 py-3">Status</th>
                         <th class="text-left font-medium text-xs text-slate-500 dark:text-ink-400 uppercase tracking-wider px-4 py-3">Action</th>
                     </tr>
@@ -81,29 +81,27 @@
                             <td class="px-4 py-3 text-sm">{{ $incident->position_title ?? '—' }}</td>
                             <td class="px-4 py-3 text-sm">{{ config('settings.city_name')[$incident->city] ?? '—' }}</td>
                             <td class="px-4 py-3 text-sm">
-                               <a href="{{ route('forms.reportpdf', $incident->id) }}" target="_blank" class="text-brand-600 hover:underline">View PDF</a>
-                            </td>
-                            <td class="px-4 py-3 text-sm">
                                 @if($incident->completed)
                                     <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">Completed</span>
                                 @else
                                     <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">Pending</span>
                                 @endif
                             </td>
-                            <td class="px-4 py-3 text-sm flex items-center gap-3">
-                                <a href="{{ route('forms.incident.edit', $incident) }}"
-                                    class="text-brand-600 hover:underline">Edit</a>
-                                <form method="POST" action="{{ route('forms.incident.destroy', $incident) }}"
-                                    onsubmit="return confirm('Delete this incident report?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:underline">Delete</button>
-                                </form>
+                            <td class="px-4 py-3 text-sm">
+                                <div class="flex items-center gap-2">
+                                    @if(!$incident->completed)
+                                        <a href="{{ route('forms.incident.edit', $incident) }}"
+                                            class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 dark:bg-blue-500/10 dark:text-blue-400 transition"
+                                            title="Edit">
+                                            <i data-lucide="pencil" class="w-4 h-4"></i>
+                                        </a>
+                                    @endif
+                                </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="px-4 py-8 text-center text-sm text-slate-400 dark:text-ink-500">
+                            <td colspan="9" class="px-4 py-8 text-center text-sm text-slate-400 dark:text-ink-500">
                                 No incident reports found.
                             </td>
                         </tr>

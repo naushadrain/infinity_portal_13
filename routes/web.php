@@ -14,6 +14,8 @@ use App\Http\Controllers\User\UsersProfileController;
 use App\Http\Controllers\Forms\ABCMonitoringChart;
 use App\Http\Controllers\Public\CreateIncidentController;
 use App\Http\Controllers\Public\CustomerSatisfyController;
+use App\Http\Controllers\ReportsController;
+use App\Http\Controllers\SignatureBannerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -91,6 +93,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('users', UsersController::class)->except(['show']);
 
     Route::prefix('forms')->name('forms.')->group(function () {
+        Route::get('incident/export', [IncidentReportFormController::class, 'export'])->name('incident.export');
         Route::resource('incident', IncidentReportFormController::class);
         Route::get('/reportpdf/{r_id}', [IncidentReportFormController::class, 'showPdf'])->name('reportpdf');
         Route::resource('medication', MedicationIncidentController::class);
@@ -115,7 +118,9 @@ Route::middleware('auth')->group(function () {
         // Route::view('/{survey}/fill', 'pages.survey-fill')->name('fill')->whereNumber('survey');
     });
 
-    Route::view('/reports',          'pages.reports')->name('reports.index');
-    Route::view('/activity-logs',    'pages.activity-logs')->name('activity.index');
-    Route::view('/signature-banner', 'pages.signature-banner')->name('banner.index');
+    Route::get('/reports', [ReportsController::class, 'index'])->name('reports.index');
+    Route::view('/activity-logs', 'pages.activity-logs')->name('activity.index');
+    Route::resource('/signature-banner', SignatureBannerController::class)
+        ->except(['create', 'edit', 'show'])
+        ->names('banner');
 });

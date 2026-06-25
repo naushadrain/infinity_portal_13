@@ -10,6 +10,16 @@ use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            if (auth()->user()?->role_id === 2) {
+                return redirect()->route('forms.incident.index');
+            }
+            return $next($request);
+        });
+    }
+
     private array $states = [
         'Western Australia',
         'Victoria',

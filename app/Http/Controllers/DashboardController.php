@@ -12,6 +12,10 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        if (auth()->user()->role_id === 2) {
+            return redirect()->route('forms.incident.index');
+        }
+
         $recentUsers = User::with('role')->latest()->take(6)->get();
 
         $totalUsers        = User::whereIn('role_id', [2, 3])->count();
