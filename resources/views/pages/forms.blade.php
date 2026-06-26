@@ -4,13 +4,13 @@
 |--------------------------------------------------------------------------
 | Searchable list of all submitted forms across types.
 --}}
-@extends('layouts.app', ['title' => 'Incident Reports'])
-@section('title', 'Incident Reports')
+@extends('layouts.app', ['title' => 'Incident Form'])
+@section('title', 'Incident Form')
 @php $isAdmin = auth()->user()->role_id == 1; @endphp
 @section('content')
     <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
         <div>
-            <h2 class="text-xl font-bold">Forms</h2>
+            <h2 class="text-xl font-bold">Manage Incident Form</h2>
             <p class="text-sm text-slate-500 dark:text-ink-400">{{ $incidents->total() }} results</p>
         </div>
         <div class="flex gap-2">
@@ -20,7 +20,7 @@
             </a>
             <a href="{{ route('forms.incident.create') }}"
                 class="px-3 py-2 rounded-lg bg-brand-600 text-white text-sm font-medium flex items-center gap-2"><i
-                    data-lucide="plus" class="w-4 h-4"></i> Add New Incident</a>
+                    data-lucide="plus" class="w-4 h-4"></i> Add New Incident Form</a>
         </div>
     </div>
 
