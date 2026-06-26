@@ -4,8 +4,8 @@
 |--------------------------------------------------------------------------
 | Searchable, filterable directory of back-office users.
 --}}
-@extends('layouts.app', ['title' => 'Users Management'])
-@section('title', 'Users Accounts Management')
+@extends('layouts.app', ['title' => 'Users Account'])
+@section('title', 'Accounts Management')
 @section('content')
 
     {{-- Toaster Flash Message --}}
@@ -80,7 +80,7 @@
     {{-- Header --}}
     <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
         <div>
-            <h2 class="text-xl font-bold">Staff Accounts</h2>
+            <h2 class="text-xl font-bold">Users Account Management</h2>
             <p class="text-sm text-slate-500 dark:text-ink-400">{{ $users->total() }}
                 {{ Str::plural('result', $users->total()) }}</p>
         </div>

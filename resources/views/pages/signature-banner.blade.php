@@ -8,47 +8,10 @@
 @section('title', 'Signature & Banner')
 @section('content')
 
-{{-- Toast --}}
-@if (session('success') || session('error'))
-    @php
-        $type       = session('success') ? 'success' : 'error';
-        $msg        = session('success') ?? session('error');
-        $toastClass = $type === 'success' ? 'bg-emerald-600 border-emerald-500' : 'bg-rose-600 border-rose-500';
-        $icon       = $type === 'success' ? 'circle-check' : 'circle-x';
-        $title      = $type === 'success' ? 'Success' : 'Error';
-    @endphp
-    <div id="toastMessage"
-        class="fixed top-5 right-5 z-9999 w-[330px] max-w-[calc(100vw-2rem)] rounded-xl border {{ $toastClass }} text-white shadow-2xl overflow-hidden">
-        <div class="flex items-start gap-3 p-4">
-            <i data-lucide="{{ $icon }}" class="w-5 h-5 mt-0.5 shrink-0"></i>
-            <div class="flex-1">
-                <h4 class="text-sm font-semibold">{{ $title }}</h4>
-                <p class="text-sm text-white/90 mt-0.5">{{ $msg }}</p>
-            </div>
-            <button onclick="document.getElementById('toastMessage').remove()" class="text-white/80 hover:text-white">
-                <i data-lucide="x" class="w-4 h-4"></i>
-            </button>
-        </div>
-        <div class="h-1 bg-white/25"><div id="toastProgress" class="h-full bg-white/80"></div></div>
-    </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const p = document.getElementById('toastProgress');
-            if (p) {
-                p.style.width = '100%';
-                p.style.transition = 'width 4s linear';
-                setTimeout(() => p.style.width = '0%', 100);
-            }
-            setTimeout(() => document.getElementById('toastMessage')?.remove(), 4300);
-            if (window.lucide) lucide.createIcons();
-        });
-    </script>
-@endif
-
 {{-- Header --}}
 <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
     <div>
-        <h2 class="text-xl font-bold">Signature & Banner</h2>
+        <h2 class="text-xl font-bold">Signature Banner Management</h2>
         <p class="text-sm text-slate-500 dark:text-ink-400">{{ $banners->total() }} {{ Str::plural('banner', $banners->total()) }}</p>
     </div>
     <button onclick="openBannerModal()"

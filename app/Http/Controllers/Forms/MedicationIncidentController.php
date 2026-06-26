@@ -36,7 +36,7 @@ class MedicationIncidentController extends Controller
             $query->whereDate('created_at', $date);
         }
 
-        $medications = $query->paginate(10)->withQueryString();
+        $medications = $query->paginate(15)->withQueryString();
 
         $locations = Medication::select('cd_location')
             ->distinct()

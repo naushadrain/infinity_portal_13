@@ -22,22 +22,16 @@ $eventLabels = [
 
 <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
     <div>
-        <h2 class="text-xl font-bold">Activity Logs</h2>
+        <h2 class="text-xl font-bold">ALl Users Activity Management</h2>
         <p class="text-sm text-slate-500 dark:text-ink-400">{{ number_format($total) }} total {{ Str::plural('entry', $total) }}</p>
     </div>
 </div>
-
-@if(session('success'))
-    <div class="mb-4 px-4 py-3 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 text-sm border border-emerald-100 dark:border-emerald-500/20">
-        {{ session('success') }}
-    </div>
-@endif
 
 <div class="bg-white dark:bg-ink-900 rounded-2xl shadow-soft border border-slate-100 dark:border-ink-800 overflow-hidden">
 
     {{-- Filters --}}
     <form method="GET" action="{{ route('activity.index') }}" class="p-4 flex flex-wrap gap-2 border-b border-slate-100 dark:border-ink-800">
-        <div class="flex items-center gap-2 flex-1 min-w-[200px] bg-slate-50 dark:bg-ink-800 rounded-lg px-3 py-2">
+        <div class="flex items-center gap-2 flex-1 min-w-[200px] max-w-[400px] bg-slate-50 dark:bg-ink-800 rounded-lg px-3 py-2">
             <i data-lucide="search" class="w-4 h-4 text-slate-400 dark:text-ink-500 shrink-0"></i>
             <input name="search" value="{{ request('search') }}" class="bg-transparent text-sm outline-none flex-1" placeholder="Search user, event, description…">
         </div>
