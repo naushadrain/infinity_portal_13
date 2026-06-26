@@ -44,8 +44,11 @@
             <select name="city"
                 class="px-3 py-2 rounded-lg border border-slate-200 dark:border-ink-800 bg-white dark:bg-ink-900 text-sm">
                 <option value="">All states</option>
-                <option value="Perth" @selected(request('city') === 'Perth')>Perth</option>
-                <option value="Victoria" @selected(request('city') === 'Victoria')>Victoria</option>
+                @foreach (config('settings.city_name', []) as $key => $name)
+                    @if ($key != 0)
+                        <option value="{{ $key }}" @selected(request('city') == $key)>{{ $name }}</option>
+                    @endif
+                @endforeach
             </select>
             <input type="date" name="date" value="{{ request('date') }}"
                 class="px-3 py-2 rounded-lg border border-slate-200 dark:border-ink-800 bg-white dark:bg-ink-900 text-sm">

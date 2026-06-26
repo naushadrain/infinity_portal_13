@@ -167,58 +167,55 @@
 
             @if ($medications->hasPages())
             @php
-                $current  = $medications->currentPage();
-                $last     = $medications->lastPage();
-                $window   = 2; // pages each side of current
-                $pages    = collect();
-
-                // Always show first page
-                $pages->push(1);
-
-                // Window around current
-                for ($p = max(2, $current - $window); $p <= min($last - 1, $current + $window); $p++) {
-                    $pages->push($p);
-                }
-
-                // Always show last page
-                if ($last > 1) $pages->push($last);
-
-                $pages = $pages->unique()->sort()->values();
+                $current = $medications->currentPage();
+                $last    = $medications->lastPage();
+                // Build page list: 1–10, then second-to-last and last
+                $firstBlock = range(1, min(10, $last));
+                $tailBlock  = $last > 11 ? [$last - 1, $last] : [];
+                // Avoid duplicates when last <= 11 (all already in firstBlock)
+                $tailBlock  = array_filter($tailBlock, fn($p) => $p > 10);
+                $showEllipsis = $last > 11;
             @endphp
 
-            <div class="flex items-center gap-1">
+            <div class="flex flex-wrap items-center gap-1">
 
-                {{-- Previous --}}
+                {{-- Prev --}}
                 @if ($medications->onFirstPage())
-                    <span class="rounded-lg border border-slate-200 bg-white px-3 py-1.5 opacity-40 cursor-not-allowed dark:border-slate-700 dark:bg-slate-950">Prev</span>
+                    <span class="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm opacity-40 cursor-not-allowed dark:border-slate-700 dark:bg-slate-950">Prev</span>
                 @else
                     <a href="{{ $medications->previousPageUrl() }}"
-                       class="rounded-lg border border-slate-200 bg-white px-3 py-1.5 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-950 dark:hover:bg-slate-800">Prev</a>
+                       class="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-950 dark:hover:bg-slate-800">Prev</a>
                 @endif
 
-                {{-- Page numbers with ellipsis --}}
-                @php $prev = null; @endphp
-                @foreach ($pages as $page)
-                    @if ($prev !== null && $page - $prev > 1)
-                        <span class="px-1 text-slate-400">…</span>
-                    @endif
-
+                {{-- Pages 1–10 --}}
+                @foreach ($firstBlock as $page)
                     @if ($page == $current)
-                        <span class="rounded-lg bg-brand-600 px-3 py-1.5 text-white font-semibold">{{ $page }}</span>
+                        <span class="rounded-lg bg-brand-600 px-3 py-1.5 text-sm text-white font-semibold">{{ $page }}</span>
                     @else
                         <a href="{{ $medications->url($page) }}"
-                           class="rounded-lg border border-slate-200 bg-white px-3 py-1.5 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-950 dark:hover:bg-slate-800">{{ $page }}</a>
+                           class="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-950 dark:hover:bg-slate-800">{{ $page }}</a>
                     @endif
-
-                    @php $prev = $page; @endphp
                 @endforeach
+
+                {{-- Ellipsis + tail (second-to-last, last) --}}
+                @if ($showEllipsis)
+                    <span class="px-1 text-slate-400 text-sm select-none">…</span>
+                    @foreach ($tailBlock as $page)
+                        @if ($page == $current)
+                            <span class="rounded-lg bg-brand-600 px-3 py-1.5 text-sm text-white font-semibold">{{ $page }}</span>
+                        @else
+                            <a href="{{ $medications->url($page) }}"
+                               class="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-950 dark:hover:bg-slate-800">{{ $page }}</a>
+                        @endif
+                    @endforeach
+                @endif
 
                 {{-- Next --}}
                 @if ($medications->hasMorePages())
                     <a href="{{ $medications->nextPageUrl() }}"
-                       class="rounded-lg border border-slate-200 bg-white px-3 py-1.5 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-950 dark:hover:bg-slate-800">Next</a>
+                       class="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-950 dark:hover:bg-slate-800">Next</a>
                 @else
-                    <span class="rounded-lg border border-slate-200 bg-white px-3 py-1.5 opacity-40 cursor-not-allowed dark:border-slate-700 dark:bg-slate-950">Next</span>
+                    <span class="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm opacity-40 cursor-not-allowed dark:border-slate-700 dark:bg-slate-950">Next</span>
                 @endif
 
             </div>
