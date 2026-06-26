@@ -38,11 +38,14 @@
         {{-- Trigger button --}}
         <button id="user-menu-btn"
             class="flex items-center gap-2 p-1 rounded-xl hover:bg-slate-100 dark:hover:bg-ink-800 transition focus:outline-none">
-            <img src="{{asset('assets/user.png') }}"
-                class="w-9 h-9 rounded-full ring-2 ring-white dark:ring-ink-800 shadow-sm object-cover"
-                alt="{{ auth()->user()->name ?? 'User' }}" />
+
+            <img src="{{ asset('assets/user.png') }}"
+                class="w-10 h-10 rounded-full bg-slate-100 dark:bg-ink-700 ring-2 ring-slate-200 dark:ring-slate-600 shadow-sm object-cover p-1 dark:brightness-110 dark:contrast-125"
+                alt="{{ auth()->user()->name ?? 'User' }}">
+
             <i data-lucide="chevron-down"
-                class="w-4 h-4 text-slate-400 hidden sm:inline transition-transform duration-200" id="user-chevron"></i>
+                class="w-4 h-4 text-slate-500 dark:text-slate-300 hidden sm:inline transition-transform duration-200"
+                id="user-chevron"></i>
         </button>
 
         {{-- Dropdown panel --}}

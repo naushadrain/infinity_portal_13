@@ -5,39 +5,54 @@
 | Primary left navigation. Auto-expands the group containing the active route.
 --}}
 @php
-    
+
     $isManager = auth()->user()->role_id === 2;
-    $isStaff   = auth()->user()->role_id === 3;
+    $isStaff = auth()->user()->role_id === 3;
 
     $nav = [
-        ['label' => 'Dashboard',   'route' => 'dashboard',        'icon' => 'layout-dashboard', 'managerHidden' => true],
+        ['label' => 'Dashboard', 'route' => 'dashboard', 'icon' => 'layout-dashboard', 'managerHidden' => true],
         [
-            'label'  => 'User Management',
-            'route'  => 'users.index',
+            'label' => 'User Management',
+            'route' => 'users.index',
             'prefix' => 'users',
-            'icon'   => 'users',
+            'icon' => 'users',
             'managerHidden' => true,
             'children' => [
                 ['label' => 'All Users', 'route' => 'users.index'],
-                ['label' => 'New User',  'route' => 'users.create'],
+                ['label' => 'New User', 'route' => 'users.create'],
             ],
         ],
-        ['label' => 'Incident Form',  'route' => 'forms.incident.index',            'prefix' => 'forms.incident',            'icon' => 'clipboard-list'],
-        ['label' => 'Medication Form','route' => 'forms.medication.index',           'prefix' => 'forms.medication',           'icon' => 'clipboard-list'],
-        ['label' => 'ABC Monitoring Chart',       'route' => 'forms.abc-monitoring-chart.index', 'prefix' => 'forms.abc-monitoring-chart', 'icon' => 'clipboard-list'],
         [
-            'label'  => 'Surveys',
-            'route'  => 'surveys.index',
+            'label' => 'Incident Form',
+            'route' => 'forms.incident.index',
+            'prefix' => 'forms.incident',
+            'icon' => 'clipboard-list',
+        ],
+        [
+            'label' => 'Medication Form',
+            'route' => 'forms.medication.index',
+            'prefix' => 'forms.medication',
+            'icon' => 'clipboard-list',
+        ],
+        [
+            'label' => 'ABC Monitoring Chart',
+            'route' => 'forms.abc-monitoring-chart.index',
+            'prefix' => 'forms.abc-monitoring-chart',
+            'icon' => 'clipboard-list',
+        ],
+        [
+            'label' => 'Surveys',
+            'route' => 'surveys.index',
             'prefix' => 'surveys',
-            'icon'   => 'vote',
+            'icon' => 'vote',
             'children' => [
                 ['label' => 'Customer', 'route' => 'surveys.customer'],
-                ['label' => 'Staff',    'route' => 'surveys.staff'],
+                ['label' => 'Staff', 'route' => 'surveys.staff'],
             ],
         ],
         // ['label' => 'Reports',          'route' => 'reports.index',  'icon' => 'bar-chart-3', 'staffHidden' => true],
-        ['label' => 'Activity Logs',    'route' => 'activity.index', 'icon' => 'activity', 'managerHidden' => true],
-        ['label' => 'Signature Banner', 'route' => 'banner.index',   'icon' => 'image'],
+        ['label' => 'Activity Logs', 'route' => 'activity.index', 'icon' => 'activity', 'managerHidden' => true],
+        ['label' => 'Signature Banner', 'route' => 'banner.index', 'icon' => 'image'],
     ];
 
     // Match against 'prefix' when set so any sub-route (create/show/edit/update/destroy)
@@ -64,10 +79,12 @@
     <nav class="p-3 space-y-1 text-sm pb-28">
         @foreach ($nav as $item)
             @php
-                $matchOn    = $item['prefix'] ?? $item['route'];
+                $matchOn = $item['prefix'] ?? $item['route'];
                 $parentActive = $isActive($matchOn);
-                $childActive  = collect($item['children'] ?? [])->contains(fn($c) => $isActive($c['prefix'] ?? $c['route']));
-                $open         = $parentActive || $childActive;
+                $childActive = collect($item['children'] ?? [])->contains(
+                    fn($c) => $isActive($c['prefix'] ?? $c['route']),
+                );
+                $open = $parentActive || $childActive;
             @endphp
 
             @if ((!empty($item['managerHidden']) && $isManager) || (!empty($item['staffHidden']) && $isStaff))
@@ -112,8 +129,9 @@
         <a href="{{ route('profile') }}"
             class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-ink-800">
 
-            <img src="{{ asset('assets/user.png')}}"
-                class="w-9 h-9 rounded-full" alt="">
+            <img src="{{ asset('assets/user.png') }}"
+                class="w-10 h-10 rounded-full bg-slate-100 dark:bg-ink-700 ring-2 ring-slate-200 dark:ring-slate-600 shadow-sm object-cover p-1 dark:brightness-110 dark:contrast-125"
+                alt="{{ auth()->user()->name ?? 'User' }}">
 
             <div class="text-sm">
                 <div class="font-medium">
