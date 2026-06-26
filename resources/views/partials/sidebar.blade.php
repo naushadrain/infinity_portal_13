@@ -22,9 +22,9 @@
                 ['label' => 'New User',  'route' => 'users.create'],
             ],
         ],
-        ['label' => 'Incident',  'route' => 'forms.incident.index',            'prefix' => 'forms.incident',            'icon' => 'clipboard-list'],
-        ['label' => 'Medication','route' => 'forms.medication.index',           'prefix' => 'forms.medication',           'icon' => 'clipboard-list'],
-        ['label' => 'ABC',       'route' => 'forms.abc-monitoring-chart.index', 'prefix' => 'forms.abc-monitoring-chart', 'icon' => 'clipboard-list'],
+        ['label' => 'Incident Form',  'route' => 'forms.incident.index',            'prefix' => 'forms.incident',            'icon' => 'clipboard-list'],
+        ['label' => 'Medication Form','route' => 'forms.medication.index',           'prefix' => 'forms.medication',           'icon' => 'clipboard-list'],
+        ['label' => 'ABC Monitoring Chart',       'route' => 'forms.abc-monitoring-chart.index', 'prefix' => 'forms.abc-monitoring-chart', 'icon' => 'clipboard-list'],
         [
             'label'  => 'Surveys',
             'route'  => 'surveys.index',

@@ -1,45 +1,15 @@
-@extends('layouts.app', ['title' => 'Medication Incident Reports'])
+@extends('layouts.app', ['title' => ''])
 
-@section('title', 'Medication Reports')
+@section('title', 'Medication Form')
 
 @section('content')
 <div class="space-y-5">
 
-    {{-- Flash messages --}}
-    @if (session('success') || session('error'))
-        @php
-            $isSuccess = session('success');
-            $msg = session('success') ?? session('error');
-        @endphp
-        <div id="flash-toast"
-             class="fixed top-5 right-5 z-9999 w-[330px] max-w-[calc(100vw-2rem)] rounded-xl border {{ $isSuccess ? 'border-emerald-500 bg-emerald-600' : 'border-rose-500 bg-rose-600' }} text-white shadow-2xl overflow-hidden">
-            <div class="flex items-start gap-3 p-4">
-                <i data-lucide="{{ $isSuccess ? 'circle-check' : 'circle-x' }}" class="w-5 h-5 mt-0.5 shrink-0"></i>
-                <div class="flex-1">
-                    <h4 class="text-sm font-semibold">{{ $isSuccess ? 'Success' : 'Error' }}</h4>
-                    <p class="text-sm text-white/90 mt-0.5">{{ $msg }}</p>
-                </div>
-                <button onclick="this.closest('#flash-toast').remove()" class="text-white/80 hover:text-white">
-                    <i data-lucide="x" class="w-4 h-4"></i>
-                </button>
-            </div>
-            <div class="h-1 bg-white/25">
-                <div id="flash-progress" class="h-full bg-white/80 w-full" style="transition: width 4s linear;"></div>
-            </div>
-        </div>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                setTimeout(() => { document.getElementById('flash-progress').style.width = '0%'; }, 100);
-                setTimeout(() => { document.getElementById('flash-toast')?.remove(); }, 4300);
-                if (window.lucide) lucide.createIcons();
-            });
-        </script>
-    @endif
 
     {{-- Header --}}
     <div class="flex flex-wrap items-center justify-between gap-3">
         <div>
-            <h2 class="text-xl font-bold text-slate-900 dark:text-white">Medication Incident Reports</h2>
+            <h2 class="text-xl font-bold text-slate-900 dark:text-white">Medication Reports</h2>
             <p class="text-sm text-slate-500 dark:text-slate-400">
                 {{ $medications->total() }} {{ Str::plural('result', $medications->total()) }}
             </p>
