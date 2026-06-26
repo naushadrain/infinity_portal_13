@@ -112,7 +112,7 @@
         <a href="{{ route('profile') }}"
             class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-ink-800">
 
-            <img src="{{ auth()->user()->avatar_url ?? 'https://i.pravatar.cc/40?img=12' }}"
+            <img src="{{ asset('assets/user.png')}}"
                 class="w-9 h-9 rounded-full" alt="">
 
             <div class="text-sm">
