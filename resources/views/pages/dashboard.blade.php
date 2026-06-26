@@ -19,42 +19,45 @@
 
     @endphp
 
-    <!-- Greeting hero -->
-    <section class="relative overflow-hidden rounded-2xl bg-linear-to-br from-brand-600 via-brand-700 to-indigo-900 text-white p-5 sm:p-6 lg:p-8 mb-6">
-        <div class="absolute -top-20 -right-20 w-72 h-72 bg-white/5 rounded-full blur-3xl"></div>
-        <div class="absolute -bottom-24 -left-10 w-72 h-72 bg-indigo-400/20 rounded-full blur-3xl"></div>
+<!-- Greeting hero -->
+<section class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-600 via-brand-700 to-indigo-900 dark:from-ink-900 dark:via-brand-900 dark:to-indigo-950 text-white p-5 sm:p-6 lg:p-8 mb-6 shadow-sm">
+    <div class="absolute -top-20 -right-20 w-72 h-72 bg-white/10 rounded-full blur-3xl"></div>
+    <div class="absolute -bottom-24 -left-10 w-72 h-72 bg-indigo-400/25 rounded-full blur-3xl"></div>
 
-        <div class="relative flex flex-col lg:flex-row lg:items-end justify-between gap-5">
-            <div>
-                <div class="text-[11px] uppercase tracking-[0.18em] text-white/70 font-semibold">
-                    {{ date('l · j F Y') }}
-                </div>
-                <h2 class="mt-2 text-xl sm:text-2xl lg:text-3xl font-bold leading-tight">
-                    {{ $greeting }}, {{ Auth::user()->name ?? 'User' }} 👋
-                </h2>
-                <p class="mt-1.5 text-sm text-white/75 max-w-lg">
-                    Showing data for <b class="text-white">{{ $periodLabel }}</b> across all regions.
-                </p>
+    <div class="relative flex flex-col lg:flex-row lg:items-end justify-between gap-5">
+        <div>
+            <div class="text-[11px] uppercase tracking-[0.18em] text-white/80 dark:text-white/70 font-semibold">
+                {{ date('l · j F Y') }}
             </div>
 
-            <div class="flex items-center gap-1.5 p-1 bg-white/10 rounded-xl backdrop-blur ring-1 ring-white/20">
-                <a href="{{ request()->fullUrlWithQuery(['period' => '30']) }}"
-                    class="px-3.5 py-1.5 rounded-lg text-sm font-medium transition
-                        {{ $period === '30'
-                            ? 'bg-white text-brand-700 shadow'
-                            : 'text-white hover:bg-white/15' }}">
-                    Last 30 days
-                </a>
-                <a href="{{ request()->fullUrlWithQuery(['period' => 'all']) }}"
-                    class="px-3.5 py-1.5 rounded-lg text-sm font-medium transition
-                        {{ $period === 'all'
-                            ? 'bg-white text-brand-700 shadow'
-                            : 'text-white hover:bg-white/15' }}">
-                    All time
-                </a>
-            </div>
+            <h2 class="mt-2 text-xl sm:text-2xl lg:text-3xl font-bold leading-tight text-white">
+                {{ $greeting }}, {{ Auth::user()->name ?? 'User' }} 👋
+            </h2>
+
+            <p class="mt-1.5 text-sm text-white/80 dark:text-white/75 max-w-lg">
+                Showing data for <b class="text-white font-semibold">{{ $periodLabel }}</b> across all regions.
+            </p>
         </div>
-    </section>
+
+        <div class="flex items-center gap-1.5 p-1 bg-white/15 dark:bg-white/10 rounded-xl backdrop-blur ring-1 ring-white/25 dark:ring-white/15">
+            <a href="{{ request()->fullUrlWithQuery(['period' => '30']) }}"
+                class="px-3.5 py-1.5 rounded-lg text-sm font-medium transition
+                    {{ $period === '30'
+                        ? 'bg-white text-brand-700 dark:text-brand-800 shadow'
+                        : 'text-white hover:bg-white/20 dark:hover:bg-white/15' }}">
+                Last 30 days
+            </a>
+
+            <a href="{{ request()->fullUrlWithQuery(['period' => 'all']) }}"
+                class="px-3.5 py-1.5 rounded-lg text-sm font-medium transition
+                    {{ $period === 'all'
+                        ? 'bg-white text-brand-700 dark:text-brand-800 shadow'
+                        : 'text-white hover:bg-white/20 dark:hover:bg-white/15' }}">
+                All time
+            </a>
+        </div>
+    </div>
+</section>
 
     <!-- KPI cards -->
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
