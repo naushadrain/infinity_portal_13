@@ -86,8 +86,11 @@
                             <label class="{{ $lbl }}">City <span class="text-red-500">*</span></label>
                             <select name="city" class="{{ $inp }}" data-required>
                                 <option value="">Please Select</option>
-                                <option value="Perth" {{ old('city') === 'Perth' ? 'selected' : '' }}>Perth</option>
-                                <option value="Victoria" {{ old('city') === 'Victoria' ? 'selected' : '' }}>Victoria</option>
+                                @foreach(config('settings.city_name', []) as $key => $cityName)
+                                    @if($key != 0)
+                                        <option value="{{ $key }}" {{ old('city') == $key ? 'selected' : '' }}>{{ $cityName }}</option>
+                                    @endif
+                                @endforeach
                             </select>
                             <p class="err hidden text-red-500 text-xs mt-1">Please select a city.</p>
                         </div>

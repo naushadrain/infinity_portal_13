@@ -28,7 +28,7 @@ class CreateIncidentController extends Controller
             'contact_number'    => ['required', 'string', 'max:30'],
             'ir_number'         => ['nullable', 'string', 'max:100'],
             'position_title'    => ['nullable', 'string', 'max:255'],
-            'city'              => ['required', 'string', 'max:100'],
+            'city'              => ['required', 'integer'],
 
             'incident_date'     => ['required', 'date'],
             'incident_time'     => ['required', 'string'],
@@ -73,7 +73,7 @@ class CreateIncidentController extends Controller
                 'name'           => $request->reporter_name,
                 'contact'        => $request->contact_number,
                 'position_title' => $request->position_title,
-                'city'           => $request->city,
+                'city'           => (int) $request->city,
                 'ir_number'      => $request->ir_number,
                 'completed'      => 0,
             ]);
@@ -108,9 +108,9 @@ class CreateIncidentController extends Controller
             ParticipantsDetail::create([
                 'r_id'             => $reporter->id,
                 'full_name'        => $request->participant_name,
-                'dob'              => $request->participant_dob,
+                'dob'              => $request->participant_dob ?: null,
                 'address'          => $request->participant_address,
-                'involved_witness' => $request->participant_involved_witness === 'Involved' ? 1 : 0,
+                'involved_witness' => $request->participant_involved_witness ?? 'Involved',
                 'injured'          => $request->participant_injured === 'Yes' ? 1 : 0,
                 'medical_attention'=> $request->participant_medical_attention === 'Yes' ? 1 : 0,
             ]);
@@ -121,7 +121,7 @@ class CreateIncidentController extends Controller
                     'full_name'        => $request->staff_name,
                     'address'          => $request->staff_address,
                     'staff_other'      => strtoupper($request->staff_other ?? 'STAFF'),
-                    'involved_witness' => $request->staff_involved_witness === 'Involved' ? 1 : 0,
+                    'involved_witness' => $request->staff_involved_witness ?? 'Involved',
                     'injured'          => $request->staff_injured === 'Yes' ? 1 : 0,
                     'medical_attention'=> $request->staff_medical_attention === 'Yes' ? 1 : 0,
                 ]);
