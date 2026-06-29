@@ -87,9 +87,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('/profile',          [UsersProfileController::class, 'show'])->name('profile');
-    Route::put('/profile',          [UsersProfileController::class, 'update'])->name('profile.update');
-    Route::put('/profile/password', [UsersProfileController::class, 'updatePassword'])->name('profile.password');
+    Route::get('/profile',                   [UsersProfileController::class, 'show'])->name('profile');
+    Route::put('/profile',                   [UsersProfileController::class, 'update'])->name('profile.update');
+    Route::get('/profile/change-password',   [UsersProfileController::class, 'showChangePassword'])->name('password.change');
+    Route::put('/profile/password',          [UsersProfileController::class, 'updatePassword'])->name('profile.password');
 
     Route::middleware('restrict.managers')
         ->group(function () {

@@ -61,6 +61,29 @@
         </div>
     </section>
 
+    <!-- KPI period filter strip -->
+    <div class="flex items-center justify-between mb-4">
+        <p class="text-sm text-slate-500 dark:text-ink-400">
+            Showing: <span class="font-semibold text-slate-800 dark:text-white">{{ $periodLabel }}</span>
+        </p>
+        <div class="flex items-center gap-1 p-1 bg-slate-100 dark:bg-ink-800 rounded-xl text-xs font-medium">
+            <a href="{{ request()->fullUrlWithQuery(['period' => '30']) }}"
+               class="px-3.5 py-1.5 rounded-lg transition
+               {{ $period === '30'
+                   ? 'bg-white dark:bg-ink-700 shadow text-slate-900 dark:text-white'
+                   : 'text-slate-500 dark:text-ink-400 hover:text-slate-700 dark:hover:text-ink-200' }}">
+                Last 30 days
+            </a>
+            <a href="{{ request()->fullUrlWithQuery(['period' => 'all']) }}"
+               class="px-3.5 py-1.5 rounded-lg transition
+               {{ $period === 'all'
+                   ? 'bg-white dark:bg-ink-700 shadow text-slate-900 dark:text-white'
+                   : 'text-slate-500 dark:text-ink-400 hover:text-slate-700 dark:hover:text-ink-200' }}">
+                All time
+            </a>
+        </div>
+    </div>
+
     <!-- KPI cards -->
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
 
@@ -72,12 +95,7 @@
                     class="w-10 h-10 rounded-xl bg-brand-50 dark:bg-brand-500/15 text-brand-600 dark:text-brand-300 grid place-items-center">
                     <i data-lucide="users" class="w-5 h-5"></i>
                 </div>
-                @if ($newUsersCount > 0)
-                    <span
-                        class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-semibold flex items-center gap-1">
-                        <i data-lucide="trending-up" class="w-3 h-3"></i>+{{ $newUsersCount }} new
-                    </span>
-                @endif
+                
             </div>
             <div class="mt-4 text-2xl sm:text-3xl font-bold tracking-tight">{{ number_format($totalUsers) }}</div>
             <div class="text-xs text-slate-500 dark:text-ink-400 mt-0.5">Active staff / members</div>
@@ -123,8 +141,8 @@
                     <i data-lucide="alert-triangle" class="w-5 h-5"></i>
                 </div>
             </div>
-            <div class="mt-4 text-2xl sm:text-3xl font-bold tracking-tight">{{ number_format($fromIncidentsCount) }}</div>
-            <div class="text-xs text-slate-500 dark:text-ink-400 mt-0.5">Incidents · All time</div>
+            <div class="mt-4 text-2xl sm:text-3xl font-bold tracking-tight">{{ number_format($incidentCount) }}</div>
+            <div class="text-xs text-slate-500 dark:text-ink-400 mt-0.5">Incidents · {{ $periodLabel }}</div>
             <svg viewBox="0 0 100 24" class="w-full h-6 mt-3" preserveAspectRatio="none">
                 <polyline fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
                     points="0,18 14,15 28,17 42,10 56,12 70,8 84,9 100,4" />
@@ -300,11 +318,11 @@
                             chart</span>
                         <span class="font-medium">{{ $abcChartCount }}</span>
                     </li>
-                    <li class="flex items-center justify-between">
+                    {{-- <li class="flex items-center justify-between">
                         <span class="flex items-center gap-2"><span
                                 class="w-2 h-2 rounded-full bg-rose-500"></span>Other</span>
                         <span class="font-medium">{{ $otherCount }}</span>
-                    </li>
+                    </li> --}}
                 </ul>
             </div>
         </div>

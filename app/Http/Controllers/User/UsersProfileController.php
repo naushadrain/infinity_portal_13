@@ -17,6 +17,11 @@ class UsersProfileController extends Controller
         return view('pages.profile', compact('user'));
     }
 
+    public function showChangePassword()
+    {
+        return view('pages.change-password');
+    }
+
     public function update(Request $request)
     {
         $user = User::find(Auth::id());

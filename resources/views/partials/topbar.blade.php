@@ -27,10 +27,10 @@
     </button>
 
     {{-- Notifications --}}
-    <button class="relative p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-ink-800">
+    {{-- <button class="relative p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-ink-800">
         <i data-lucide="bell" class="w-5 h-5"></i>
         <span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-rose-500"></span>
-    </button>
+    </button> --}}
 
     {{-- ── Account dropdown ───────────────────────────────────────────── --}}
     <div class="relative" id="user-menu-wrap">
@@ -78,16 +78,16 @@
                     Profile
                 </a>
 
-                <a href="#"
+                {{-- <a href="#"
                     class="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-700 dark:text-ink-200 hover:bg-slate-50 dark:hover:bg-ink-800 transition">
                     <span
                         class="w-7 h-7 rounded-lg bg-slate-100 dark:bg-ink-800 flex items-center justify-center shrink-0">
                         <i data-lucide="settings" class="w-4 h-4 text-slate-500 dark:text-ink-400"></i>
                     </span>
                     Settings
-                </a>
+                </a> --}}
 
-                <a href="{{ route('password.request') }}"
+                <a href="{{ route('password.change') }}"
                     class="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-700 dark:text-ink-200 hover:bg-slate-50 dark:hover:bg-ink-800 transition">
                     <span
                         class="w-7 h-7 rounded-lg bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center shrink-0">
