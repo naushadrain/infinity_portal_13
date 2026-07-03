@@ -35,7 +35,7 @@
             'icon' => 'clipboard-list',
         ],
         [
-            'label' => 'ABC Monitoring Chart',
+            'label' => 'Monitoring Chart',
             'route' => 'forms.abc-monitoring-chart.index',
             'prefix' => 'forms.abc-monitoring-chart',
             'icon' => 'clipboard-list',
