@@ -609,6 +609,14 @@ class IncidentReportFormController extends Controller
 
             'manager_signature' => ['nullable', 'string', 'max:255'],
             'reportable_incident' => ['required', 'in:Yes,No'],
+
+            'manager_name' => ['nullable', 'string', 'max:255'],
+            'manager_position' => ['nullable', 'string', 'max:255'],
+            'manager_safety_action' => ['nullable', 'string'],
+            'guardian_notified' => ['nullable', 'in:Yes,No'],
+            'investigation_undertaken' => ['nullable', 'in:Yes,No'],
+            'investigation_record' => ['nullable', 'string'],
+            'investigation_finding' => ['nullable', 'string'],
         ]);
 
         try {
@@ -664,6 +672,18 @@ class IncidentReportFormController extends Controller
                 'death'             => in_array('Death', $incidentTypes),
                 'other'             => in_array('Other', $incidentTypes),
                 'near_miss'         => in_array('Near Miss', $incidentTypes),
+            ]);
+
+            ManagerReport::create([
+                'r_id'                           => $form->getKey(),
+                'report_manager_name'            => $validated['manager_name'] ?? null,
+                'report_manager_position'        => $validated['manager_position'] ?? null,
+                'immediate_action_taken'         => $validated['manager_safety_action'] ?? null,
+                'family_notified'                => ($validated['guardian_notified'] ?? null) === 'Yes',
+                'investigation_possible_causes'  => ($validated['investigation_undertaken'] ?? null) === 'Yes',
+                'investigation_record'           => $validated['investigation_record'] ?? null,
+                'investigation_finding'          => $validated['investigation_finding'] ?? null,
+                'reportable_incident'            => $validated['reportable_incident'] === 'Yes',
             ]);
 
             DB::commit();

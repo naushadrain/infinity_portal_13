@@ -9,7 +9,7 @@
         $labelClass = 'text-sm font-medium text-slate-700 dark:text-ink-200';
         $sectionTitle = 'mb-4 text-sm font-black uppercase tracking-wide text-brand-600 dark:text-brand-400';
 
-        $toastMessage = session('success') ?? session('error') ?? ($errors->any() ? $errors->first() : null);
+        $toastMessage = session('success') ?? (session('error') ?? ($errors->any() ? $errors->first() : null));
         $toastType = session('success') ? 'success' : 'error';
     @endphp
 
@@ -46,7 +46,8 @@
     <form id="incidentForm" method="POST" action="{{ route('forms.incident.store') }}">
         @csrf
 
-        <section class="bg-white dark:bg-ink-900 rounded-2xl shadow-soft border border-slate-100 dark:border-ink-800 p-5 md:p-6 mb-8">
+        <section
+            class="bg-white dark:bg-ink-900 rounded-2xl shadow-soft border border-slate-100 dark:border-ink-800 p-5 md:p-6 mb-8">
             <div class="mb-6">
                 <h2 class="text-xl font-bold text-slate-900 dark:text-white">
                     Incident Report Form
@@ -64,44 +65,35 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-4">
                     <div class="xl:col-span-2">
                         <label class="{{ $labelClass }}">Name of person reporting *</label>
-                        <input type="text" name="reporter_name" id="reporter_name"
-                            value="{{ old('reporter_name') }}"
-                            data-required="true"
-                            data-message="Reporter name is required."
+                        <input type="text" name="reporter_name" id="reporter_name" value="{{ old('reporter_name') }}"
+                            data-required="true" data-message="Reporter name is required."
                             class="{{ $inputClass }} mt-1.5">
                         <p class="field-error hidden mt-1 text-xs text-rose-500"></p>
                     </div>
 
                     <div>
                         <label class="{{ $labelClass }}">Contact number *</label>
-                        <input type="text" name="contact_number" id="contact_number"
-                            value="{{ old('contact_number') }}"
-                            data-required="true"
-                            data-message="Contact number is required."
+                        <input type="text" name="contact_number" id="contact_number" value="{{ old('contact_number') }}"
+                            data-required="true" data-message="Contact number is required."
                             class="{{ $inputClass }} mt-1.5">
                         <p class="field-error hidden mt-1 text-xs text-rose-500"></p>
                     </div>
 
                     <div>
                         <label class="{{ $labelClass }}">Incident Report Number</label>
-                        <input type="text" name="incident_report_number"
-                            value="{{ old('incident_report_number') }}"
-                            placeholder="IN-2043"
-                            class="{{ $inputClass }} mt-1.5">
+                        <input type="text" name="incident_report_number" value="{{ old('incident_report_number') }}"
+                            placeholder="IN-2043" class="{{ $inputClass }} mt-1.5">
                     </div>
 
                     <div class="md:col-span-1 xl:col-span-2">
                         <label class="{{ $labelClass }}">Position Title</label>
-                        <input type="text" name="position_title"
-                            value="{{ old('position_title') }}"
+                        <input type="text" name="position_title" value="{{ old('position_title') }}"
                             class="{{ $inputClass }} mt-1.5">
                     </div>
 
                     <div class="md:col-span-1 xl:col-span-2">
                         <label class="{{ $labelClass }}">City *</label>
-                        <select name="city" id="city"
-                            data-required="true"
-                            data-message="City is required."
+                        <select name="city" id="city" data-required="true" data-message="City is required."
                             class="{{ $inputClass }} mt-1.5">
                             <option value="">Please select</option>
                             <option value="Perth" @selected(old('city') === 'Perth')>Perth</option>
@@ -120,38 +112,31 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-4">
                     <div>
                         <label class="{{ $labelClass }}">Date of incident *</label>
-                        <input type="date" name="incident_date" id="incident_date"
-                            value="{{ old('incident_date') }}"
-                            data-required="true"
-                            data-message="Incident date is required."
+                        <input type="date" name="incident_date" id="incident_date" value="{{ old('incident_date') }}"
+                            data-required="true" data-message="Incident date is required."
                             class="{{ $inputClass }} mt-1.5">
                         <p class="field-error hidden mt-1 text-xs text-rose-500"></p>
                     </div>
 
                     <div>
                         <label class="{{ $labelClass }}">Time of incident *</label>
-                        <input type="time" name="incident_time" id="incident_time"
-                            value="{{ old('incident_time') }}"
-                            data-required="true"
-                            data-message="Incident time is required."
+                        <input type="time" name="incident_time" id="incident_time" value="{{ old('incident_time') }}"
+                            data-required="true" data-message="Incident time is required."
                             class="{{ $inputClass }} mt-1.5">
                         <p class="field-error hidden mt-1 text-xs text-rose-500"></p>
                     </div>
 
                     <div>
                         <label class="{{ $labelClass }}">Date first told</label>
-                        <input type="date" name="date_first_told"
-                            value="{{ old('date_first_told') }}"
+                        <input type="date" name="date_first_told" value="{{ old('date_first_told') }}"
                             class="{{ $inputClass }} mt-1.5">
                     </div>
 
                     <div>
                         <label class="{{ $labelClass }}">Address *</label>
                         <input type="text" name="incident_address" id="incident_address"
-                            value="{{ old('incident_address') }}"
-                            data-required="true"
-                            data-message="Incident address is required."
-                            class="{{ $inputClass }} mt-1.5">
+                            value="{{ old('incident_address') }}" data-required="true"
+                            data-message="Incident address is required." class="{{ $inputClass }} mt-1.5">
                         <p class="field-error hidden mt-1 text-xs text-rose-500"></p>
                     </div>
 
@@ -160,7 +145,8 @@
 
                         <div id="incidentTypeBox" class="mt-4 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4">
                             @foreach (['Absent/Missing person', 'Behaviour', 'Breach of Privacy', 'Death', 'Drug/Alcohol', 'Illness/Injury', 'Assault (Physical/Sexual)', 'Property Damage', 'Self-Harm', 'Suicide Attempted', 'Near Miss', 'Other'] as $type)
-                                <label class="flex items-center gap-2.5 text-sm text-slate-700 dark:text-ink-200 cursor-pointer">
+                                <label
+                                    class="flex items-center gap-2.5 text-sm text-slate-700 dark:text-ink-200 cursor-pointer">
                                     <input type="checkbox" name="incident_type[]" value="{{ $type }}"
                                         @checked(is_array(old('incident_type')) && in_array($type, old('incident_type')))
                                         class="incident-type h-4 w-4 rounded border-slate-300 dark:border-ink-700 text-brand-600 focus:ring-brand-500">
@@ -189,17 +175,14 @@
                     <div>
                         <label class="{{ $labelClass }}">Full name *</label>
                         <input type="text" name="participant_name" id="participant_name"
-                            value="{{ old('participant_name') }}"
-                            data-required="true"
-                            data-message="Participant name is required."
-                            class="{{ $inputClass }} mt-1.5">
+                            value="{{ old('participant_name') }}" data-required="true"
+                            data-message="Participant name is required." class="{{ $inputClass }} mt-1.5">
                         <p class="field-error hidden mt-1 text-xs text-rose-500"></p>
                     </div>
 
                     <div>
                         <label class="{{ $labelClass }}">Date of birth</label>
-                        <input type="date" name="participant_dob"
-                            value="{{ old('participant_dob') }}"
+                        <input type="date" name="participant_dob" value="{{ old('participant_dob') }}"
                             class="{{ $inputClass }} mt-1.5">
                     </div>
 
@@ -213,8 +196,7 @@
 
                     <div>
                         <label class="{{ $labelClass }}">Address</label>
-                        <input type="text" name="participant_address"
-                            value="{{ old('participant_address') }}"
+                        <input type="text" name="participant_address" value="{{ old('participant_address') }}"
                             class="{{ $inputClass }} mt-1.5">
                     </div>
 
@@ -253,19 +235,15 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-4">
                     <div class="md:col-span-3 xl:col-span-4">
                         <label class="{{ $labelClass }}">Incident description *</label>
-                        <textarea name="incident_description" id="incident_description" rows="5"
-                            data-required="true"
-                            data-message="Incident description is required."
-                            class="{{ $inputClass }} mt-1.5">{{ old('incident_description') }}</textarea>
+                        <textarea name="incident_description" id="incident_description" rows="5" data-required="true"
+                            data-message="Incident description is required." class="{{ $inputClass }} mt-1.5">{{ old('incident_description') }}</textarea>
                         <p class="field-error hidden mt-1 text-xs text-rose-500"></p>
                     </div>
 
                     <div class="md:col-span-3 xl:col-span-4">
                         <label class="{{ $labelClass }}">Immediate action taken by staff *</label>
-                        <textarea name="immediate_action" id="immediate_action" rows="4"
-                            data-required="true"
-                            data-message="Immediate action is required."
-                            class="{{ $inputClass }} mt-1.5">{{ old('immediate_action') }}</textarea>
+                        <textarea name="immediate_action" id="immediate_action" rows="4" data-required="true"
+                            data-message="Immediate action is required." class="{{ $inputClass }} mt-1.5">{{ old('immediate_action') }}</textarea>
                         <p class="field-error hidden mt-1 text-xs text-rose-500"></p>
                     </div>
 
@@ -300,12 +278,14 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-4">
                     <div class="xl:col-span-2">
                         <label class="{{ $labelClass }}">Manager's name</label>
-                        <input type="text" name="manager_name" value="{{ old('manager_name') }}" class="{{ $inputClass }} mt-1.5">
+                        <input type="text" name="manager_name" value="{{ old('manager_name') }}"
+                            class="{{ $inputClass }} mt-1.5">
                     </div>
 
                     <div class="xl:col-span-2">
                         <label class="{{ $labelClass }}">Position</label>
-                        <input type="text" name="manager_position" value="{{ old('manager_position') }}" class="{{ $inputClass }} mt-1.5">
+                        <input type="text" name="manager_position" value="{{ old('manager_position') }}"
+                            class="{{ $inputClass }} mt-1.5">
                     </div>
 
                     <div class="md:col-span-3 xl:col-span-4">
@@ -349,12 +329,14 @@
 
                     <div class="xl:col-span-2">
                         <label class="{{ $labelClass }}">Signature of Line Manager</label>
-                        <input type="text" name="manager_signature" value="{{ old('manager_signature') }}" class="{{ $inputClass }} mt-1.5">
+                        <input type="text" name="manager_signature" value="{{ old('manager_signature') }}"
+                            class="{{ $inputClass }} mt-1.5">
                     </div>
                 </div>
             </div>
 
-            <div class="flex flex-col sm:flex-row justify-end gap-2 mt-8 pt-6 border-t border-slate-100 dark:border-ink-800">
+            <div
+                class="flex flex-col sm:flex-row justify-end gap-2 mt-8 pt-6 border-t border-slate-100 dark:border-ink-800">
                 <a href="{{ route('forms.incident.index') }}"
                     class="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-ink-700 bg-white dark:bg-ink-950 text-slate-700 dark:text-ink-200 text-sm font-medium hover:bg-slate-50 dark:hover:bg-ink-800 transition">
                     Cancel
@@ -379,7 +361,7 @@
             }
         }
 
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('incidentForm');
 
             if (window.lucide) {
@@ -440,10 +422,10 @@
                 return true;
             }
 
-            form.addEventListener('submit', function (e) {
+            form.addEventListener('submit', function(e) {
                 let valid = true;
 
-                document.querySelectorAll('[data-required="true"]').forEach(function (field) {
+                document.querySelectorAll('[data-required="true"]').forEach(function(field) {
                     if (!field.value.trim()) {
                         setError(field, field.dataset.message || 'This field is required.');
                         valid = false;
@@ -470,21 +452,21 @@
                 }
             });
 
-            document.querySelectorAll('[data-required="true"]').forEach(function (field) {
-                field.addEventListener('input', function () {
+            document.querySelectorAll('[data-required="true"]').forEach(function(field) {
+                field.addEventListener('input', function() {
                     if (field.value.trim()) {
                         clearError(field);
                     }
                 });
 
-                field.addEventListener('change', function () {
+                field.addEventListener('change', function() {
                     if (field.value.trim()) {
                         clearError(field);
                     }
                 });
             });
 
-            document.querySelectorAll('.incident-type').forEach(function (checkbox) {
+            document.querySelectorAll('.incident-type').forEach(function(checkbox) {
                 checkbox.addEventListener('change', validateIncidentTypes);
             });
         });

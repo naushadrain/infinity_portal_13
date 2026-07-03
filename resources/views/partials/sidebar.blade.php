@@ -67,12 +67,7 @@
     class="fixed inset-y-0 left-0 z-40 w-64 bg-white dark:bg-ink-900 border-r border-slate-200 dark:border-ink-800 -translate-x-full lg:translate-x-0 transition-transform overflow-y-auto">
     <div class="h-16 flex items-center gap-2 px-5 border-b border-slate-100 dark:border-ink-800">
         {{-- logo --}}
-        <div class="relative inline-flex items-center gap-3 py-4 shadow-lg w-fit">
-            <a href="https://infiniteability.com.au/">
-                <img src={{ asset('assets/logo.png') }} alt="Infinite Ability" class="h-9 w-auto" />
-            </a>
-
-        </div>
+        <img src={{ asset('assets/logo.png') }} alt="Infinite Ability" class="h-9 w-auto" />
         <button type="button" onclick="document.getElementById('sidebar').classList.add('-translate-x-full')"
             class="lg:hidden ml-auto p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-ink-800">
             <i data-lucide="x" class="w-4 h-4"></i>
