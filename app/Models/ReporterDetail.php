@@ -23,4 +23,9 @@ class ReporterDetail extends Model
         'completed',
         'ir_number'
     ];
+
+    public function participant()
+    {
+        return $this->hasOne(ParticipantsDetail::class, 'r_id', 'id');
+    }
 }

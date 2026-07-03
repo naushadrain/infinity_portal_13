@@ -58,8 +58,7 @@
                     <i data-lucide="x" class="w-3.5 h-3.5"></i> Clear
                 </a>
             @endif
-           <button type="submit"
-                class="px-4 py-2 rounded-lg bg-brand-600 text-white text-sm font-medium">
+            <button type="submit" class="px-4 py-2 rounded-lg bg-brand-600 text-white text-sm font-medium">
                 Filter
             </button>
         </form>
@@ -73,6 +72,11 @@
                         <th
                             class="text-left font-medium text-xs text-slate-500 dark:text-ink-400 uppercase tracking-wider px-4 py-3">
                             Submitted</th>
+                        <th
+                            class="text-left font-medium text-xs text-slate-500 dark:text-ink-400 uppercase tracking-wider px-4 py-3">
+                            Participant Name
+
+                        </th>
                         <th
                             class="text-left font-medium text-xs text-slate-500 dark:text-ink-400 uppercase tracking-wider px-4 py-3">
                             Reporter Name</th>
@@ -90,6 +94,10 @@
                             City</th>
                         <th
                             class="text-left font-medium text-xs text-slate-500 dark:text-ink-400 uppercase tracking-wider px-4 py-3">
+                            Link
+                        </th>
+                        <th
+                            class="text-left font-medium text-xs text-slate-500 dark:text-ink-400 uppercase tracking-wider px-4 py-3">
                             Status</th>
                         <th
                             class="text-left font-medium text-xs text-slate-500 dark:text-ink-400 uppercase tracking-wider px-4 py-3">
@@ -102,12 +110,20 @@
                             <td class="px-4 py-3 text-sm">
                                 {{ $loop->iteration + ($incidents->currentPage() - 1) * $incidents->perPage() }}</td>
                             <td class="px-4 py-3 text-sm">{{ $incident->created_at->format('d M Y') }}</td>
+                            <td class="px-4 py-3 text-sm">{{ $incident->participant->full_name ?? '—' }}</td>
                             <td class="px-4 py-3 text-sm">{{ $incident->name ?? '—' }}</td>
                             <td class="px-4 py-3 text-sm">{{ $incident->contact ?? '—' }}</td>
                             <td class="px-4 py-3 text-sm">{{ $incident->ir_number ?? '—' }}</td>
                             <td class="px-4 py-3 text-sm">{{ $incident->position_title ?? '—' }}</td>
                             <td class="px-4 py-3 text-sm">
                                 {{ $incident->city == 0 ? '—' : config('settings.city_name')[$incident->city] ?? '—' }}
+                            </td>
+                            <td class="px-4 py-3 text-sm">
+                                <a href="{{ route('forms.reportpdf', $incident->id) }}" target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="inline-flex items-center gap-1 text-brand-600 hover:underline">
+                                    <i data-lucide="file-text" class="w-4 h-4"></i> View PDF
+                                </a>
                             </td>
                             <td class="px-4 py-3 text-sm">
                                 @if ($incident->completed)
@@ -151,7 +167,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="9" class="px-4 py-8 text-center text-sm text-slate-400 dark:text-ink-500">
+                            <td colspan="10" class="px-4 py-8 text-center text-sm text-slate-400 dark:text-ink-500">
                                 No incident reports found.
                             </td>
                         </tr>

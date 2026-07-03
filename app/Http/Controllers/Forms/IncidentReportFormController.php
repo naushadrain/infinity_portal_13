@@ -17,21 +17,41 @@ use App\Models\StaffCarer;
 use App\Models\WhatHappend;
 use App\Models\ManagerReport;
 use Codedge\Fpdf\Facades\Fpdf;
+use Carbon\Carbon;
 
 class IncidentReportFormController extends Controller
 {
+    /**
+     * Format a stored date value as Australian d/m/Y, leaving non-date values untouched.
+     */
+    private function auDate(?string $value): string
+    {
+        if (!$value) {
+            return '';
+        }
+
+        try {
+            return Carbon::parse($value)->format('d/m/Y');
+        } catch (\Throwable) {
+            return $value;
+        }
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $query = ReporterDetail::latest();
+        $query = ReporterDetail::with('participant')->latest();
 
         if ($search = $request->input('search')) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
                     ->orWhere('ir_number', 'like', "%{$search}%")
-                    ->orWhere('contact', 'like', "%{$search}%");
+                    ->orWhere('contact', 'like', "%{$search}%")
+                    ->orWhereHas('participant', function ($pq) use ($search) {
+                        $pq->where('full_name', 'like', "%{$search}%");
+                    });
             });
         }
 
@@ -56,7 +76,10 @@ class IncidentReportFormController extends Controller
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
                     ->orWhere('ir_number', 'like', "%{$search}%")
-                    ->orWhere('contact', 'like', "%{$search}%");
+                    ->orWhere('contact', 'like', "%{$search}%")
+                    ->orWhereHas('participant', function ($pq) use ($search) {
+                        $pq->where('full_name', 'like', "%{$search}%");
+                    });
             });
         }
 
@@ -162,7 +185,7 @@ class IncidentReportFormController extends Controller
 
         Fpdf::Cell(30, 5, 'Date of incident:', 1, 0, 'L');
         Fpdf::SetFont('Arial', '', 8);
-        Fpdf::Cell(65, 5, $incident->doi ?? '', 1, 0, 'L');
+        Fpdf::Cell(65, 5, $this->auDate($incident->doi ?? null), 1, 0, 'L');
         Fpdf::SetFont('Arial', 'B', 8);
         Fpdf::Cell(30, 5, 'Time of incident:', 1, 0, 'L');
         Fpdf::SetFont('Arial', '', 8);
@@ -176,7 +199,7 @@ class IncidentReportFormController extends Controller
         Fpdf::MultiCell(40, 4, "Date first told you about the\nincident:", 1);
         Fpdf::SetXY($x + 40, $y);
         Fpdf::SetFont('Arial', '', 8);
-        Fpdf::Cell(55, 8, $incident->date_told_about_incident ?? '', 1, 0, 'L');
+        Fpdf::Cell(55, 8, $this->auDate($incident->date_told_about_incident ?? null), 1, 0, 'L');
 
         $y = Fpdf::GetY();
         $x = Fpdf::GetX();
@@ -276,7 +299,7 @@ class IncidentReportFormController extends Controller
             Fpdf::MultiCell(40, 8, $participant->full_name ?? '', 1, 'L', 0);
             Fpdf::SetXY($cx + 40, $cy);
             $cx = Fpdf::GetX();
-            Fpdf::MultiCell(20, 8, $participant->dob ?? '', 1, 'L', 0);
+            Fpdf::MultiCell(20, 8, $this->auDate($participant->dob ?? null), 1, 'L', 0);
             Fpdf::SetXY($cx + 20, $cy);
             $cx = Fpdf::GetX();
             if ($addrLen < 25) {
@@ -501,7 +524,7 @@ class IncidentReportFormController extends Controller
         Fpdf::MultiCell(0, 4, 'Investigation action Date Completed:');
         Fpdf::Ln(1);
         Fpdf::SetFont('Arial', '', 10);
-        Fpdf::MultiCell(0, 5, iconv('UTF-8', 'ASCII//TRANSLIT', $manager->informed_date ?? ''), 1);
+        Fpdf::MultiCell(0, 5, $this->auDate($manager->informed_date ?? null), 1);
         Fpdf::Ln(6);
 
         Fpdf::SetFont('Arial', 'B', 12);
@@ -533,7 +556,7 @@ class IncidentReportFormController extends Controller
         Fpdf::SetFont('Arial', 'B', 10);
         Fpdf::Cell(30, 10, 'Date:', 1, 0, 'L');
         Fpdf::SetFont('Arial', '', 10);
-        Fpdf::Cell(50, 10, $whatHappend->date ?? '', 1, 1, 'L');
+        Fpdf::Cell(50, 10, $this->auDate($whatHappend->date ?? null), 1, 1, 'L');
 
         Fpdf::SetFont('Arial', 'B', 10);
         Fpdf::Cell(40, 10, 'Signature of Manager:', 1, 0, 'L');
@@ -542,7 +565,7 @@ class IncidentReportFormController extends Controller
         Fpdf::SetFont('Arial', 'B', 10);
         Fpdf::Cell(30, 10, 'Date:', 1, 0, 'L');
         Fpdf::SetFont('Arial', '', 10);
-        Fpdf::Cell(50, 10, $incident->manager_sign_date ?? '', 1, 1, 'L');
+        Fpdf::Cell(50, 10, $this->auDate($incident->manager_sign_date ?? null), 1, 1, 'L');
         Fpdf::Ln(8);
 
         // ── Output ─────────────────────────────────────────────────────────────
@@ -692,11 +715,18 @@ class IncidentReportFormController extends Controller
      */
     public function edit(string $id)
     {
-        $reporter = ReporterDetail::findOrFail($id);
-        $incident = IncidentDetail::where('r_id', $reporter->id)->first();
-        $cities   = config('settings.city_name', []);
+        $reporter     = ReporterDetail::findOrFail($id);
+        $incident     = IncidentDetail::where('r_id', $reporter->id)->first();
+        $incidentType = IncidentType::where('r_id', $reporter->id)->first();
+        $participant  = ParticipantsDetail::where('r_id', $reporter->id)->first();
+        $staff        = StaffCarer::where('r_id', $reporter->id)->first();
+        $whatHappend  = WhatHappend::where('r_id', $reporter->id)->first();
+        $manager      = ManagerReport::where('r_id', $reporter->id)->first();
+        $cities       = config('settings.city_name', []);
 
-        return view('pages.incident-edit', compact('reporter', 'incident', 'cities'));
+        return view('pages.incident-edit', compact(
+            'reporter', 'incident', 'incidentType', 'participant', 'staff', 'whatHappend', 'manager', 'cities'
+        ));
     }
 
     /**
@@ -713,10 +743,51 @@ class IncidentReportFormController extends Controller
             'position_title' => ['nullable', 'string', 'max:255'],
             'city'           => ['nullable'],
             'completed'      => ['boolean'],
-            'doi'            => ['nullable', 'date'],
-            'toi'            => ['nullable'],
-            'address'        => ['nullable', 'string', 'max:500'],
-            'incident_background' => ['nullable', 'string'],
+
+            'doi'                      => ['nullable', 'date'],
+            'toi'                      => ['nullable'],
+            'address'                  => ['nullable', 'string', 'max:500'],
+            'date_told_about_incident' => ['nullable', 'date'],
+            'time_told_about_incident' => ['nullable'],
+            'incident_background'     => ['nullable', 'string'],
+            'incident_type'           => ['nullable', 'array'],
+
+            'participant_full_name'         => ['nullable', 'string', 'max:255'],
+            'participant_dob'               => ['nullable', 'date'],
+            'participant_address'           => ['nullable', 'string', 'max:500'],
+            'participant_involved_witness'  => ['nullable', 'boolean'],
+            'participant_injured'           => ['nullable', 'boolean'],
+            'participant_medical_attention' => ['nullable', 'boolean'],
+
+            'staff_full_name'         => ['nullable', 'string', 'max:255'],
+            'staff_address'           => ['nullable', 'string', 'max:500'],
+            'staff_other'             => ['nullable', 'in:STAFF,OTHER'],
+            'staff_involved_witness'  => ['nullable', 'boolean'],
+            'staff_injured'           => ['nullable', 'boolean'],
+            'staff_medical_attention' => ['nullable', 'boolean'],
+
+            'description_of_incident'  => ['nullable', 'string'],
+            'action_taken_by_staff'    => ['nullable', 'string'],
+            'wh_property_damage'       => ['nullable', 'boolean'],
+            'details_of_damage'        => ['nullable', 'string'],
+            'police_contacted'         => ['nullable', 'boolean'],
+            'reported_to_line_manager' => ['nullable', 'boolean'],
+            'wh_manager_name'          => ['nullable', 'string', 'max:255'],
+            'reporter_signature'       => ['nullable', 'string', 'max:255'],
+            'wh_date'                  => ['nullable', 'date'],
+
+            'report_manager_name'            => ['nullable', 'string', 'max:255'],
+            'report_manager_position'        => ['nullable', 'string', 'max:255'],
+            'immediate_action_taken'         => ['nullable', 'string'],
+            'family_notified'                => ['nullable', 'boolean'],
+            'investigation_possible_causes'  => ['nullable', 'boolean'],
+            'investigation_record'           => ['nullable', 'string'],
+            'investigation_finding'          => ['nullable', 'string'],
+            'outcome_incident'               => ['nullable', 'string'],
+            'investigation_action_completed' => ['nullable', 'boolean'],
+            'informed_date'                  => ['nullable', 'date'],
+            'participant_feedback'           => ['nullable', 'string'],
+            'reportable_incident'            => ['nullable', 'boolean'],
         ]);
 
         $reporter->update([
@@ -728,15 +799,76 @@ class IncidentReportFormController extends Controller
             'completed'      => $request->boolean('completed'),
         ]);
 
-        $incident = IncidentDetail::where('r_id', $reporter->id)->first();
-        if ($incident) {
-            $incident->update([
-                'doi'                => $validated['doi'] ?? null,
-                'toi'                => $validated['toi'] ?? null,
-                'address'            => $validated['address'] ?? null,
-                'incident_background'=> $validated['incident_background'] ?? null,
-            ]);
-        }
+        IncidentDetail::updateOrCreate(['r_id' => $reporter->id], [
+            'doi'                      => $validated['doi'] ?? null,
+            'toi'                      => $validated['toi'] ?? null,
+            'address'                  => $validated['address'] ?? null,
+            'date_told_about_incident' => $validated['date_told_about_incident'] ?? null,
+            'time_told_about_incident' => $validated['time_told_about_incident'] ?? null,
+            'incident_background'     => $validated['incident_background'] ?? null,
+        ]);
+
+        $types = $validated['incident_type'] ?? [];
+        IncidentType::updateOrCreate(['r_id' => $reporter->id], [
+            'absent'            => in_array('absent', $types),
+            'behaviour'         => in_array('behaviour', $types),
+            'confidentiality'   => in_array('confidentiality', $types),
+            'drug'              => in_array('drug', $types),
+            'illness'           => in_array('illness', $types),
+            'medication_error'  => in_array('medication_error', $types),
+            'assault'           => in_array('assault', $types),
+            'property_damage'   => in_array('property_damage', $types),
+            'self_harm'         => in_array('self_harm', $types),
+            'suicide_attempted' => in_array('suicide_attempted', $types),
+            'death'             => in_array('death', $types),
+            'other'             => in_array('other', $types),
+            'near_miss'         => in_array('near_miss', $types),
+        ]);
+
+        ParticipantsDetail::updateOrCreate(['r_id' => $reporter->id], [
+            'full_name'         => $validated['participant_full_name'] ?? null,
+            'dob'               => $validated['participant_dob'] ?? null,
+            'address'           => $validated['participant_address'] ?? null,
+            'involved_witness'  => $request->boolean('participant_involved_witness'),
+            'injured'           => $request->boolean('participant_injured'),
+            'medical_attention' => $request->boolean('participant_medical_attention'),
+        ]);
+
+        StaffCarer::updateOrCreate(['r_id' => $reporter->id], [
+            'full_name'         => $validated['staff_full_name'] ?? null,
+            'address'           => $validated['staff_address'] ?? null,
+            'staff_other'       => $validated['staff_other'] ?? 'STAFF',
+            'involved_witness'  => $request->boolean('staff_involved_witness'),
+            'injured'           => $request->boolean('staff_injured'),
+            'medical_attention' => $request->boolean('staff_medical_attention'),
+        ]);
+
+        WhatHappend::updateOrCreate(['r_id' => $reporter->id], [
+            'desciption_of_incident'   => $validated['description_of_incident'] ?? null,
+            'actoin_taken_by_staff'    => $validated['action_taken_by_staff'] ?? null,
+            'property_damage'          => $request->boolean('wh_property_damage'),
+            'details_of_damage'        => $validated['details_of_damage'] ?? null,
+            'police_contacted'         => $request->boolean('police_contacted'),
+            'reported_to_line_manager' => $request->boolean('reported_to_line_manager'),
+            'manager_name'             => $validated['wh_manager_name'] ?? null,
+            'reporter_signature'       => $validated['reporter_signature'] ?? null,
+            'date'                     => $validated['wh_date'] ?? null,
+        ]);
+
+        ManagerReport::updateOrCreate(['r_id' => $reporter->id], [
+            'report_manager_name'            => $validated['report_manager_name'] ?? null,
+            'report_manager_position'        => $validated['report_manager_position'] ?? null,
+            'immediate_action_taken'         => $validated['immediate_action_taken'] ?? null,
+            'family_notified'                => $request->boolean('family_notified'),
+            'investigation_possible_causes'  => $request->boolean('investigation_possible_causes'),
+            'investigation_record'           => $validated['investigation_record'] ?? null,
+            'investigation_finding'          => $validated['investigation_finding'] ?? null,
+            'outcome_incident'               => $validated['outcome_incident'] ?? null,
+            'investigation_action_completed' => $request->boolean('investigation_action_completed'),
+            'informed_date'                  => $validated['informed_date'] ?? null,
+            'participant_feedback'           => $validated['participant_feedback'] ?? null,
+            'reportable_incident'            => $request->boolean('reportable_incident'),
+        ]);
 
         ActivityLog::record(
             'incident.updated',

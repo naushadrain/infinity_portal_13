@@ -68,7 +68,10 @@
     <div class="h-16 flex items-center gap-2 px-5 border-b border-slate-100 dark:border-ink-800">
         {{-- logo --}}
         <div class="relative inline-flex items-center gap-3 py-4 shadow-lg w-fit">
-            <img src={{ asset('assets/logo.png') }} alt="Infinite Ability" class="h-9 w-auto" />
+            <a href="https://infiniteability.com.au/">
+                <img src={{ asset('assets/logo.png') }} alt="Infinite Ability" class="h-9 w-auto" />
+            </a>
+
         </div>
         <button type="button" onclick="document.getElementById('sidebar').classList.add('-translate-x-full')"
             class="lg:hidden ml-auto p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-ink-800">
