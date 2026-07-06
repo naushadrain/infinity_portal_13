@@ -68,14 +68,14 @@
         </p>
         <div class="flex items-center gap-1 p-1 bg-slate-100 dark:bg-ink-800 rounded-xl text-xs font-medium">
             <a href="{{ request()->fullUrlWithQuery(['period' => '30']) }}"
-               class="px-3.5 py-1.5 rounded-lg transition
+                class="px-3.5 py-1.5 rounded-lg transition
                {{ $period === '30'
                    ? 'bg-white dark:bg-ink-700 shadow text-slate-900 dark:text-white'
                    : 'text-slate-500 dark:text-ink-400 hover:text-slate-700 dark:hover:text-ink-200' }}">
                 Last 30 days
             </a>
             <a href="{{ request()->fullUrlWithQuery(['period' => 'all']) }}"
-               class="px-3.5 py-1.5 rounded-lg transition
+                class="px-3.5 py-1.5 rounded-lg transition
                {{ $period === 'all'
                    ? 'bg-white dark:bg-ink-700 shadow text-slate-900 dark:text-white'
                    : 'text-slate-500 dark:text-ink-400 hover:text-slate-700 dark:hover:text-ink-200' }}">
@@ -95,7 +95,7 @@
                     class="w-10 h-10 rounded-xl bg-brand-50 dark:bg-brand-500/15 text-brand-600 dark:text-brand-300 grid place-items-center">
                     <i data-lucide="users" class="w-5 h-5"></i>
                 </div>
-                
+
             </div>
             <div class="mt-4 text-2xl sm:text-3xl font-bold tracking-tight">{{ number_format($totalUsers) }}</div>
             <div class="text-xs text-slate-500 dark:text-ink-400 mt-0.5">Active staff / members</div>
@@ -187,7 +187,7 @@
             <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
                 <div>
                     <h3 class="font-semibold">Form submissions</h3>
-                    <p class="text-xs text-slate-500 dark:text-ink-400 mt-0.5">Incident · Medication · ABC chart over time
+                    <p class="text-xs text-slate-500 dark:text-ink-400 mt-0.5">Incident · Medication over time
                     </p>
                 </div>
                 <div class="flex items-center gap-3 flex-wrap">
@@ -196,8 +196,6 @@
                                 class="w-2.5 h-2.5 rounded-full bg-brand-500"></span>Incident</span>
                         <span class="flex items-center gap-1.5"><span
                                 class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>Medication</span>
-                        <span class="flex items-center gap-1.5"><span
-                                class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>ABC Chart</span>
                     </div>
                     <div class="flex gap-0.5 p-0.5 bg-slate-100 dark:bg-ink-800 rounded-lg text-xs">
                         <button data-range="month"
@@ -287,13 +285,9 @@
                         <circle cx="18" cy="18" r="15.915" fill="none" stroke="#10b981"
                             stroke-width="3.5" stroke-dasharray="{{ $medicationPercent }} 100"
                             stroke-dashoffset="-{{ $incidentPercent }}" stroke-linecap="round" />
-                        <circle cx="18" cy="18" r="15.915" fill="none" stroke="#f59e0b"
-                            stroke-width="3.5" stroke-dasharray="{{ $abcChartPercent }} 100"
-                            stroke-dashoffset="-{{ $incidentPercent + $medicationPercent }}" stroke-linecap="round" />
                         <circle cx="18" cy="18" r="15.915" fill="none" stroke="#f43f5e"
                             stroke-width="3.5" stroke-dasharray="{{ $otherPercent }} 100"
-                            stroke-dashoffset="-{{ $incidentPercent + $medicationPercent + $abcChartPercent }}"
-                            stroke-linecap="round" />
+                            stroke-dashoffset="-{{ $incidentPercent + $medicationPercent }}" stroke-linecap="round" />
                     </svg>
                     <div class="absolute inset-0 grid place-items-center text-center">
                         <div>
@@ -312,11 +306,6 @@
                         <span class="flex items-center gap-2"><span
                                 class="w-2 h-2 rounded-full bg-emerald-500"></span>Medication</span>
                         <span class="font-medium">{{ $medicationCount }}</span>
-                    </li>
-                    <li class="flex items-center justify-between">
-                        <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-amber-500"></span>ABC
-                            chart</span>
-                        <span class="font-medium">{{ $abcChartCount }}</span>
                     </li>
                     {{-- <li class="flex items-center justify-between">
                         <span class="flex items-center gap-2"><span
@@ -350,15 +339,6 @@
                     </div>
                     <div class="font-semibold text-sm">Medication</div>
                     <div class="text-[11px] text-slate-500 dark:text-ink-400 mt-0.5">Log error</div>
-                </a>
-                <a href="{{ route('forms.abc-monitoring-chart.index') }}"
-                    class="group p-4 rounded-xl border border-slate-100 dark:border-ink-800 hover:border-amber-300 hover:bg-amber-50/40 dark:hover:bg-amber-500/10 transition">
-                    <div
-                        class="w-9 h-9 rounded-lg bg-amber-50 dark:bg-amber-500/15 text-amber-600 dark:text-amber-300 grid place-items-center mb-2 group-hover:bg-amber-600 group-hover:text-white transition">
-                        <i data-lucide="line-chart" class="w-5 h-5"></i>
-                    </div>
-                    <div class="font-semibold text-sm">ABC chart</div>
-                    <div class="text-[11px] text-slate-500 dark:text-ink-400 mt-0.5">Monitor</div>
                 </a>
                 <a href="{{ url('forms/survey') }}"
                     class="group p-4 rounded-xl border border-slate-100 dark:border-ink-800 hover:border-rose-300 hover:bg-rose-50/40 dark:hover:bg-rose-500/10 transition">
@@ -409,8 +389,6 @@
                                     'Incident' => 'bg-brand-50 dark:bg-brand-500/15 text-brand-700 dark:text-brand-300',
                                     'Medication'
                                         => 'bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300',
-                                    'ABC Chart'
-                                        => 'bg-amber-50 dark:bg-amber-500/15 text-amber-700 dark:text-amber-300',
                                     default => 'bg-slate-100 dark:bg-ink-700 text-slate-600 dark:text-ink-300',
                                 };
                             @endphp
@@ -444,7 +422,6 @@
                             'Incident' => 'bg-brand-50 dark:bg-brand-500/15 text-brand-700 dark:text-brand-300',
                             'Medication'
                                 => 'bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300',
-                            'ABC Chart' => 'bg-amber-50 dark:bg-amber-500/15 text-amber-700 dark:text-amber-300',
                             default => 'bg-slate-100 dark:bg-ink-700 text-slate-600 dark:text-ink-300',
                         };
                     @endphp
@@ -512,17 +489,6 @@
                             pointHoverRadius: 5,
                             borderWidth: 2.5,
                         },
-                        {
-                            label: 'ABC Chart',
-                            data: raw.month.abc,
-                            borderColor: '#f59e0b',
-                            backgroundColor: 'rgba(245,158,11,.08)',
-                            fill: true,
-                            tension: 0.4,
-                            pointRadius: 3,
-                            pointHoverRadius: 5,
-                            borderWidth: 2.5,
-                        },
                     ],
                 },
                 options: {
@@ -577,7 +543,6 @@
                     chart.data.labels = raw[range].labels;
                     chart.data.datasets[0].data = raw[range].incident;
                     chart.data.datasets[1].data = raw[range].medication;
-                    chart.data.datasets[2].data = raw[range].abc;
                     chart.update();
 
                     document.querySelectorAll('.range-tab').forEach(b => {

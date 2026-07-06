@@ -3,7 +3,15 @@
 | Partial: sidebar
 |--------------------------------------------------------------------------
 | Primary left navigation. Auto-expands the group containing the active route.
+
+[
+            'label' => 'Monitoring Chart',
+            'route' => 'forms.abc-monitoring-chart.index',
+            'prefix' => 'forms.abc-monitoring-chart',
+            'icon' => 'clipboard-list',
+        ],
 --}}
+
 @php
 
     $isManager = auth()->user()->role_id === 2;
@@ -34,12 +42,7 @@
             'prefix' => 'forms.medication',
             'icon' => 'clipboard-list',
         ],
-        [
-            'label' => 'Monitoring Chart',
-            'route' => 'forms.abc-monitoring-chart.index',
-            'prefix' => 'forms.abc-monitoring-chart',
-            'icon' => 'clipboard-list',
-        ],
+        
         [
             'label' => 'Surveys',
             'route' => 'surveys.index',

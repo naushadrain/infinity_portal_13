@@ -54,7 +54,7 @@
                         <td class="px-4 py-3 text-sm text-slate-600 dark:text-ink-300">{{ $banner->state ?? '—' }}</td>
                         <td class="px-4 py-3 text-sm text-slate-600 dark:text-ink-300">{{ $banner->category ?? '—' }}</td>
                         <td class="px-4 py-3 text-sm text-slate-600 dark:text-ink-300">
-                            {{ $banner->expiry_date ? \Carbon\Carbon::parse($banner->expiry_date)->format('d M Y') : '—' }}
+                            {{ \App\Support\DateFormatter::safe($banner->expiry_date) }}
                         </td>
                         <td class="px-4 py-3 text-sm">
                             @if ($banner->publish)

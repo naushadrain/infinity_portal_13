@@ -41,9 +41,7 @@
             <div class="grid grid-cols-3 gap-4 px-6 py-4">
                 <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Date of Birth</dt>
                 <dd class="col-span-2 text-sm text-slate-900 dark:text-white">
-                    {{ $abc->participant_date_of_birth
-                        ? \Carbon\Carbon::parse($abc->participant_date_of_birth)->format('d M Y')
-                        : '—' }}
+                    {{ \App\Support\DateFormatter::safe($abc->participant_date_of_birth) }}
                 </dd>
             </div>
 

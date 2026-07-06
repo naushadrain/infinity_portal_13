@@ -39,7 +39,7 @@
             <div class="grid grid-cols-3 gap-4 px-6 py-4">
                 <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Date Occurred</dt>
                 <dd class="col-span-2 text-sm text-slate-900 dark:text-white">
-                    {{ $medication->pr_date_occured ? \Carbon\Carbon::parse($medication->pr_date_occured)->format('d M Y') : '—' }}
+                    {{ \App\Support\DateFormatter::safe($medication->pr_date_occured) }}
                 </dd>
             </div>
             <div class="grid grid-cols-3 gap-4 px-6 py-4">
@@ -49,7 +49,7 @@
             <div class="grid grid-cols-3 gap-4 px-6 py-4">
                 <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Date Reported</dt>
                 <dd class="col-span-2 text-sm text-slate-900 dark:text-white">
-                    {{ $medication->pr_date_reported ? \Carbon\Carbon::parse($medication->pr_date_reported)->format('d M Y') : '—' }}
+                    {{ \App\Support\DateFormatter::safe($medication->pr_date_reported) }}
                 </dd>
             </div>
             <div class="grid grid-cols-3 gap-4 px-6 py-4">
@@ -124,7 +124,7 @@
             <div class="grid grid-cols-3 gap-4 px-6 py-4">
                 <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Date Completed</dt>
                 <dd class="col-span-2 text-sm text-slate-900 dark:text-white">
-                    {{ $medication->date_completed ? \Carbon\Carbon::parse($medication->date_completed)->format('d M Y') : '—' }}
+                    {{ \App\Support\DateFormatter::safe($medication->date_completed) }}
                 </dd>
             </div>
             <div class="grid grid-cols-3 gap-4 px-6 py-4">

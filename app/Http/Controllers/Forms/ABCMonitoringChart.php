@@ -63,9 +63,7 @@ class ABCMonitoringChart extends Controller
                     $i + 1,
                     $row->participant_name ?? '',
                     $row->participant_address ?? '',
-                    $row->participant_date_of_birth
-                        ? \Carbon\Carbon::parse($row->participant_date_of_birth)->format('d M Y')
-                        : '',
+                    \App\Support\DateFormatter::safe($row->participant_date_of_birth, 'd M Y'),
                     $row->created_at->format('d M Y'),
                 ]);
             }

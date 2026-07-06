@@ -108,9 +108,7 @@
                             {{ $row->participant_address }}
                         </td>
                         <td class="whitespace-nowrap px-4 py-4 text-sm text-slate-700 dark:text-slate-300">
-                            {{ $row->participant_date_of_birth
-                                ? \Carbon\Carbon::parse($row->participant_date_of_birth)->format('d M Y')
-                                : '—' }}
+                            {{ \App\Support\DateFormatter::safe($row->participant_date_of_birth) }}
                         </td>
                         <td class="whitespace-nowrap px-4 py-4 text-sm text-slate-500 dark:text-slate-400">
                             {{ $row->created_at->format('d M Y') }}
