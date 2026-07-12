@@ -42,7 +42,13 @@
             'prefix' => 'forms.medication',
             'icon' => 'clipboard-list',
         ],
-        
+        [
+            'label' => 'Public Complaint',
+            'route' => 'forms.complaint.index',
+            'prefix' => 'forms.complaint',
+            'icon' => 'message-square-warning',
+        ],
+
         [
             'label' => 'Surveys',
             'route' => 'surveys.index',

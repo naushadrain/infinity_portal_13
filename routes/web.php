@@ -13,6 +13,8 @@ use App\Http\Controllers\User\UsersController;
 use App\Http\Controllers\User\UsersProfileController;
 use App\Http\Controllers\Forms\ABCMonitoringChart;
 use App\Http\Controllers\Public\CreateIncidentController;
+use App\Http\Controllers\Public\CreatePublicComplaintController;
+use App\Http\Controllers\Forms\PublicComplaintController;
 use App\Http\Controllers\Public\CustomerSatisfyController;
 use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\ReportsController;
@@ -25,7 +27,7 @@ use App\Http\Controllers\SignatureBannerController;
 | Only guests can access login / forgot password / reset password.
 | If already logged in, redirect to dashboard.
 */
-
+// public route
 Route::get('/customersatisfy/Perth', [CustomerSatisfyController::class, 'index']);
 Route::post('/customersatisfy/Perth', [CustomerSatisfyController::class, 'store'])->name('customer-satisfy-perth.store');
 Route::get('/customersatisfy/Victoria', [CustomerSatisfyController::class, 'getVictoria']);
@@ -33,6 +35,9 @@ Route::post('/customersatisfy/Victoria', [CustomerSatisfyController::class, 'sto
 
 Route::get('/incident/create-incident', [CreateIncidentController::class,'index'])->name('incident.public.create');
 Route::post('/incident/create-incident', [CreateIncidentController::class,'store'])->name('incident.public.store');
+
+Route::get('/complaint/create-complaint', [CreatePublicComplaintController::class,'index'])->name('complaint.public.create');
+Route::post('/complaint/create-complaint', [CreatePublicComplaintController::class,'store'])->name('complaint.public.store');
 
 
 Route::middleware('guest')->group(function () {
@@ -105,6 +110,8 @@ Route::middleware('auth')->group(function () {
         Route::resource('medication', MedicationIncidentController::class);
         Route::get('abc-monitoring-chart/export', [ABCMonitoringChart::class, 'export'])->name('abc-monitoring-chart.export');
         Route::resource('abc-monitoring-chart', ABCMonitoringChart::class);
+        Route::get('complaint/export', [PublicComplaintController::class, 'export'])->name('complaint.export');
+        Route::resource('complaint', PublicComplaintController::class)->only(['index', 'show', 'edit', 'update', 'destroy']);
         // Route::view('/',           'pages.forms')->name('index');
         //Route::view('/abc',        'pages.form-abc')->name('abc');
         // Route::view('/incident',   'pages.form-incident')->name('incident');
