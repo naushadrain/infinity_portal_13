@@ -80,8 +80,9 @@
                     </div>
 
                     <div>
-                        <label class="{{ $lbl }}">Email</label>
-                        <input type="email" name="email" value="{{ old('email') }}" placeholder="name@example.com" class="{{ $inp }}">
+                        <label class="{{ $lbl }}">Email <span class="text-red-500">*</span></label>
+                        <input type="email" name="email" value="{{ old('email') }}" placeholder="name@example.com" class="{{ $inp }}" data-required>
+                        <p class="err hidden text-red-500 text-xs mt-1">This field is required.</p>
                     </div>
 
                     <div>

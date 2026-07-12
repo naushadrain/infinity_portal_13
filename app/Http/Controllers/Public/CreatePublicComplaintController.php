@@ -20,7 +20,7 @@ class CreatePublicComplaintController extends Controller
         $validated = $request->validate([
             'name'           => ['required', 'string', 'max:255'],
             'received_from'  => ['required', 'string', 'max:150'],
-            'email'          => ['nullable', 'email', 'max:255'],
+            'email'          => ['required', 'email', 'max:255'],
             'contact_number' => ['nullable', 'string', 'max:30'],
             'complaint'      => ['required', 'string'],
         ]);
