@@ -43,7 +43,7 @@ class CreatePublicComplaintController extends Controller
             );
 
             return redirect()->route('complaint.public.create')
-                ->with('success', 'Your complaint has been submitted successfully. Thank you.');
+                ->with('success', 'Thank you for submitting your complaint. We will get back to you shortly.');
         } catch (\Throwable $e) {
             Log::error('Public complaint form submission failed', [
                 'message' => $e->getMessage(),

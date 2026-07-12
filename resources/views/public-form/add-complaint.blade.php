@@ -46,6 +46,13 @@
     <main class="max-w-3xl mx-auto px-4 py-10">
         <div class="bg-white rounded-2xl shadow-lg border border-slate-200 p-6 md:p-10">
 
+            @if(session('success'))
+                <div class="mb-8 flex items-start gap-3 rounded-xl border border-emerald-200 bg-emerald-50 p-4">
+                    <i data-lucide="check-circle" class="w-5 h-5 text-emerald-600 shrink-0 mt-0.5"></i>
+                    <p class="text-emerald-800 font-semibold text-sm">{{ session('success') }}</p>
+                </div>
+            @endif
+
             <h2 class="text-2xl font-bold mb-1">Complaint Details</h2>
             <p class="text-slate-500 mb-8 text-sm">
                 Use this form to raise a complaint. All complaints are reviewed by our team.
@@ -98,6 +105,8 @@
             </form>
         </div>
     </main>
+
+    @include('public-form.partials._footer')
 
     @push('scripts')
     @endpush
