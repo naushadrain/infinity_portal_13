@@ -29,8 +29,7 @@
     </div>
 
     <div class="relative flex items-center justify-between text-xs text-white/60">
-      <span>© Infinity Care · Perth · Victoria</span>
-      <span class="inline-flex items-center gap-1.5"><i data-lucide="shield-check" class="w-3.5 h-3.5"></i> Secure sign in</span>
+      <span>© Infinity Ability</span>
     </div>
   </div>
 
@@ -42,8 +41,7 @@
       </div>
 
       <div class="mb-8">
-        <h1 class="text-2xl font-bold tracking-tight">Welcome back</h1>
-        <p class="text-sm text-slate-500 dark:text-ink-400 mt-1.5">Sign in to your Infinity workspace.</p>
+        <h1 class="text-2xl font-bold tracking-tight">Login</h1>
       </div>
 
       <form method="POST" action="{{ route('login') }}" class="space-y-5">
@@ -76,10 +74,7 @@
         </div>
 
         <div>
-          <div class="flex justify-between items-center mb-1.5">
-            <label class="text-xs font-semibold text-slate-700 dark:text-ink-200 uppercase tracking-wide">Password</label>
-            <a href="{{ route('password.request') }}" class="text-brand-600 dark:text-brand-300 hover:underline text-xs font-medium">Forgot?</a>
-          </div>
+          
           <div class="relative">
             <i data-lucide="lock" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
             <input
@@ -109,9 +104,7 @@
         </button>
       </form>
 
-      <p class="mt-8 text-xs text-slate-400 dark:text-ink-500 text-center flex items-center justify-center gap-1.5">
-        <i data-lucide="shield" class="w-3.5 h-3.5"></i> Protected by activity logging. Unauthorised access is monitored.
-      </p>
+      
     </div>
   </div>
 </div>

@@ -41,31 +41,13 @@
         </a>
 
         {{-- Desktop nav --}}
-        <nav class="hidden lg:flex items-center gap-5 text-sm font-medium text-slate-700">
-            <a href="https://infiniteability.com.au/"
-               class="hover:text-sky-600 transition">Home</a>
-            <a href="https://infiniteability.com.au/about-us/"
-               class="hover:text-sky-600 transition">About Us</a>
-            <a href="https://infiniteability.com.au/services/"
-               class="hover:text-sky-600 transition">Services</a>
-            <a href="https://infiniteability.com.au/accommodations/"
-               class="hover:text-sky-600 transition">Accommodations</a>
-            <a href="https://infiniteability.com.au/about-ndis/"
-               class="hover:text-sky-600 transition">About NDIS</a>
-            <a href="https://infiniteability.com.au/new-intake-form/"
-               class="text-lime-600 font-semibold hover:text-lime-700 transition">Referral</a>
-            <a href="https://infiniteability.com.au/gallery/"
-               class="hover:text-sky-600 transition">Gallery</a>
-            <a href="https://infiniteability.com.au/blogs/"
-               class="hover:text-sky-600 transition">Blogs</a>
-            <a href="https://infiniteability.com.au/contact-us/"
-               class="hover:text-sky-600 transition">Contact Us</a>
-        </nav>
+        
 
         {{-- Enquiries CTA --}}
-        <a href="https://infiniteability.com.au/contact-us/"
+        <a href="https://infiniteability.com.au"
            class="hidden lg:inline-flex items-center gap-2 bg-sky-600 hover:bg-sky-700 text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition shrink-0">
-            Enquiries
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            Home
         </a>
 
         {{-- Mobile menu toggle --}}

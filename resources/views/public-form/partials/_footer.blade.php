@@ -1,82 +1,103 @@
-<footer class="bg-slate-900 text-white mt-12">
-    <div class="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+<footer class="relative bg-slate-900 text-slate-300 overflow-hidden">
+    <div class="absolute top-0 inset-x-0 -translate-y-[99%] leading-none pointer-events-none" aria-hidden="true">
+        <svg viewBox="0 0 1440 120" class="w-full h-16 md:h-24" preserveAspectRatio="none">
+            <path fill="currentColor" class="text-slate-900"
+                  d="M0,64 C240,120 480,0 720,32 C960,64 1200,120 1440,64 L1440,120 L0,120 Z"></path>
+        </svg>
+    </div>
 
-        {{-- Brand --}}
-        <div>
-            <a href="https://infiniteability.com.au/">
-                <img src="https://infiniteability.com.au/wp-content/uploads/2024/10/logo-ndis.png"
-                     class="h-14 bg-white rounded p-1 mb-4" alt="Infinite Ability">
-            </a>
-            <p class="text-sm text-slate-300 mb-5 leading-relaxed">
-                Infinite Ability is a registered NDIS provider delivering quality disability support services across Australia.
-            </p>
-            <div class="flex items-center gap-2">
-                <a href="https://www.facebook.com/profile.php?id=100063740582391&mibextid=ZbWKwL"
-                   target="_blank" rel="noopener"
-                   class="w-9 h-9 rounded-full bg-slate-700 hover:bg-sky-600 flex items-center justify-center transition"
-                   aria-label="Facebook">
-                    <i data-lucide="facebook" class="w-4 h-4"></i>
-                </a>
-                <a href="https://twitter.com/"
-                   target="_blank" rel="noopener"
-                   class="w-9 h-9 rounded-full bg-slate-700 hover:bg-sky-600 flex items-center justify-center transition"
-                   aria-label="Twitter">
-                    <i data-lucide="twitter" class="w-4 h-4"></i>
-                </a>
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 py-10">
+            <div>
+                <img id="logo-footer"
+                     src="https://infiniteability.com.au/wp-content/uploads/2024/10/logo-ndis.png"
+                     alt="" class="h-14">
+            </div>
+
+            <div>
+                <ul class="space-y-2 text-sm">
+                    <li class="flex items-center gap-2">
+                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-sky-400 shrink-0"></i>
+                        <a href="https://infiniteability.com.au/" aria-current="page"
+                           class="hover:text-sky-400 transition">Home</a>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-sky-400 shrink-0"></i>
+                        <a href="https://infiniteability.com.au/about-us/"
+                           class="hover:text-sky-400 transition">About Us</a>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-sky-400 shrink-0"></i>
+                        <a href="https://infiniteability.com.au/about-ndis/"
+                           class="hover:text-sky-400 transition">About NDIS</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div>
+                <ul class="space-y-2 text-sm">
+                    <li class="flex items-center gap-2">
+                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-sky-400 shrink-0"></i>
+                        <a href="https://infiniteability.com.au/gallery/"
+                           class="hover:text-sky-400 transition">Gallery</a>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-sky-400 shrink-0"></i>
+                        <a href="https://infiniteability.com.au/new-intake-form/"
+                           class="hover:text-sky-400 transition">Intake Form</a>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-sky-400 shrink-0"></i>
+                        <a href="https://infiniteability.com.au/services/"
+                           class="hover:text-sky-400 transition">Services</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div>
+                <ul class="space-y-2 text-sm">
+                    <li class="flex items-center gap-2">
+                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-sky-400 shrink-0"></i>
+                        <a href="https://infiniteability.com.au/contact-us/"
+                           class="hover:text-sky-400 transition">Contact Us</a>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-sky-400 shrink-0"></i>
+                        <a href="https://infiniteability.com.au/incident-report/?type=incident-report"
+                           class="hover:text-sky-400 transition">Incident Report</a>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-sky-400 shrink-0"></i>
+                        <a href="https://infiniteability.com.au/incident-report/?type=medication-report"
+                           class="hover:text-sky-400 transition">Medication Incident Report</a>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-sky-400 shrink-0"></i>
+                        <a href="https://infiniteability.com.au/Portal/public/login" target="_blank"
+                           class="hover:text-sky-400 transition">Portal Link</a>
+                    </li>
+                </ul>
             </div>
         </div>
 
-        {{-- Quick Links --}}
-        <div>
-            <h3 class="font-bold mb-4 text-white text-sm uppercase tracking-wide">Quick Links</h3>
-            <ul class="space-y-2 text-sm text-slate-300">
-                <li><a href="https://infiniteability.com.au/" class="hover:text-white transition">Home</a></li>
-                <li><a href="https://infiniteability.com.au/about-us/" class="hover:text-white transition">About Us</a></li>
-                <li><a href="https://infiniteability.com.au/about-ndis/" class="hover:text-white transition">About NDIS</a></li>
-                <li><a href="https://infiniteability.com.au/blogs/" class="hover:text-white transition">Blogs</a></li>
-            </ul>
-        </div>
-
-        {{-- Resources --}}
-        <div>
-            <h3 class="font-bold mb-4 text-white text-sm uppercase tracking-wide">Resources</h3>
-            <ul class="space-y-2 text-sm text-slate-300">
-                <li><a href="https://infiniteability.com.au/services/" class="hover:text-white transition">Services</a></li>
-                <li><a href="https://infiniteability.com.au/accommodations/" class="hover:text-white transition">Accommodations</a></li>
-                <li><a href="https://infiniteability.com.au/gallery/" class="hover:text-white transition">Gallery</a></li>
-                <li><a href="https://infiniteability.com.au/new-intake-form/" class="hover:text-white transition">Intake / Referral Form</a></li>
-            </ul>
-        </div>
-
-        {{-- Contact --}}
-        <div>
-            <h3 class="font-bold mb-4 text-white text-sm uppercase tracking-wide">Contact</h3>
-            <ul class="space-y-2 text-sm text-slate-300">
-                <li>
-                    <a href="mailto:info@infiniteability.com.au" class="flex items-center gap-2 hover:text-white transition">
-                        <i data-lucide="mail" class="w-4 h-4 shrink-0"></i>
-                        info@infiniteability.com.au
-                    </a>
-                </li>
-                <li>
-                    <a href="tel:1300044422" class="flex items-center gap-2 hover:text-white transition">
-                        <i data-lucide="phone" class="w-4 h-4 shrink-0"></i>
-                        1300044422
-                    </a>
-                </li>
-                <li class="pt-1">
-                    <a href="https://infiniteability.com.au/contact-us/" class="hover:text-white transition">Contact Us</a>
-                </li>
-                <li>
-                    <a href="https://infiniteability.com.au/your-rights-privacy-and-feedback/" class="hover:text-white transition">Privacy &amp; Feedback</a>
-                </li>
-            </ul>
+        <div class="py-10 flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
+            <img decoding="async" loading="lazy" width="200" height="77"
+                 src="https://infiniteability.com.au/wp-content/uploads/2024/10/flags.png"
+                 alt="Aboriginal and Torres Strait Islander flags" class="max-w-[200px] h-auto shrink-0">
+            <p class="text-sm flex-1">
+                We acknowledge the traditional custodians of this land and we pay our respects to the Elders
+                past, present and emerging, for they hold the memories, the traditions, the culture and
+                hopes of Aboriginal and Torres Strait Islander peoples across the nation.
+            </p>
         </div>
     </div>
 
-    <div class="border-t border-slate-700 py-4 text-center text-sm text-slate-400">
-        Copyright &copy; {{ date('Y') }} Infinite Ability |
-        <a href="https://infiniteability.com.au/sitemap/" class="hover:text-white transition">Sitemap</a>.
-        All rights reserved.
+    <div class="max-w-7xl mx-auto px-4 py-8 text-center text-sm whitespace-nowrap overflow-x-auto">
+        Copyright © 2026 Infinity Ability |
+        <a class="hover:text-sky-400 transition"
+           href="https://infiniteability.com.au/your-rights-privacy-and-feedback/">Your Rights, Privacy and feedback</a>
+        |
+        <a href="https://infiniteability.com.au/sitemap/" target="_blank"
+           class="hover:text-sky-400 transition">Sitemap</a>. All rights reserved.
     </div>
 </footer>
