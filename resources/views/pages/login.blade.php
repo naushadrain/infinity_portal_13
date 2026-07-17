@@ -29,7 +29,7 @@
     </div>
 
     <div class="relative flex items-center justify-between text-xs text-white/60">
-      <span>© Infinity Ability</span>
+      <span>© Infinite Ability</span>
     </div>
   </div>
 
@@ -65,7 +65,7 @@
               required
               autocomplete="email"
               class="w-full pl-10 pr-4 py-2.5 rounded-lg bg-white dark:bg-ink-900 border {{ $errors->has('email') ? 'border-red-400 focus:ring-red-400/20' : 'border-slate-200 dark:border-ink-800 focus:border-brand-500 focus:ring-brand-500/10' }} focus:ring-4 outline-none transition"
-              placeholder="you@infinityability.com.au"
+              placeholder="you@infiniteability.com.au"
             />
           </div>
           @error('email')
