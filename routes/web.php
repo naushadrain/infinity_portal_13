@@ -16,6 +16,7 @@ use App\Http\Controllers\Public\CreateIncidentController;
 use App\Http\Controllers\Public\CreatePublicComplaintController;
 use App\Http\Controllers\Forms\PublicComplaintController;
 use App\Http\Controllers\Public\CustomerSatisfyController;
+use App\Http\Controllers\Public\CustomerFeedbackController;
 use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\SignatureBannerController;
@@ -32,6 +33,11 @@ Route::get('/customersatisfy/Perth', [CustomerSatisfyController::class, 'index']
 Route::post('/customersatisfy/Perth', [CustomerSatisfyController::class, 'store'])->name('customer-satisfy-perth.store');
 Route::get('/customersatisfy/Victoria', [CustomerSatisfyController::class, 'getVictoria']);
 Route::post('/customersatisfy/Victoria', [CustomerSatisfyController::class, 'storeVictoria'])->name('customer-satisfy-victoria.store');
+
+Route::post('/customersatisfy/Perth/feedback', [CustomerFeedbackController::class, 'store'])->name('feedback.perth.store');
+
+Route::get('/customersatisfy/feedback', [CustomerFeedbackController::class, 'index'])->name('feedback.form');
+Route::post('/customersatisfy/feedback', [CustomerFeedbackController::class, 'store'])->name('feedback.store');
 
 Route::get('/incident/create-incident', [CreateIncidentController::class,'index'])->name('incident.public.create');
 Route::post('/incident/create-incident', [CreateIncidentController::class,'store'])->name('incident.public.store');
