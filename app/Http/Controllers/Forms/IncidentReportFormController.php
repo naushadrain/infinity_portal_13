@@ -763,6 +763,7 @@ class IncidentReportFormController extends Controller
             'position_title' => ['nullable', 'string', 'max:255'],
             'city'           => ['nullable'],
             'completed'      => ['boolean'],
+            'manager_note'   => ['nullable', 'string'],
 
             'doi'                      => ['nullable', 'date'],
             'toi'                      => ['nullable'],
@@ -817,6 +818,7 @@ class IncidentReportFormController extends Controller
             'position_title' => $validated['position_title'] ?? null,
             'city'           => $validated['city'] ?? null,
             'completed'      => $request->boolean('completed'),
+            'manager_note'   => $validated['manager_note'] ?? null,
         ]);
 
         IncidentDetail::updateOrCreate(['r_id' => $reporter->id], [

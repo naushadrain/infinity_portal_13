@@ -1,12 +1,12 @@
-@extends('layouts.app', ['title' => 'Public Complaint — Detail'])
-@section('title', 'Public Complaint — Detail')
+@extends('layouts.app', ['title' => 'Feedback and Complaint — Detail'])
+@section('title', 'Feedback and Complaint — Detail')
 @section('content')
 
 <div class="space-y-5">
 
     <div class="flex flex-wrap items-center justify-between gap-3">
         <div>
-            <h2 class="text-xl font-bold text-slate-900 dark:text-white">Public Complaint</h2>
+            <h2 class="text-xl font-bold text-slate-900 dark:text-white">Feedback and Complaint</h2>
             <p class="text-sm text-slate-500 dark:text-slate-400">Record #{{ $complaint->id }}</p>
         </div>
         <div class="flex gap-2">
@@ -80,7 +80,7 @@
         <dl class="divide-y divide-slate-100 dark:divide-slate-800">
             <div class="grid grid-cols-3 gap-4 px-6 py-4">
                 <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Investigation Undertaken</dt>
-                <dd class="col-span-2 text-sm text-slate-900 dark:text-white">{{ $complaint->investigation_undertaken ? 'Yes' : 'No' }}</dd>
+                <dd class="col-span-2 text-sm text-slate-900 dark:text-white">{{ ['yes' => 'Yes', 'no' => 'No', 'na' => 'N/A'][$complaint->investigation_undertaken] ?? '—' }}</dd>
             </div>
             <div class="grid grid-cols-3 gap-4 px-6 py-4">
                 <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Investigation Record of What Happened</dt>
@@ -115,7 +115,11 @@
             </div>
             <div class="grid grid-cols-3 gap-4 px-6 py-4">
                 <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Improvement Implemented</dt>
-                <dd class="col-span-2 text-sm text-slate-900 dark:text-white whitespace-pre-line">{{ $complaint->improvement_implemented ?: '—' }}</dd>
+                <dd class="col-span-2 text-sm text-slate-900 dark:text-white">{{ ['yes' => 'Yes', 'no' => 'No', 'in_progress' => 'On Progress'][$complaint->improvement_implemented] ?? '—' }}</dd>
+            </div>
+            <div class="grid grid-cols-3 gap-4 px-6 py-4">
+                <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Manager's Note</dt>
+                <dd class="col-span-2 text-sm text-slate-900 dark:text-white whitespace-pre-line">{{ $complaint->manager_note ?: '—' }}</dd>
             </div>
         </dl>
 

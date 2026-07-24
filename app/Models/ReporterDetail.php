@@ -21,7 +21,8 @@ class ReporterDetail extends Model
         'position_title',
         'city',
         'completed',
-        'ir_number'
+        'ir_number',
+        'manager_note',
     ];
 
     public function participant()

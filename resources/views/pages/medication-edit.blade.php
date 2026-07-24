@@ -188,6 +188,10 @@
                         <label class="form-label">Signature</label>
                         <input type="text" name="signature" value="{{ old('signature', $medication->signature) }}" class="form-input">
                     </div>
+                    <div class="md:col-span-12">
+                        <label class="form-label">Manager's Note</label>
+                        <textarea name="manager_note" rows="3" class="form-input resize-none">{{ old('manager_note', $medication->manager_note) }}</textarea>
+                    </div>
                 </div>
             </section>
 

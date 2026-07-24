@@ -218,6 +218,7 @@ class MedicationIncidentController extends Controller
             'action_taken_by'         => 'nullable|string|max:255',
             'date_completed'          => 'nullable|date',
             'signature'               => 'nullable|string|max:255',
+            'manager_note'            => 'nullable|string',
         ]);
 
         try {
@@ -241,6 +242,7 @@ class MedicationIncidentController extends Controller
                 'action_taken_by'         => $request->action_taken_by,
                 'date_completed'          => $request->date_completed,
                 'signature'               => $request->signature,
+                'manager_note'            => $request->manager_note,
             ]);
 
             return redirect()->route('forms.medication.index')

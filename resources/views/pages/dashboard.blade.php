@@ -353,6 +353,39 @@
         </div>
     </div>
 
+    <!-- Missing Manager's Note -->
+    <div
+        class="bg-white dark:bg-ink-900 rounded-2xl p-4 sm:p-6 shadow-soft border border-slate-100 dark:border-ink-800 mb-6">
+        <h3 class="font-semibold mb-1">Missing Manager's Note</h3>
+        <p class="text-xs text-slate-500 dark:text-ink-400 mb-4">Records still awaiting a manager's note, all time</p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <a href="{{ route('forms.incident.index') }}"
+                class="flex items-center justify-between p-4 rounded-xl border border-slate-100 dark:border-ink-800 hover:border-amber-300 hover:bg-amber-50/40 dark:hover:bg-amber-500/10 transition">
+                <div>
+                    <div class="text-xs text-slate-500 dark:text-ink-400">Incident</div>
+                    <div class="text-2xl font-bold mt-0.5">{{ number_format($missingManagerNote['incident']) }}</div>
+                </div>
+                <i data-lucide="alert-triangle" class="w-6 h-6 text-amber-500"></i>
+            </a>
+            <a href="{{ route('forms.medication.index') }}"
+                class="flex items-center justify-between p-4 rounded-xl border border-slate-100 dark:border-ink-800 hover:border-emerald-300 hover:bg-emerald-50/40 dark:hover:bg-emerald-500/10 transition">
+                <div>
+                    <div class="text-xs text-slate-500 dark:text-ink-400">Medication</div>
+                    <div class="text-2xl font-bold mt-0.5">{{ number_format($missingManagerNote['medication']) }}</div>
+                </div>
+                <i data-lucide="pill" class="w-6 h-6 text-emerald-500"></i>
+            </a>
+            <a href="{{ route('forms.complaint.index') }}"
+                class="flex items-center justify-between p-4 rounded-xl border border-slate-100 dark:border-ink-800 hover:border-rose-300 hover:bg-rose-50/40 dark:hover:bg-rose-500/10 transition">
+                <div>
+                    <div class="text-xs text-slate-500 dark:text-ink-400">Feedback and Complaint</div>
+                    <div class="text-2xl font-bold mt-0.5">{{ number_format($missingManagerNote['complaint']) }}</div>
+                </div>
+                <i data-lucide="message-square-warning" class="w-6 h-6 text-rose-500"></i>
+            </a>
+        </div>
+    </div>
+
     <!-- Latest submissions -->
     <div
         class="bg-white dark:bg-ink-900 rounded-2xl shadow-soft border border-slate-100 dark:border-ink-800 overflow-hidden">

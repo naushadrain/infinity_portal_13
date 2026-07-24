@@ -1,5 +1,5 @@
-@extends('layouts.app', ['title' => 'Edit Public Complaint'])
-@section('title', 'Edit Public Complaint')
+@extends('layouts.app', ['title' => 'Edit Feedback and Complaint'])
+@section('title', 'Edit Feedback and Complaint')
 
 @section('content')
 
@@ -20,7 +20,7 @@
         {{-- Header --}}
         <div class="border-b border-slate-200 bg-slate-50 px-6 py-5 dark:border-slate-800 dark:bg-slate-900 flex items-center justify-between">
             <div>
-                <h1 class="text-xl font-black text-slate-900 dark:text-white">Edit Public Complaint</h1>
+                <h1 class="text-xl font-black text-slate-900 dark:text-white">Edit Feedback and Complaint</h1>
                 <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Record #{{ $complaint->id }}</p>
             </div>
             <a href="{{ route('forms.complaint.index') }}"
@@ -107,14 +107,15 @@
             {{-- Investigation --}}
             <div class="tab-panel hidden" data-panel="investigation">
                 <div class="grid gap-4 md:grid-cols-12">
-                    <div class="md:col-span-12">
-                        <label class="check-card w-fit {{ $isClosed ? 'opacity-60' : '' }}">
-                            <input type="checkbox" name="investigation_undertaken" value="1"
-                                   {{ old('investigation_undertaken', $complaint->investigation_undertaken) ? 'checked' : '' }}
-                                   class="peer sr-only" {{ $isClosed ? 'disabled' : '' }}>
-                            <span class="check-box"></span>
-                            <span>Investigation Undertaken</span>
-                        </label>
+                    <div class="md:col-span-4">
+                        <label class="form-label">Investigation Undertaken</label>
+                        @php $invVal = old('investigation_undertaken', $complaint->investigation_undertaken); @endphp
+                        <select name="investigation_undertaken" class="form-input" {{ $isClosed ? 'disabled' : '' }}>
+                            <option value="" {{ !$invVal ? 'selected' : '' }}>Please Select</option>
+                            <option value="yes" {{ $invVal === 'yes' ? 'selected' : '' }}>Yes</option>
+                            <option value="no" {{ $invVal === 'no' ? 'selected' : '' }}>No</option>
+                            <option value="na" {{ $invVal === 'na' ? 'selected' : '' }}>N/A</option>
+                        </select>
                     </div>
                     <div class="md:col-span-12">
                         <label class="form-label">Investigation Record of What Happened</label>
@@ -146,9 +147,19 @@
                         <label class="form-label">Organisational Improvement Actions Identified from Complaint</label>
                         <textarea name="organisational_improvement_actions" rows="3" class="form-input resize-none" {{ $isClosed ? 'disabled' : '' }}>{{ old('organisational_improvement_actions', $complaint->organisational_improvement_actions) }}</textarea>
                     </div>
-                    <div class="md:col-span-12">
+                    <div class="md:col-span-4">
                         <label class="form-label">Improvement Implemented</label>
-                        <textarea name="improvement_implemented" rows="3" class="form-input resize-none" {{ $isClosed ? 'disabled' : '' }}>{{ old('improvement_implemented', $complaint->improvement_implemented) }}</textarea>
+                        @php $impVal = old('improvement_implemented', $complaint->improvement_implemented); @endphp
+                        <select name="improvement_implemented" class="form-input" {{ $isClosed ? 'disabled' : '' }}>
+                            <option value="" {{ !$impVal ? 'selected' : '' }}>Please Select</option>
+                            <option value="yes" {{ $impVal === 'yes' ? 'selected' : '' }}>Yes</option>
+                            <option value="no" {{ $impVal === 'no' ? 'selected' : '' }}>No</option>
+                            <option value="in_progress" {{ $impVal === 'in_progress' ? 'selected' : '' }}>On Progress</option>
+                        </select>
+                    </div>
+                    <div class="md:col-span-12">
+                        <label class="form-label">Manager's Note</label>
+                        <textarea name="manager_note" rows="3" class="form-input resize-none" {{ $isClosed ? 'disabled' : '' }}>{{ old('manager_note', $complaint->manager_note) }}</textarea>
                     </div>
                 </div>
             </div>

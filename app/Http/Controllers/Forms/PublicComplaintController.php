@@ -127,14 +127,15 @@ class PublicComplaintController extends Controller
             'complaint'                         => ['required', 'string'],
             'status'                            => ['required', 'string', 'max:50'],
             'date_closed'                       => ['nullable', 'date'],
-            'investigation_undertaken'          => ['nullable', 'boolean'],
+            'investigation_undertaken'          => ['nullable', 'in:yes,no,na'],
             'investigation_record'              => ['nullable', 'string'],
             'investigation_findings'            => ['nullable', 'string'],
             'investigation_actions'             => ['nullable', 'string'],
             'complainant_feedback'              => ['nullable', 'string'],
             'improvement_action_required'       => ['nullable', 'string'],
             'organisational_improvement_actions'=> ['nullable', 'string'],
-            'improvement_implemented'           => ['nullable', 'string'],
+            'improvement_implemented'           => ['nullable', 'in:yes,no,in_progress'],
+            'manager_note'                      => ['nullable', 'string'],
         ]);
 
         $complaint->update([
@@ -145,7 +146,7 @@ class PublicComplaintController extends Controller
             'complaint'                         => $validated['complaint'],
             'status'                            => $validated['status'],
             'date_closed'                       => $validated['date_closed'] ?? null,
-            'investigation_undertaken'          => $request->boolean('investigation_undertaken'),
+            'investigation_undertaken'          => $validated['investigation_undertaken'] ?? null,
             'investigation_record'              => $validated['investigation_record'] ?? null,
             'investigation_findings'            => $validated['investigation_findings'] ?? null,
             'investigation_actions'             => $validated['investigation_actions'] ?? null,
@@ -153,6 +154,7 @@ class PublicComplaintController extends Controller
             'improvement_action_required'       => $validated['improvement_action_required'] ?? null,
             'organisational_improvement_actions'=> $validated['organisational_improvement_actions'] ?? null,
             'improvement_implemented'           => $validated['improvement_implemented'] ?? null,
+            'manager_note'                      => $validated['manager_note'] ?? null,
         ]);
 
         ActivityLog::record(

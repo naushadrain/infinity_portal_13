@@ -304,6 +304,17 @@
         </dl>
         @endif
 
+        {{-- Manager's Note --}}
+        <div class="border-b border-t border-slate-200 bg-slate-50 px-6 py-4 dark:border-ink-800 dark:bg-ink-950">
+            <h3 class="text-sm font-black uppercase tracking-wide text-brand-600 dark:text-brand-400">Manager's Note</h3>
+        </div>
+        <dl class="divide-y divide-slate-100 dark:divide-ink-800">
+            <div class="grid grid-cols-3 gap-4 px-6 py-4">
+                <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Manager's Note</dt>
+                <dd class="col-span-2 text-sm text-slate-900 dark:text-white whitespace-pre-line">{{ $reporter->manager_note ?: '—' }}</dd>
+            </div>
+        </dl>
+
         {{-- Footer actions --}}
         <div class="flex justify-end gap-3 border-t border-slate-200 bg-slate-50 px-6 py-4 dark:border-ink-800 dark:bg-ink-950">
             <button type="button"

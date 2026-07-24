@@ -38,6 +38,7 @@ class Medication extends Model
         'action_explaination',
         'action_taken_by',
         'date_completed',
-        'signature'
+        'signature',
+        'manager_note',
     ];
 }

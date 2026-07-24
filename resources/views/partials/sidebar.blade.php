@@ -43,7 +43,7 @@
             'icon' => 'clipboard-list',
         ],
         [
-            'label' => 'Public Complaint',
+            'label' => 'Feedback and Complaint',
             'route' => 'forms.complaint.index',
             'prefix' => 'forms.complaint',
             'icon' => 'message-square-warning',

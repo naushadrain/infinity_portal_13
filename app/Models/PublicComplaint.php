@@ -32,11 +32,11 @@ class PublicComplaint extends Model
         'improvement_action_required',
         'organisational_improvement_actions',
         'improvement_implemented',
+        'manager_note',
     ];
 
     protected $casts = [
         'submitted_at'              => 'date',
         'date_closed'               => 'date',
-        'investigation_undertaken'  => 'boolean',
     ];
 }

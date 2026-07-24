@@ -1,6 +1,6 @@
 @extends('layouts.app', ['title' => ''])
 
-@section('title', 'Public Complaint')
+@section('title', 'Feedback and Complaint')
 
 @section('content')
 <div class="space-y-5">
@@ -8,7 +8,7 @@
     {{-- Header --}}
     <div class="flex flex-wrap items-center justify-between gap-3">
         <div>
-            <h2 class="text-xl font-bold text-slate-900 dark:text-white">Public Complaints</h2>
+            <h2 class="text-xl font-bold text-slate-900 dark:text-white">Feedback and Complaint</h2>
             <p class="text-sm text-slate-500 dark:text-slate-400">
                 {{ $complaints->total() }} {{ Str::plural('result', $complaints->total()) }}
             </p>

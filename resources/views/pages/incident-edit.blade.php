@@ -369,6 +369,10 @@
                         <option value="0" {{ !old('reportable_incident', $manager?->reportable_incident) ? 'selected' : '' }}>No</option>
                     </select>
                 </div>
+                <div class="md:col-span-2">
+                    <label class="{{ $lbl }}">Manager's Note</label>
+                    <textarea name="manager_note" rows="3" class="{{ $inp }} resize-y">{{ old('manager_note', $reporter->manager_note) }}</textarea>
+                </div>
             </div>
         </section>
 

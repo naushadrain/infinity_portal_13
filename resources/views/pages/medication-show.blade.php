@@ -131,6 +131,10 @@
                 <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Signature</dt>
                 <dd class="col-span-2 text-sm text-slate-900 dark:text-white">{{ $medication->signature ?: '—' }}</dd>
             </div>
+            <div class="grid grid-cols-3 gap-4 px-6 py-4">
+                <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Manager's Note</dt>
+                <dd class="col-span-2 text-sm text-slate-900 dark:text-white whitespace-pre-line">{{ $medication->manager_note ?: '—' }}</dd>
+            </div>
         </dl>
 
         {{-- Footer actions --}}

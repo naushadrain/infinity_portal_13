@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CustomerSatisfaction;
 use App\Models\IncidentDetail;
 use App\Models\Medication;
+use App\Models\PublicComplaint;
 use App\Models\ReporterDetail;
 use App\Models\StaffSatisfaction;
 use App\Models\User;
@@ -79,12 +80,19 @@ class DashboardController extends Controller
         // --- Latest submissions table ---
         $latestSubmissions = $this->buildLatestSubmissions();
 
+        // --- Missing Manager's Note ---
+        $missingManagerNote = [
+            'incident'   => ReporterDetail::whereNull('manager_note')->orWhere('manager_note', '')->count(),
+            'medication' => Medication::whereNull('manager_note')->orWhere('manager_note', '')->count(),
+            'complaint'  => PublicComplaint::whereNull('manager_note')->orWhere('manager_note', '')->count(),
+        ];
+
         return view('pages.dashboard', compact(
             'recentUsers', 'totalUsers', 'newUsersCount',
             'incidentCount', 'medicationCount', 'otherCount', 'surveyCount',
             'formsTotal', 'incidentPercent', 'medicationPercent', 'otherPercent',
             'fromIncidentsCount', 'latestSubmissions', 'chartData', 'period', 'periodLabel',
-            'formsChange', 'surveyChange',
+            'formsChange', 'surveyChange', 'missingManagerNote',
         ));
     }
 
