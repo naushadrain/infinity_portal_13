@@ -33,3 +33,23 @@ CREATE TABLE `public_complaints` (
   `updated_at` TIMESTAMP NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `customer_feedbacks` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `city_name` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `wants_interpreter` tinyint(1) NOT NULL DEFAULT 0,
+  `interpreter_language` varchar(255) DEFAULT NULL,
+  `wants_response` tinyint(1) DEFAULT NULL,
+  `preferred_contact_method` varchar(255) DEFAULT NULL,
+  `feedback_type` enum('compliment','complaint','comment') DEFAULT NULL,
+  `respondent_type` enum('participant','family_member','participants_representative','staff_member','staff_on_behalf_of_participant','other') DEFAULT NULL,
+  `respondent_type_other` varchar(255) DEFAULT NULL,
+  `experience` text DEFAULT NULL,
+  `suggestions` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
