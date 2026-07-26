@@ -32,7 +32,7 @@ class CustomerFeedbackController extends Controller
             'suggestions'           => 'nullable|string|max:2000',
         ]);
 
-        CustomerFeedback::create($validated);
+        $feedback = CustomerFeedback::create($validated);
 
         ActivityLog::record(
             'customer.feedback.submitted',
@@ -42,6 +42,9 @@ class CustomerFeedbackController extends Controller
             'Guest'
         );
 
-        return redirect()->back()->with('success', 'Thank you for your feedback!');
+        return redirect()->back()->with(
+            'success',
+            "Thank you for your feedback! Your reference number is {$feedback->ref_number}."
+        );
     }
 }

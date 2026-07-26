@@ -11,31 +11,13 @@ CREATE TABLE activity_logs (
     updated_at TIMESTAMP NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE `public_complaints` (
-  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(255) NOT NULL,
-  `received_from` VARCHAR(150) NOT NULL,
-  `email` VARCHAR(255) NULL,
-  `contact_number` VARCHAR(30) NULL,
-  `complaint` TEXT NOT NULL,
-  `status` VARCHAR(50) NOT NULL DEFAULT 'New',
-  `submitted_at` DATE NULL,
-  `date_closed` DATE NULL,
-  `investigation_undertaken` TINYINT(1) NOT NULL DEFAULT 0,
-  `investigation_record` TEXT NULL,
-  `investigation_findings` TEXT NULL,
-  `investigation_actions` TEXT NULL,
-  `complainant_feedback` TEXT NULL,
-  `improvement_action_required` TEXT NULL,
-  `organisational_improvement_actions` TEXT NULL,
-  `improvement_implemented` TEXT NULL,
-  `created_at` TIMESTAMP NULL DEFAULT NULL,
-  `updated_at` TIMESTAMP NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+-- `public_complaints` is retired as of 2026-07-26: the app no longer reads/writes it.
+-- The "Feedback and Complaint" feature (/forms/complaint) now runs entirely on `customer_feedbacks` below.
+-- The table itself is left in the live DB (unused) rather than dropped.
 
 CREATE TABLE `customer_feedbacks` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `ref_number` varchar(255) DEFAULT NULL,
   `city_name` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
@@ -49,7 +31,19 @@ CREATE TABLE `customer_feedbacks` (
   `respondent_type_other` varchar(255) DEFAULT NULL,
   `experience` text DEFAULT NULL,
   `suggestions` text DEFAULT NULL,
+  `status` varchar(255) NOT NULL DEFAULT 'New',
+  `date_closed` date DEFAULT NULL,
+  `investigation_undertaken` varchar(255) DEFAULT NULL,
+  `investigation_record` text DEFAULT NULL,
+  `investigation_findings` text DEFAULT NULL,
+  `investigation_actions` text DEFAULT NULL,
+  `complainant_feedback` text DEFAULT NULL,
+  `improvement_action_required` text DEFAULT NULL,
+  `organisational_improvement_actions` text DEFAULT NULL,
+  `improvement_implemented` varchar(255) DEFAULT NULL,
+  `manager_note` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `customer_feedbacks_ref_number_unique` (`ref_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

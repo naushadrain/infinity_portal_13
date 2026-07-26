@@ -15,7 +15,7 @@
         </div>
 
         <div class="flex gap-2">
-            <a href="{{ route('forms.complaint.export', request()->only(['search', 'status', 'date'])) }}"
+            <a href="{{ route('forms.complaint.export', request()->only(['search', 'status', 'type', 'date'])) }}"
                class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800">
                 <i data-lucide="download" class="h-4 w-4"></i>
                 Export
@@ -35,9 +35,18 @@
                 <div class="flex min-w-[240px] max-w-[400px] flex-1 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2.5 dark:border-slate-700 dark:bg-slate-950">
                     <i data-lucide="search" class="h-4 w-4 text-slate-400 shrink-0"></i>
                     <input type="text" name="search" value="{{ request('search') }}"
-                           placeholder="Search name, email, contact..."
+                           placeholder="Search ref no, name, email..."
                            class="w-full bg-transparent text-sm text-slate-700 outline-none placeholder:text-slate-400 dark:text-slate-200">
                 </div>
+
+                {{-- Type dropdown --}}
+                <select name="type"
+                        class="rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-700 outline-none dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200">
+                    <option value="">All Types</option>
+                    @foreach (['compliment' => 'Compliment', 'complaint' => 'Complaint', 'comment' => 'Comment'] as $value => $label)
+                        <option value="{{ $value }}" {{ request('type') === $value ? 'selected' : '' }}>{{ $label }}</option>
+                    @endforeach
+                </select>
 
                 {{-- Status dropdown (dynamic) --}}
                 <select name="status"
@@ -62,7 +71,7 @@
                 </button>
 
                 {{-- Clear (only when active) --}}
-                @if (request()->hasAny(['search', 'status', 'date']))
+                @if (request()->hasAny(['search', 'status', 'type', 'date']))
                     <a href="{{ route('forms.complaint.index') }}"
                        class="inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-medium text-slate-500 hover:text-slate-700 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300">
                         <i data-lucide="x" class="h-4 w-4"></i>
@@ -78,23 +87,36 @@
                 <thead class="bg-slate-100 dark:bg-slate-900">
                     <tr>
                         <th class="table-th">Sr. No.</th>
+                        <th class="table-th">Ref No.</th>
                         <th class="table-th">Submitted</th>
                         <th class="table-th">Name</th>
-                        <th class="table-th">Received From</th>
-                        <th class="table-th">Contact</th>
+                        <th class="table-th">Type</th>
+                        <th class="table-th">Respondent</th>
                         <th class="table-th">Status</th>
                         <th class="table-th text-right">Action</th>
                     </tr>
                 </thead>
 
                 <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                    @php
+                        $typeLabels = ['compliment' => 'Compliment', 'complaint' => 'Complaint', 'comment' => 'Comment'];
+                        $respondentLabels = [
+                            'participant' => 'Participant',
+                            'family_member' => 'Family Member',
+                            'participants_representative' => "Participant's Rep",
+                            'staff_member' => 'Staff Member',
+                            'staff_on_behalf_of_participant' => 'Staff (on behalf)',
+                            'other' => 'Other',
+                        ];
+                    @endphp
                     @forelse($complaints as $row)
                     <tr class="table-row">
                         <td class="table-td">{{ $complaints->firstItem() + $loop->index }}</td>
-                        <td class="table-td">{{ ($row->submitted_at ?? $row->created_at)->format('d M Y') }}</td>
-                        <td class="table-td font-semibold">{{ $row->name }}</td>
-                        <td class="table-td">{{ $row->received_from }}</td>
-                        <td class="table-td">{{ $row->contact_number ?: '—' }}</td>
+                        <td class="table-td font-semibold">{{ $row->ref_number ?: '—' }}</td>
+                        <td class="table-td">{{ $row->created_at->format('d M Y') }}</td>
+                        <td class="table-td font-semibold">{{ $row->name ?: '—' }}</td>
+                        <td class="table-td">{{ $typeLabels[$row->feedback_type] ?? '—' }}</td>
+                        <td class="table-td">{{ $respondentLabels[$row->respondent_type] ?? '—' }}</td>
                         <td class="table-td">
                             <span class="status-badge bg-yellow-100 text-yellow-700 dark:bg-yellow-500/15 dark:text-yellow-300">
                                 {{ $row->status }}
@@ -111,7 +133,7 @@
                                 <button type="button"
                                         class="action-btn-danger"
                                         title="Delete"
-                                        onclick="openDeleteModal('{{ route('forms.complaint.destroy', $row->id) }}', '{{ addslashes($row->name) }}')">
+                                        onclick="openDeleteModal('{{ route('forms.complaint.destroy', $row->id) }}', '{{ addslashes($row->name ?? $row->ref_number) }}')">
                                     <i data-lucide="trash-2" class="h-4 w-4"></i>
                                 </button>
                             </div>
@@ -119,10 +141,10 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="7" class="table-td py-16 text-center text-slate-400 dark:text-slate-500">
+                        <td colspan="8" class="table-td py-16 text-center text-slate-400 dark:text-slate-500">
                             <i data-lucide="file-x" class="mx-auto mb-2 h-8 w-8 opacity-40"></i>
-                            <p>No public complaints found.</p>
-                            @if (request()->hasAny(['search', 'status', 'date']))
+                            <p>No feedback or complaints found.</p>
+                            @if (request()->hasAny(['search', 'status', 'type', 'date']))
                                 <a href="{{ route('forms.complaint.index') }}"
                                    class="mt-1 inline-block text-brand-600 hover:underline">Clear filters</a>
                             @endif

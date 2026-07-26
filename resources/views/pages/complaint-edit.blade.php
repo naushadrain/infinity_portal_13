@@ -21,7 +21,7 @@
         <div class="border-b border-slate-200 bg-slate-50 px-6 py-5 dark:border-slate-800 dark:bg-slate-900 flex items-center justify-between">
             <div>
                 <h1 class="text-xl font-black text-slate-900 dark:text-white">Edit Feedback and Complaint</h1>
-                <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Record #{{ $complaint->id }}</p>
+                <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Ref #{{ $complaint->ref_number ?: $complaint->id }}</p>
             </div>
             <a href="{{ route('forms.complaint.index') }}"
                class="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-brand-600 dark:text-slate-400">
@@ -34,14 +34,14 @@
             @if ($isClosed)
                 <div class="mb-6 flex items-center gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-300">
                     <i data-lucide="lock" class="h-4 w-4 shrink-0"></i>
-                    This complaint is closed and locked from further edits.
+                    This record is closed and locked from further edits.
                 </div>
             @endif
 
             {{-- Tabs --}}
             <div class="mb-6 flex flex-wrap gap-1 border-b border-slate-200 dark:border-slate-800" role="tablist">
                 <button type="button" class="tab-btn active" data-tab="details">
-                    <i data-lucide="file-text" class="h-4 w-4"></i> Complaint Details
+                    <i data-lucide="file-text" class="h-4 w-4"></i> Details
                 </button>
                 <button type="button" class="tab-btn" data-tab="status">
                     <i data-lucide="flag" class="h-4 w-4"></i> Status
@@ -54,33 +54,93 @@
                 </button>
             </div>
 
-            {{-- Complaint Details --}}
+            {{-- Details --}}
             <div class="tab-panel" data-panel="details">
                 <div class="grid gap-4 md:grid-cols-12">
                     <div class="md:col-span-6">
-                        <label class="form-label">Name <span class="text-red-500">*</span></label>
-                        <input type="text" name="name" value="{{ old('name', $complaint->name) }}" class="form-input" data-required {{ $isClosed ? 'disabled' : '' }}>
-                    </div>
-                    <div class="md:col-span-6">
-                        <label class="form-label">Received From <span class="text-red-500">*</span></label>
-                        <select name="received_from" class="form-input" data-required {{ $isClosed ? 'disabled' : '' }}>
-                            <option value="">Please Select</option>
-                            @foreach (['Participant Rep', 'Participant/Housing Provider Representative', 'Support Co-ordinator'] as $option)
-                                <option value="{{ $option }}" {{ old('received_from', $complaint->received_from) === $option ? 'selected' : '' }}>{{ $option }}</option>
-                            @endforeach
-                        </select>
+                        <label class="form-label">Name</label>
+                        <input type="text" name="name" value="{{ old('name', $complaint->name) }}" class="form-input" {{ $isClosed ? 'disabled' : '' }}>
                     </div>
                     <div class="md:col-span-6">
                         <label class="form-label">Email</label>
                         <input type="email" name="email" value="{{ old('email', $complaint->email) }}" class="form-input" {{ $isClosed ? 'disabled' : '' }}>
                     </div>
                     <div class="md:col-span-6">
-                        <label class="form-label">Contact Number</label>
-                        <input type="text" name="contact_number" value="{{ old('contact_number', $complaint->contact_number) }}" class="form-input" {{ $isClosed ? 'disabled' : '' }}>
+                        <label class="form-label">Address</label>
+                        <input type="text" name="address" value="{{ old('address', $complaint->address) }}" class="form-input" {{ $isClosed ? 'disabled' : '' }}>
+                    </div>
+                    <div class="md:col-span-6">
+                        <label class="form-label">City</label>
+                        <input type="text" name="city_name" value="{{ old('city_name', $complaint->city_name) }}" class="form-input" {{ $isClosed ? 'disabled' : '' }}>
+                    </div>
+
+                    <div class="md:col-span-3">
+                        <label class="form-label">Interpreter Required?</label>
+                        <select name="wants_interpreter" class="form-input" {{ $isClosed ? 'disabled' : '' }}>
+                            @php $interpVal = old('wants_interpreter', $complaint->wants_interpreter); @endphp
+                            <option value="0" {{ !$interpVal ? 'selected' : '' }}>No</option>
+                            <option value="1" {{ $interpVal ? 'selected' : '' }}>Yes</option>
+                        </select>
+                    </div>
+                    <div class="md:col-span-3">
+                        <label class="form-label">Interpreter Language</label>
+                        <input type="text" name="interpreter_language" value="{{ old('interpreter_language', $complaint->interpreter_language) }}" class="form-input" {{ $isClosed ? 'disabled' : '' }}>
+                    </div>
+                    <div class="md:col-span-3">
+                        <label class="form-label">Wants a Response?</label>
+                        @php $respVal = old('wants_response', $complaint->wants_response); @endphp
+                        <select name="wants_response" class="form-input" {{ $isClosed ? 'disabled' : '' }}>
+                            <option value="" {{ is_null($respVal) ? 'selected' : '' }}>—</option>
+                            <option value="1" {{ $respVal === true || $respVal === '1' || $respVal === 1 ? 'selected' : '' }}>Yes</option>
+                            <option value="0" {{ $respVal === false || $respVal === '0' || $respVal === 0 ? 'selected' : '' }}>No</option>
+                        </select>
+                    </div>
+                    <div class="md:col-span-3">
+                        <label class="form-label">Preferred Contact Method</label>
+                        @php $contactVal = old('preferred_contact_method', $complaint->preferred_contact_method); @endphp
+                        <select name="preferred_contact_method" class="form-input" {{ $isClosed ? 'disabled' : '' }}>
+                            <option value="">Please Select</option>
+                            <option value="email" {{ $contactVal === 'email' ? 'selected' : '' }}>Email</option>
+                            <option value="phone" {{ $contactVal === 'phone' ? 'selected' : '' }}>Phone</option>
+                            <option value="post" {{ $contactVal === 'post' ? 'selected' : '' }}>Mail</option>
+                        </select>
+                    </div>
+
+                    <div class="md:col-span-4">
+                        <label class="form-label">Type <span class="text-red-500">*</span></label>
+                        @php $typeVal = old('feedback_type', $complaint->feedback_type); @endphp
+                        <select name="feedback_type" class="form-input" data-required {{ $isClosed ? 'disabled' : '' }}>
+                            <option value="">Please Select</option>
+                            <option value="compliment" {{ $typeVal === 'compliment' ? 'selected' : '' }}>Compliment</option>
+                            <option value="complaint" {{ $typeVal === 'complaint' ? 'selected' : '' }}>Complaint</option>
+                            <option value="comment" {{ $typeVal === 'comment' ? 'selected' : '' }}>Comment</option>
+                        </select>
+                    </div>
+                    <div class="md:col-span-4">
+                        <label class="form-label">Respondent</label>
+                        @php $respondentVal = old('respondent_type', $complaint->respondent_type); @endphp
+                        <select name="respondent_type" class="form-input" {{ $isClosed ? 'disabled' : '' }}>
+                            <option value="">Please Select</option>
+                            <option value="participant" {{ $respondentVal === 'participant' ? 'selected' : '' }}>Participant</option>
+                            <option value="family_member" {{ $respondentVal === 'family_member' ? 'selected' : '' }}>Family Member</option>
+                            <option value="participants_representative" {{ $respondentVal === 'participants_representative' ? 'selected' : '' }}>Participant's Representative</option>
+                            <option value="staff_member" {{ $respondentVal === 'staff_member' ? 'selected' : '' }}>Staff Member</option>
+                            <option value="staff_on_behalf_of_participant" {{ $respondentVal === 'staff_on_behalf_of_participant' ? 'selected' : '' }}>Staff on behalf of Participant</option>
+                            <option value="other" {{ $respondentVal === 'other' ? 'selected' : '' }}>Other</option>
+                        </select>
+                    </div>
+                    <div class="md:col-span-4">
+                        <label class="form-label">Respondent (Other)</label>
+                        <input type="text" name="respondent_type_other" value="{{ old('respondent_type_other', $complaint->respondent_type_other) }}" class="form-input" {{ $isClosed ? 'disabled' : '' }}>
+                    </div>
+
+                    <div class="md:col-span-12">
+                        <label class="form-label">Experience</label>
+                        <textarea name="experience" rows="4" class="form-input resize-none" {{ $isClosed ? 'disabled' : '' }}>{{ old('experience', $complaint->experience) }}</textarea>
                     </div>
                     <div class="md:col-span-12">
-                        <label class="form-label">Complaint <span class="text-red-500">*</span></label>
-                        <textarea name="complaint" rows="5" class="form-input resize-none" data-required {{ $isClosed ? 'disabled' : '' }}>{{ old('complaint', $complaint->complaint) }}</textarea>
+                        <label class="form-label">Suggestions</label>
+                        <textarea name="suggestions" rows="4" class="form-input resize-none" {{ $isClosed ? 'disabled' : '' }}>{{ old('suggestions', $complaint->suggestions) }}</textarea>
                     </div>
                 </div>
             </div>
@@ -130,7 +190,7 @@
                         <textarea name="investigation_actions" rows="4" class="form-input resize-none" {{ $isClosed ? 'disabled' : '' }}>{{ old('investigation_actions', $complaint->investigation_actions) }}</textarea>
                     </div>
                     <div class="md:col-span-12">
-                        <label class="form-label">Complainant Feedback on Complaint Process</label>
+                        <label class="form-label">Respondent Feedback on Process</label>
                         <textarea name="complainant_feedback" rows="4" class="form-input resize-none" {{ $isClosed ? 'disabled' : '' }}>{{ old('complainant_feedback', $complaint->complainant_feedback) }}</textarea>
                     </div>
                 </div>
@@ -144,7 +204,7 @@
                         <textarea name="improvement_action_required" rows="3" class="form-input resize-none" {{ $isClosed ? 'disabled' : '' }}>{{ old('improvement_action_required', $complaint->improvement_action_required) }}</textarea>
                     </div>
                     <div class="md:col-span-12">
-                        <label class="form-label">Organisational Improvement Actions Identified from Complaint</label>
+                        <label class="form-label">Organisational Improvement Actions Identified</label>
                         <textarea name="organisational_improvement_actions" rows="3" class="form-input resize-none" {{ $isClosed ? 'disabled' : '' }}>{{ old('organisational_improvement_actions', $complaint->organisational_improvement_actions) }}</textarea>
                     </div>
                     <div class="md:col-span-4">
@@ -187,7 +247,7 @@
         <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-amber-100 dark:bg-amber-500/15">
             <i data-lucide="alert-triangle" class="h-6 w-6 text-amber-600 dark:text-amber-400"></i>
         </div>
-        <h3 class="text-base font-bold text-slate-900 dark:text-white">Close this complaint?</h3>
+        <h3 class="text-base font-bold text-slate-900 dark:text-white">Close this record?</h3>
         <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
             Date closed will be set to today. Once saved as Closed, this record can no longer be edited.
         </p>
@@ -213,12 +273,6 @@
     .form-input:disabled { background:rgb(241 245 249); color:rgb(100 116 139); cursor:not-allowed; }
     .dark .form-input { border-color:rgb(51 65 85); background:rgb(15 23 42); color:white; }
     .dark .form-input:disabled { background:rgb(30 41 59); color:rgb(148 163 184); }
-    .check-card { display:flex; align-items:center; gap:0.65rem; cursor:pointer; border-radius:0.875rem; border:1px solid rgb(226 232 240); background:rgb(248 250 252); padding:0.75rem; font-size:0.875rem; color:rgb(51 65 85); transition:0.2s; }
-    .check-card:hover { border-color:rgb(37 99 235); background:rgba(37,99,235,.06); }
-    .dark .check-card { border-color:rgb(51 65 85); background:rgb(15 23 42); color:rgb(203 213 225); }
-    .check-box { height:1rem; width:1rem; flex-shrink:0; border-radius:0.3rem; border:1px solid rgb(148 163 184); background:white; }
-    .dark .check-box { background:rgb(2 6 23); border-color:rgb(100 116 139); }
-    .peer:checked + .check-box { border-color:rgb(37 99 235); background:rgb(37 99 235); box-shadow:inset 0 0 0 3px white; }
 
     .tab-btn { display:inline-flex; align-items:center; gap:0.4rem; padding:0.65rem 1rem; font-size:0.8rem; font-weight:700; color:rgb(100 116 139); border-bottom:2px solid transparent; margin-bottom:-1px; background:none; border-top:none; border-left:none; border-right:none; cursor:pointer; }
     .tab-btn:hover { color:rgb(51 65 85); }
@@ -274,6 +328,7 @@
 
     form.querySelectorAll('[data-required]').forEach(function (field) {
         field.addEventListener('input', function () { if (this.value.trim()) this.classList.remove('is-invalid'); });
+        field.addEventListener('change', function () { if (this.value.trim()) this.classList.remove('is-invalid'); });
     });
 
     function showToast(message, type) {

@@ -2,12 +2,25 @@
 @section('title', 'Feedback and Complaint — Detail')
 @section('content')
 
+@php
+    $typeLabels = ['compliment' => 'Compliment', 'complaint' => 'Complaint', 'comment' => 'Comment'];
+    $respondentLabels = [
+        'participant' => 'Participant',
+        'family_member' => 'Family Member',
+        'participants_representative' => "Participant's Representative",
+        'staff_member' => 'Staff Member',
+        'staff_on_behalf_of_participant' => 'Staff on behalf of Participant',
+        'other' => 'Other',
+    ];
+    $contactMethodLabels = ['email' => 'Email', 'phone' => 'Phone', 'post' => 'Mail'];
+@endphp
+
 <div class="space-y-5">
 
     <div class="flex flex-wrap items-center justify-between gap-3">
         <div>
             <h2 class="text-xl font-bold text-slate-900 dark:text-white">Feedback and Complaint</h2>
-            <p class="text-sm text-slate-500 dark:text-slate-400">Record #{{ $complaint->id }}</p>
+            <p class="text-sm text-slate-500 dark:text-slate-400">Ref #{{ $complaint->ref_number ?: $complaint->id }}</p>
         </div>
         <div class="flex gap-2">
             <a href="{{ route('forms.complaint.index') }}"
@@ -23,30 +36,74 @@
 
     <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl dark:border-slate-800 dark:bg-slate-950">
 
-        {{-- Complaint Details --}}
+        {{-- Contact Details --}}
         <div class="border-b border-slate-200 bg-slate-50 px-6 py-4 dark:border-slate-800 dark:bg-slate-900">
-            <h3 class="text-sm font-black uppercase tracking-wide text-brand-600 dark:text-brand-400">Complaint Details</h3>
+            <h3 class="text-sm font-black uppercase tracking-wide text-brand-600 dark:text-brand-400">Contact Details</h3>
         </div>
         <dl class="divide-y divide-slate-100 dark:divide-slate-800">
             <div class="grid grid-cols-3 gap-4 px-6 py-4">
-                <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Name</dt>
-                <dd class="col-span-2 text-sm text-slate-900 dark:text-white">{{ $complaint->name }}</dd>
+                <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Reference Number</dt>
+                <dd class="col-span-2 text-sm text-slate-900 dark:text-white">{{ $complaint->ref_number ?: '—' }}</dd>
             </div>
             <div class="grid grid-cols-3 gap-4 px-6 py-4">
-                <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Received From</dt>
-                <dd class="col-span-2 text-sm text-slate-900 dark:text-white">{{ $complaint->received_from }}</dd>
+                <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Name</dt>
+                <dd class="col-span-2 text-sm text-slate-900 dark:text-white">{{ $complaint->name ?: '—' }}</dd>
             </div>
             <div class="grid grid-cols-3 gap-4 px-6 py-4">
                 <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Email</dt>
                 <dd class="col-span-2 text-sm text-slate-900 dark:text-white">{{ $complaint->email ?: '—' }}</dd>
             </div>
             <div class="grid grid-cols-3 gap-4 px-6 py-4">
-                <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Contact Number</dt>
-                <dd class="col-span-2 text-sm text-slate-900 dark:text-white">{{ $complaint->contact_number ?: '—' }}</dd>
+                <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Address</dt>
+                <dd class="col-span-2 text-sm text-slate-900 dark:text-white">{{ $complaint->address ?: '—' }}</dd>
             </div>
             <div class="grid grid-cols-3 gap-4 px-6 py-4">
-                <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Complaint</dt>
-                <dd class="col-span-2 text-sm text-slate-900 dark:text-white whitespace-pre-line">{{ $complaint->complaint }}</dd>
+                <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">City</dt>
+                <dd class="col-span-2 text-sm text-slate-900 dark:text-white">{{ $complaint->city_name ?: '—' }}</dd>
+            </div>
+            <div class="grid grid-cols-3 gap-4 px-6 py-4">
+                <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Interpreter Required</dt>
+                <dd class="col-span-2 text-sm text-slate-900 dark:text-white">
+                    {{ $complaint->wants_interpreter ? 'Yes (' . ($complaint->interpreter_language ?: 'language not specified') . ')' : 'No' }}
+                </dd>
+            </div>
+            <div class="grid grid-cols-3 gap-4 px-6 py-4">
+                <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Wants a Response</dt>
+                <dd class="col-span-2 text-sm text-slate-900 dark:text-white">
+                    {{ is_null($complaint->wants_response) ? '—' : ($complaint->wants_response ? 'Yes' : 'No') }}
+                </dd>
+            </div>
+            <div class="grid grid-cols-3 gap-4 px-6 py-4">
+                <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Preferred Contact Method</dt>
+                <dd class="col-span-2 text-sm text-slate-900 dark:text-white">{{ $contactMethodLabels[$complaint->preferred_contact_method] ?? '—' }}</dd>
+            </div>
+        </dl>
+
+        {{-- Feedback Details --}}
+        <div class="border-b border-t border-slate-200 bg-slate-50 px-6 py-4 dark:border-slate-800 dark:bg-slate-900">
+            <h3 class="text-sm font-black uppercase tracking-wide text-brand-600 dark:text-brand-400">Feedback Details</h3>
+        </div>
+        <dl class="divide-y divide-slate-100 dark:divide-slate-800">
+            <div class="grid grid-cols-3 gap-4 px-6 py-4">
+                <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Type</dt>
+                <dd class="col-span-2 text-sm text-slate-900 dark:text-white">{{ $typeLabels[$complaint->feedback_type] ?? '—' }}</dd>
+            </div>
+            <div class="grid grid-cols-3 gap-4 px-6 py-4">
+                <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Respondent</dt>
+                <dd class="col-span-2 text-sm text-slate-900 dark:text-white">
+                    {{ $respondentLabels[$complaint->respondent_type] ?? '—' }}
+                    @if ($complaint->respondent_type === 'other' && $complaint->respondent_type_other)
+                        ({{ $complaint->respondent_type_other }})
+                    @endif
+                </dd>
+            </div>
+            <div class="grid grid-cols-3 gap-4 px-6 py-4">
+                <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Experience</dt>
+                <dd class="col-span-2 text-sm text-slate-900 dark:text-white whitespace-pre-line">{{ $complaint->experience ?: '—' }}</dd>
+            </div>
+            <div class="grid grid-cols-3 gap-4 px-6 py-4">
+                <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Suggestions</dt>
+                <dd class="col-span-2 text-sm text-slate-900 dark:text-white whitespace-pre-line">{{ $complaint->suggestions ?: '—' }}</dd>
             </div>
         </dl>
 
@@ -62,7 +119,7 @@
             <div class="grid grid-cols-3 gap-4 px-6 py-4">
                 <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Submitted At</dt>
                 <dd class="col-span-2 text-sm text-slate-900 dark:text-white">
-                    {{ optional($complaint->submitted_at)->format('d M Y') ?: '—' }}
+                    {{ optional($complaint->created_at)->format('d M Y') ?: '—' }}
                 </dd>
             </div>
             <div class="grid grid-cols-3 gap-4 px-6 py-4">
@@ -95,7 +152,7 @@
                 <dd class="col-span-2 text-sm text-slate-900 dark:text-white whitespace-pre-line">{{ $complaint->investigation_actions ?: '—' }}</dd>
             </div>
             <div class="grid grid-cols-3 gap-4 px-6 py-4">
-                <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Complainant Feedback</dt>
+                <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Respondent Feedback on Process</dt>
                 <dd class="col-span-2 text-sm text-slate-900 dark:text-white whitespace-pre-line">{{ $complaint->complainant_feedback ?: '—' }}</dd>
             </div>
         </dl>
@@ -126,7 +183,7 @@
         {{-- Footer actions --}}
         <div class="flex justify-end gap-3 border-t border-slate-200 bg-slate-50 px-6 py-4 dark:border-slate-800 dark:bg-slate-900">
             <button type="button"
-                    onclick="openDeleteModal('{{ route('forms.complaint.destroy', $complaint->id) }}', '{{ addslashes($complaint->name) }}')"
+                    onclick="openDeleteModal('{{ route('forms.complaint.destroy', $complaint->id) }}', '{{ addslashes($complaint->name ?? $complaint->ref_number) }}')"
                     class="inline-flex items-center gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-2.5 text-sm font-semibold text-red-600 hover:bg-red-100 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-400">
                 <i data-lucide="trash-2" class="h-4 w-4"></i> Delete
             </button>

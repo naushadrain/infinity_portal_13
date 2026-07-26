@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CustomerFeedback;
 use App\Models\CustomerSatisfaction;
 use App\Models\IncidentDetail;
 use App\Models\Medication;
-use App\Models\PublicComplaint;
 use App\Models\ReporterDetail;
 use App\Models\StaffSatisfaction;
 use App\Models\User;
@@ -84,7 +84,7 @@ class DashboardController extends Controller
         $missingManagerNote = [
             'incident'   => ReporterDetail::whereNull('manager_note')->orWhere('manager_note', '')->count(),
             'medication' => Medication::whereNull('manager_note')->orWhere('manager_note', '')->count(),
-            'complaint'  => PublicComplaint::whereNull('manager_note')->orWhere('manager_note', '')->count(),
+            'complaint'  => CustomerFeedback::whereNull('manager_note')->orWhere('manager_note', '')->count(),
         ];
 
         return view('pages.dashboard', compact(
