@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\CustomerFeedback;
-use App\Models\CustomerSatisfaction;
 use App\Models\IncidentDetail;
 use App\Models\Medication;
 use App\Models\ReporterDetail;
-use App\Models\StaffSatisfaction;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -43,39 +41,37 @@ class DashboardController extends Controller
 
         $incidentCount   = $since ? ReporterDetail::where('created_at', '>=', $since)->count()        : ReporterDetail::count();
         $medicationCount = $since ? Medication::where('created_at', '>=', $since)->count()            : Medication::count();
-        $otherCount      = 0;
-        $formsTotal      = $incidentCount + $medicationCount;
+        $feedbackCount   = $since ? CustomerFeedback::where('created_at', '>=', $since)->count()      : CustomerFeedback::count();
+        $otherCount      = $feedbackCount;
+        $formsTotal      = $incidentCount + $medicationCount + $feedbackCount;
 
         $incidentCompletedCount   = ($since ? ReporterDetail::where('created_at', '>=', $since) : ReporterDetail::query())->where('completed', 1)->count();
         $medicationCompletedCount = ($since ? Medication::where('created_at', '>=', $since)      : Medication::query())->where('completed', 1)->count();
-
-        $surveyCount = ($since ? CustomerSatisfaction::where('created_at', '>=', $since) : CustomerSatisfaction::query())->count()
-                     + ($since ? StaffSatisfaction::where('created_at', '>=', $since)    : StaffSatisfaction::query())->count();
 
         // incident_details has no timestamps — always all-time
         $fromIncidentsCount = IncidentDetail::count();
 
         // Previous-period comparison badge (only for "Last 30 days")
-        $formsChange  = null;
-        $surveyChange = null;
+        $formsChange    = null;
+        $feedbackChange = null;
         if (!$allTime) {
             $prevSince = now()->subDays(60);
             $prevUntil = now()->subDays(30);
 
+            $prevFeedbackCount = CustomerFeedback::whereBetween('created_at', [$prevSince, $prevUntil])->count();
+
             $prevFormsTotal = ReporterDetail::whereBetween('created_at', [$prevSince, $prevUntil])->count()
-                            + Medication::whereBetween('created_at', [$prevSince, $prevUntil])->count();
+                            + Medication::whereBetween('created_at', [$prevSince, $prevUntil])->count()
+                            + $prevFeedbackCount;
 
-            $prevSurveyCount = CustomerSatisfaction::whereBetween('created_at', [$prevSince, $prevUntil])->count()
-                             + StaffSatisfaction::whereBetween('created_at', [$prevSince, $prevUntil])->count();
-
-            $formsChange  = $prevFormsTotal  > 0 ? round((($formsTotal  - $prevFormsTotal)  / $prevFormsTotal)  * 100) : null;
-            $surveyChange = $prevSurveyCount > 0 ? round((($surveyCount - $prevSurveyCount) / $prevSurveyCount) * 100) : null;
+            $formsChange    = $prevFormsTotal    > 0 ? round((($formsTotal    - $prevFormsTotal)    / $prevFormsTotal)    * 100) : null;
+            $feedbackChange = $prevFeedbackCount > 0 ? round((($feedbackCount - $prevFeedbackCount) / $prevFeedbackCount) * 100) : null;
         }
 
         // --- Donut chart percentages ---
         $incidentPercent   = $formsTotal > 0 ? round(($incidentCount   / $formsTotal) * 100) : 0;
         $medicationPercent = $formsTotal > 0 ? round(($medicationCount / $formsTotal) * 100) : 0;
-        $otherPercent      = 0;
+        $otherPercent      = $formsTotal > 0 ? round(($otherCount      / $formsTotal) * 100) : 0;
 
         // --- Graph data: Perth vs Victoria — month / year / all ---
         $chartData = $this->buildChartData();
@@ -92,10 +88,10 @@ class DashboardController extends Controller
 
         return view('pages.dashboard', compact(
             'recentUsers', 'totalUsers', 'newUsersCount',
-            'incidentCount', 'medicationCount', 'otherCount', 'surveyCount',
+            'incidentCount', 'medicationCount', 'otherCount', 'feedbackCount',
             'formsTotal', 'incidentPercent', 'medicationPercent', 'otherPercent',
             'fromIncidentsCount', 'latestSubmissions', 'chartData', 'period', 'periodLabel',
-            'formsChange', 'surveyChange', 'missingManagerNote',
+            'formsChange', 'feedbackChange', 'missingManagerNote',
             'incidentCompletedCount', 'medicationCompletedCount',
         ));
     }

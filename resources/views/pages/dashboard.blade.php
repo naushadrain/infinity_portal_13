@@ -168,32 +168,32 @@
             </svg>
         </div>
 
-        {{-- 5. Survey responses (period-based) --}}
-        <div
-            class="bg-white dark:bg-ink-900 rounded-2xl p-4 sm:p-5 shadow-soft border border-slate-100 dark:border-ink-800 hover:shadow-md hover:-translate-y-0.5 transition">
+        {{-- 5. Feedback and Complaint (period-based) --}}
+        <a href="{{ route('forms.complaint.index') }}"
+            class="block bg-white dark:bg-ink-900 rounded-2xl p-4 sm:p-5 shadow-soft border border-slate-100 dark:border-ink-800 hover:shadow-md hover:-translate-y-0.5 transition">
             <div class="flex items-center justify-between">
                 <div
                     class="w-10 h-10 rounded-xl bg-rose-50 dark:bg-rose-500/15 text-rose-600 dark:text-rose-300 grid place-items-center">
-                    <i data-lucide="message-square-heart" class="w-5 h-5"></i>
+                    <i data-lucide="message-square-warning" class="w-5 h-5"></i>
                 </div>
-                @if ($surveyChange !== null)
+                @if ($feedbackChange !== null)
                     <span
                         class="text-[11px] px-2 py-0.5 rounded-full font-semibold flex items-center gap-1
-                        {{ $surveyChange >= 0
+                        {{ $feedbackChange >= 0
                             ? 'bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300'
                             : 'bg-rose-50 dark:bg-rose-500/15 text-rose-700 dark:text-rose-300' }}">
-                        <i data-lucide="{{ $surveyChange >= 0 ? 'trending-up' : 'trending-down' }}" class="w-3 h-3"></i>
-                        {{ $surveyChange >= 0 ? '+' : '' }}{{ $surveyChange }}%
+                        <i data-lucide="{{ $feedbackChange >= 0 ? 'trending-up' : 'trending-down' }}" class="w-3 h-3"></i>
+                        {{ $feedbackChange >= 0 ? '+' : '' }}{{ $feedbackChange }}%
                     </span>
                 @endif
             </div>
-            <div class="mt-4 text-2xl sm:text-3xl font-bold tracking-tight">{{ number_format($surveyCount) }}</div>
-            <div class="text-xs text-slate-500 dark:text-ink-400 mt-0.5">Survey responses · {{ $periodLabel }}</div>
+            <div class="mt-4 text-2xl sm:text-3xl font-bold tracking-tight">{{ number_format($feedbackCount) }}</div>
+            <div class="text-xs text-slate-500 dark:text-ink-400 mt-0.5">Feedback and Complaint · {{ $periodLabel }}</div>
             <svg viewBox="0 0 100 24" class="w-full h-6 mt-3" preserveAspectRatio="none">
                 <polyline fill="none" stroke="#f43f5e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
                     points="0,18 14,15 28,17 42,10 56,12 70,8 84,9 100,4" />
             </svg>
-        </div>
+        </a>
 
     </div>
 
@@ -326,11 +326,11 @@
                                 class="w-2 h-2 rounded-full bg-emerald-500"></span>Medication</span>
                         <span class="font-medium">{{ $medicationCount }}</span>
                     </li>
-                    {{-- <li class="flex items-center justify-between">
+                    <li class="flex items-center justify-between">
                         <span class="flex items-center gap-2"><span
-                                class="w-2 h-2 rounded-full bg-rose-500"></span>Other</span>
+                                class="w-2 h-2 rounded-full bg-rose-500"></span>Feedback</span>
                         <span class="font-medium">{{ $otherCount }}</span>
-                    </li> --}}
+                    </li>
                 </ul>
             </div>
         </div>
@@ -367,6 +367,15 @@
                     </div>
                     <div class="font-semibold text-sm">Survey</div>
                     <div class="text-[11px] text-slate-500 dark:text-ink-400 mt-0.5">Send out</div>
+                </a>
+                <a href="{{ route('forms.complaint.index') }}"
+                    class="group p-4 rounded-xl border border-slate-100 dark:border-ink-800 hover:border-rose-300 hover:bg-rose-50/40 dark:hover:bg-rose-500/10 transition">
+                    <div
+                        class="w-9 h-9 rounded-lg bg-rose-50 dark:bg-rose-500/15 text-rose-600 dark:text-rose-300 grid place-items-center mb-2 group-hover:bg-rose-600 group-hover:text-white transition">
+                        <i data-lucide="message-square-warning" class="w-5 h-5"></i>
+                    </div>
+                    <div class="font-semibold text-sm">Feedback</div>
+                    <div class="text-[11px] text-slate-500 dark:text-ink-400 mt-0.5">View all</div>
                 </a>
             </div>
         </div>
