@@ -4,7 +4,8 @@
 @section('content')
 
 @php
-    $isClosed = $complaint->status === 'Closed';
+    $isAdmin  = auth()->user()->role_id == 1;
+    $isClosed = $complaint->status === 'Closed' && !$isAdmin;
 @endphp
 
 <div class="mx-auto max-w-full px-4 py-6">
@@ -35,6 +36,11 @@
                 <div class="mb-6 flex items-center gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-300">
                     <i data-lucide="lock" class="h-4 w-4 shrink-0"></i>
                     This record is closed and locked from further edits.
+                </div>
+            @elseif ($complaint->status === 'Closed' && $isAdmin)
+                <div class="mb-6 flex items-center gap-3 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-800 dark:border-blue-500/30 dark:bg-blue-500/10 dark:text-blue-300">
+                    <i data-lucide="shield-check" class="h-4 w-4 shrink-0"></i>
+                    This record is closed. As an admin, you can still make changes if required.
                 </div>
             @endif
 

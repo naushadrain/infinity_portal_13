@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\CustomerFeedback;
+use App\Models\CustomerSatisfaction;
 use App\Models\IncidentDetail;
 use App\Models\Medication;
 use App\Models\ReporterDetail;
+use App\Models\StaffSatisfaction;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

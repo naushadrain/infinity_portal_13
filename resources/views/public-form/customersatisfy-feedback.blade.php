@@ -73,7 +73,18 @@
                         </div>
                     </div>
 
-                    <div class="pb-6 border-b border-slate-200">
+                    <div class="py-4 border-b border-slate-200">
+                        <label class="flex items-start gap-2.5 text-sm text-slate-700 cursor-pointer">
+                            <input type="checkbox" id="isAnonymous"
+                                class="w-4 h-4 mt-0.5 rounded text-sky-600 border-slate-300 focus:ring-sky-500">
+                            <span>
+                                <span class="font-medium text-slate-900">Do you want to report this anonymously?</span>
+
+                            </span>
+                        </label>
+                    </div>
+
+                    <div class="pb-6 border-b border-slate-200" id="contactDetailsSection">
                         <h3 class="{{ $section }}"><i data-lucide="user" class="w-4 h-4"></i> Your Contact Details
                         </h3>
                         <div class="grid md:grid-cols-2 gap-4">
@@ -98,7 +109,7 @@
                         </div>
                     </div>
 
-                    <div class="py-6 border-b border-slate-200">
+                    <div class="py-6 border-b border-slate-200" id="interpreterSection">
                         <h3 class="{{ $section }}"><i data-lucide="languages" class="w-4 h-4"></i> Interpreter
                             Required?</h3>
                         <div class="grid md:grid-cols-2 gap-4 items-start">
@@ -114,7 +125,7 @@
                         </div>
                     </div>
 
-                    <div class="py-6 border-b border-slate-200">
+                    <div class="py-6 border-b border-slate-200" id="responseSection">
                         <h3 class="{{ $section }}"><i data-lucide="message-circle" class="w-4 h-4"></i> Would you
                             like a response?</h3>
                         <div class="grid md:grid-cols-2 gap-4">
@@ -286,6 +297,35 @@
         document.querySelectorAll('input[name="respondent_type"]').forEach(function(radio) {
             radio.addEventListener('change', function() {
                 otherInput.classList.toggle('hidden', !document.getElementById('respondentOther').checked);
+            });
+        });
+
+        var anonymousCheckbox = document.getElementById('isAnonymous');
+        var anonymousSections = [
+            document.getElementById('contactDetailsSection'),
+            document.getElementById('interpreterSection'),
+            document.getElementById('responseSection'),
+        ];
+
+        function clearSectionInputs(section) {
+            section.querySelectorAll('input[type="text"], input[type="email"], textarea').forEach(function(field) {
+                field.value = '';
+            });
+            section.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(function(field) {
+                field.checked = false;
+            });
+            section.querySelectorAll('select').forEach(function(field) {
+                field.selectedIndex = 0;
+            });
+        }
+
+        anonymousCheckbox.addEventListener('change', function() {
+            var isAnon = this.checked;
+            anonymousSections.forEach(function(section) {
+                section.classList.toggle('hidden', isAnon);
+                if (isAnon) {
+                    clearSectionInputs(section);
+                }
             });
         });
     </script>
