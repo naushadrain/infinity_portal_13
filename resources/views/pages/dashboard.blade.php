@@ -381,6 +381,49 @@
         </div>
     </div>
 
+    <!-- Form Status -->
+    <div
+        class="bg-white dark:bg-ink-900 rounded-2xl p-4 sm:p-6 shadow-soft border border-slate-100 dark:border-ink-800 mb-6">
+        <h3 class="font-semibold mb-1">Status</h3>
+        <p class="text-xs text-slate-500 dark:text-ink-400 mb-4">Active vs completed · {{ $periodLabel }}</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <a href="{{ route('forms.incident.index') }}"
+                class="p-4 rounded-xl border border-slate-100 dark:border-ink-800 hover:border-brand-300 hover:bg-brand-50/40 dark:hover:bg-brand-500/10 transition">
+                <div class="flex items-center gap-2 mb-3">
+                    <i data-lucide="alert-triangle" class="w-4 h-4 text-brand-500"></i>
+                    <span class="text-sm font-semibold">Incident</span>
+                </div>
+                <div class="flex items-center gap-6">
+                    <div>
+                        <div class="text-xs text-amber-600 dark:text-amber-400 font-medium">Active</div>
+                        <div class="text-xl font-bold mt-0.5">{{ number_format($incidentActiveCount) }}</div>
+                    </div>
+                    <div>
+                        <div class="text-xs text-emerald-600 dark:text-emerald-400 font-medium">Completed</div>
+                        <div class="text-xl font-bold mt-0.5">{{ number_format($incidentCompletedCount) }}</div>
+                    </div>
+                </div>
+            </a>
+            <a href="{{ route('forms.medication.index') }}"
+                class="p-4 rounded-xl border border-slate-100 dark:border-ink-800 hover:border-teal-300 hover:bg-teal-50/40 dark:hover:bg-teal-500/10 transition">
+                <div class="flex items-center gap-2 mb-3">
+                    <i data-lucide="pill" class="w-4 h-4 text-teal-500"></i>
+                    <span class="text-sm font-semibold">Medication</span>
+                </div>
+                <div class="flex items-center gap-6">
+                    <div>
+                        <div class="text-xs text-amber-600 dark:text-amber-400 font-medium">Active</div>
+                        <div class="text-xl font-bold mt-0.5">{{ number_format($medicationActiveCount) }}</div>
+                    </div>
+                    <div>
+                        <div class="text-xs text-emerald-600 dark:text-emerald-400 font-medium">Completed</div>
+                        <div class="text-xl font-bold mt-0.5">{{ number_format($medicationCompletedCount) }}</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
     <!-- Missing Manager's Note -->
     <div
         class="bg-white dark:bg-ink-900 rounded-2xl p-4 sm:p-6 shadow-soft border border-slate-100 dark:border-ink-800 mb-6">

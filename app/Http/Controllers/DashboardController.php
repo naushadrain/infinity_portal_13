@@ -47,6 +47,8 @@ class DashboardController extends Controller
 
         $incidentCompletedCount   = ($since ? ReporterDetail::where('created_at', '>=', $since) : ReporterDetail::query())->where('completed', 1)->count();
         $medicationCompletedCount = ($since ? Medication::where('created_at', '>=', $since)      : Medication::query())->where('completed', 1)->count();
+        $incidentActiveCount      = $incidentCount   - $incidentCompletedCount;
+        $medicationActiveCount    = $medicationCount - $medicationCompletedCount;
 
         // incident_details has no timestamps — always all-time
         $fromIncidentsCount = IncidentDetail::count();
@@ -93,6 +95,7 @@ class DashboardController extends Controller
             'fromIncidentsCount', 'latestSubmissions', 'chartData', 'period', 'periodLabel',
             'formsChange', 'feedbackChange', 'missingManagerNote',
             'incidentCompletedCount', 'medicationCompletedCount',
+            'incidentActiveCount', 'medicationActiveCount',
         ));
     }
 
