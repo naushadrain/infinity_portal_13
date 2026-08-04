@@ -32,6 +32,10 @@ class MedicationIncidentController extends Controller
             $query->where('incident_type', 'like', "%{$type}%");
         }
 
+        if ($status = $request->input('status')) {
+            $query->where('completed', $status === 'completed');
+        }
+
         if ($date = $request->input('date')) {
             $query->whereDate('created_at', $date);
         }
@@ -73,6 +77,10 @@ class MedicationIncidentController extends Controller
             $query->where('incident_type', 'like', "%{$type}%");
         }
 
+        if ($status = $request->input('status')) {
+            $query->where('completed', $status === 'completed');
+        }
+
         if ($date = $request->input('date')) {
             $query->whereDate('created_at', $date);
         }
@@ -86,7 +94,7 @@ class MedicationIncidentController extends Controller
 
         $callback = function () use ($medications) {
             $file = fopen('php://output', 'w');
-            fputcsv($file, ['Sr. No.', 'Submitted', 'Reporter Name', 'Participant', 'Incident Type', 'Position', 'Location', 'Date Occurred']);
+            fputcsv($file, ['Sr. No.', 'Submitted', 'Reporter Name', 'Participant', 'Incident Type', 'Position', 'Location', 'Date Occurred', 'Status']);
 
             foreach ($medications as $i => $row) {
                 fputcsv($file, [
@@ -98,6 +106,7 @@ class MedicationIncidentController extends Controller
                     $row->pr_position ?? '',
                     $row->cd_location ?? '',
                     $row->pr_date_occured ?? '',
+                    $row->completed ? 'Completed' : 'Submitted',
                 ]);
             }
 
@@ -219,6 +228,7 @@ class MedicationIncidentController extends Controller
             'date_completed'          => 'nullable|date',
             'signature'               => 'nullable|string|max:255',
             'manager_note'            => 'nullable|string',
+            'completed'               => 'nullable|boolean',
         ]);
 
         try {
@@ -243,6 +253,7 @@ class MedicationIncidentController extends Controller
                 'date_completed'          => $request->date_completed,
                 'signature'               => $request->signature,
                 'manager_note'            => $request->manager_note,
+                'completed'               => $request->boolean('completed'),
             ]);
 
             return redirect()->route('forms.medication.index')

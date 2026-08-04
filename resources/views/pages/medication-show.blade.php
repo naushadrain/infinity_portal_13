@@ -56,6 +56,16 @@
                 <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Reported To</dt>
                 <dd class="col-span-2 text-sm text-slate-900 dark:text-white">{{ $medication->pr_incident_reported_to }}</dd>
             </div>
+            <div class="grid grid-cols-3 gap-4 px-6 py-4">
+                <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Status</dt>
+                <dd class="col-span-2 text-sm">
+                    @if ($medication->completed)
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">Completed</span>
+                    @else
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">Submitted</span>
+                    @endif
+                </dd>
+            </div>
         </dl>
 
         {{-- Part 2 --}}

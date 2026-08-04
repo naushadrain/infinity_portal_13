@@ -188,6 +188,14 @@
                         <label class="form-label">Signature</label>
                         <input type="text" name="signature" value="{{ old('signature', $medication->signature) }}" class="form-input">
                     </div>
+                    <div class="md:col-span-4">
+                        <label class="form-label">Status</label>
+                        @php $completedVal = old('completed', $medication->completed); @endphp
+                        <select name="completed" class="form-input">
+                            <option value="0" {{ !$completedVal ? 'selected' : '' }}>Submitted</option>
+                            <option value="1" {{ $completedVal ? 'selected' : '' }}>Completed</option>
+                        </select>
+                    </div>
                     <div class="md:col-span-12">
                         <label class="form-label">Manager's Note</label>
                         <textarea name="manager_note" rows="3" class="form-input resize-none">{{ old('manager_note', $medication->manager_note) }}</textarea>

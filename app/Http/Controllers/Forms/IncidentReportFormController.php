@@ -59,6 +59,10 @@ class IncidentReportFormController extends Controller
             $query->where('city', $city);
         }
 
+        if ($status = $request->input('status')) {
+            $query->where('completed', $status === 'completed');
+        }
+
         if ($date = $request->input('date')) {
             $query->whereDate('created_at', $date);
         }
@@ -87,6 +91,10 @@ class IncidentReportFormController extends Controller
             $query->where('city', $city);
         }
 
+        if ($status = $request->input('status')) {
+            $query->where('completed', $status === 'completed');
+        }
+
         if ($date = $request->input('date')) {
             $query->whereDate('created_at', $date);
         }
@@ -106,7 +114,7 @@ class IncidentReportFormController extends Controller
             foreach ($incidents as $i => $incident) {
                 fputcsv($file, [
                     $i + 1,
-                    $incident->created_at->format('d M Y'),
+                    $incident->created_at->format('d/m/Y'),
                     $incident->name ?? '',
                     $incident->contact ?? '',
                     $incident->ir_number ?? '',

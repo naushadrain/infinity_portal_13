@@ -64,7 +64,7 @@
             </div>
             <div class="grid grid-cols-3 gap-4 px-6 py-4">
                 <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Submitted</dt>
-                <dd class="col-span-2 text-sm text-slate-900 dark:text-white">{{ $reporter->created_at->format('d M Y, h:i A') }}</dd>
+                <dd class="col-span-2 text-sm text-slate-900 dark:text-white">{{ $reporter->created_at->format('d/m/Y, h:i A') }}</dd>
             </div>
         </dl>
 
@@ -75,7 +75,7 @@
         <dl class="divide-y divide-slate-100 dark:divide-ink-800">
             <div class="grid grid-cols-3 gap-4 px-6 py-4">
                 <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Date of Incident</dt>
-                <dd class="col-span-2 text-sm text-slate-900 dark:text-white">{{ $incident->doi ?? '—' }}</dd>
+                <dd class="col-span-2 text-sm text-slate-900 dark:text-white">{{ \App\Support\DateFormatter::safe($incident->doi, 'd/m/Y') }}</dd>
             </div>
             <div class="grid grid-cols-3 gap-4 px-6 py-4">
                 <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Time of Incident</dt>
@@ -87,7 +87,7 @@
             </div>
             <div class="grid grid-cols-3 gap-4 px-6 py-4">
                 <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Date First Told</dt>
-                <dd class="col-span-2 text-sm text-slate-900 dark:text-white">{{ $incident->date_told_about_incident ?? '—' }}</dd>
+                <dd class="col-span-2 text-sm text-slate-900 dark:text-white">{{ \App\Support\DateFormatter::safe($incident->date_told_about_incident, 'd/m/Y') }}</dd>
             </div>
             <div class="grid grid-cols-3 gap-4 px-6 py-4">
                 <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Time First Told</dt>
@@ -149,7 +149,7 @@
             </div>
             <div class="grid grid-cols-3 gap-4 px-6 py-4">
                 <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Date of Birth</dt>
-                <dd class="col-span-2 text-sm text-slate-900 dark:text-white">{{ $participant->dob ?? '—' }}</dd>
+                <dd class="col-span-2 text-sm text-slate-900 dark:text-white">{{ \App\Support\DateFormatter::safe($participant->dob, 'd/m/Y') }}</dd>
             </div>
             <div class="grid grid-cols-3 gap-4 px-6 py-4">
                 <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Address</dt>
@@ -242,7 +242,7 @@
             </div>
             <div class="grid grid-cols-3 gap-4 px-6 py-4">
                 <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Date</dt>
-                <dd class="col-span-2 text-sm text-slate-900 dark:text-white">{{ $whatHappend->date ?? '—' }}</dd>
+                <dd class="col-span-2 text-sm text-slate-900 dark:text-white">{{ \App\Support\DateFormatter::safe($whatHappend->date, 'd/m/Y') }}</dd>
             </div>
         </dl>
         @endif
@@ -291,7 +291,7 @@
             </div>
             <div class="grid grid-cols-3 gap-4 px-6 py-4">
                 <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Date Completed</dt>
-                <dd class="col-span-2 text-sm text-slate-900 dark:text-white">{{ $manager->informed_date ?? '—' }}</dd>
+                <dd class="col-span-2 text-sm text-slate-900 dark:text-white">{{ \App\Support\DateFormatter::safe($manager->informed_date, 'd/m/Y') }}</dd>
             </div>
             <div class="grid grid-cols-3 gap-4 px-6 py-4">
                 <dt class="text-sm font-semibold text-slate-500 dark:text-slate-400">Participant / Representative Feedback</dt>

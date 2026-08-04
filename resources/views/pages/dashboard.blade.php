@@ -85,7 +85,7 @@
     </div>
 
     <!-- KPI cards -->
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-6">
 
         {{-- 1. Active staff --}}
         <div
@@ -143,13 +143,32 @@
             </div>
             <div class="mt-4 text-2xl sm:text-3xl font-bold tracking-tight">{{ number_format($incidentCount) }}</div>
             <div class="text-xs text-slate-500 dark:text-ink-400 mt-0.5">Incidents · {{ $periodLabel }}</div>
+            <div class="text-xs text-emerald-600 dark:text-emerald-400 mt-1 font-medium">{{ number_format($incidentCompletedCount) }} completed</div>
             <svg viewBox="0 0 100 24" class="w-full h-6 mt-3" preserveAspectRatio="none">
                 <polyline fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
                     points="0,18 14,15 28,17 42,10 56,12 70,8 84,9 100,4" />
             </svg>
         </div>
 
-        {{-- 4. Survey responses (period-based) --}}
+        {{-- 4. Medication (period-based) --}}
+        <div
+            class="bg-white dark:bg-ink-900 rounded-2xl p-4 sm:p-5 shadow-soft border border-slate-100 dark:border-ink-800 hover:shadow-md hover:-translate-y-0.5 transition">
+            <div class="flex items-center justify-between">
+                <div
+                    class="w-10 h-10 rounded-xl bg-teal-50 dark:bg-teal-500/15 text-teal-600 dark:text-teal-300 grid place-items-center">
+                    <i data-lucide="pill" class="w-5 h-5"></i>
+                </div>
+            </div>
+            <div class="mt-4 text-2xl sm:text-3xl font-bold tracking-tight">{{ number_format($medicationCount) }}</div>
+            <div class="text-xs text-slate-500 dark:text-ink-400 mt-0.5">Medication · {{ $periodLabel }}</div>
+            <div class="text-xs text-emerald-600 dark:text-emerald-400 mt-1 font-medium">{{ number_format($medicationCompletedCount) }} completed</div>
+            <svg viewBox="0 0 100 24" class="w-full h-6 mt-3" preserveAspectRatio="none">
+                <polyline fill="none" stroke="#14b8a6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                    points="0,18 14,15 28,17 42,10 56,12 70,8 84,9 100,4" />
+            </svg>
+        </div>
+
+        {{-- 5. Survey responses (period-based) --}}
         <div
             class="bg-white dark:bg-ink-900 rounded-2xl p-4 sm:p-5 shadow-soft border border-slate-100 dark:border-ink-800 hover:shadow-md hover:-translate-y-0.5 transition">
             <div class="flex items-center justify-between">

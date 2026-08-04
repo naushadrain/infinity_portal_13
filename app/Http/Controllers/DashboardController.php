@@ -46,6 +46,9 @@ class DashboardController extends Controller
         $otherCount      = 0;
         $formsTotal      = $incidentCount + $medicationCount;
 
+        $incidentCompletedCount   = ($since ? ReporterDetail::where('created_at', '>=', $since) : ReporterDetail::query())->where('completed', 1)->count();
+        $medicationCompletedCount = ($since ? Medication::where('created_at', '>=', $since)      : Medication::query())->where('completed', 1)->count();
+
         $surveyCount = ($since ? CustomerSatisfaction::where('created_at', '>=', $since) : CustomerSatisfaction::query())->count()
                      + ($since ? StaffSatisfaction::where('created_at', '>=', $since)    : StaffSatisfaction::query())->count();
 
@@ -93,6 +96,7 @@ class DashboardController extends Controller
             'formsTotal', 'incidentPercent', 'medicationPercent', 'otherPercent',
             'fromIncidentsCount', 'latestSubmissions', 'chartData', 'period', 'periodLabel',
             'formsChange', 'surveyChange', 'missingManagerNote',
+            'incidentCompletedCount', 'medicationCompletedCount',
         ));
     }
 

@@ -14,7 +14,7 @@
             <p class="text-sm text-slate-500 dark:text-ink-400">{{ $incidents->total() }} results</p>
         </div>
         <div class="flex gap-2">
-            <a href="{{ route('forms.incident.export', request()->only(['search', 'city', 'date'])) }}"
+            <a href="{{ route('forms.incident.export', request()->only(['search', 'city', 'status', 'date'])) }}"
                 class="px-3 py-2 rounded-lg border border-slate-200 dark:border-ink-800 bg-white dark:bg-ink-900 text-sm flex items-center gap-2">
                 <i data-lucide="download" class="w-4 h-4"></i> Export
             </a>
@@ -50,9 +50,15 @@
                     @endif
                 @endforeach
             </select>
+            <select name="status"
+                class="px-3 py-2 rounded-lg border border-slate-200 dark:border-ink-800 bg-white dark:bg-ink-900 text-sm">
+                <option value="">All Statuses</option>
+                <option value="submitted" @selected(request('status') === 'submitted')>Submitted</option>
+                <option value="completed" @selected(request('status') === 'completed')>Completed</option>
+            </select>
             <input type="date" name="date" value="{{ request('date') }}"
                 class="px-3 py-2 rounded-lg border border-slate-200 dark:border-ink-800 bg-white dark:bg-ink-900 text-sm">
-            @if (request()->hasAny(['search', 'city', 'date']))
+            @if (request()->hasAny(['search', 'city', 'status', 'date']))
                 <a href="{{ route('forms.incident.index') }}"
                     class="px-3 py-2 rounded-lg border border-slate-200 dark:border-ink-800 bg-white dark:bg-ink-900 text-sm text-slate-500 hover:text-slate-700 flex items-center gap-1">
                     <i data-lucide="x" class="w-3.5 h-3.5"></i> Clear
@@ -109,7 +115,7 @@
                         <tr class="border-t border-slate-100 dark:border-ink-800 hover:bg-slate-50 dark:hover:bg-ink-800">
                             <td class="px-4 py-3 text-sm">
                                 {{ $loop->iteration + ($incidents->currentPage() - 1) * $incidents->perPage() }}</td>
-                            <td class="px-4 py-3 text-sm">{{ $incident->created_at->format('d M Y') }}</td>
+                            <td class="px-4 py-3 text-sm">{{ $incident->created_at->format('d/m/Y') }}</td>
                             <td class="px-4 py-3 text-sm">{{ $incident->participant->full_name ?? '—' }}</td>
                             <td class="px-4 py-3 text-sm">{{ $incident->name ?? '—' }}</td>
                             <td class="px-4 py-3 text-sm">{{ $incident->contact ?? '—' }}</td>

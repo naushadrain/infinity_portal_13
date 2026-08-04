@@ -40,5 +40,6 @@ class Medication extends Model
         'date_completed',
         'signature',
         'manager_note',
+        'completed',
     ];
 }

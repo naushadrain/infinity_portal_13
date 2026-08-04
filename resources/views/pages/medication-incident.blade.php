@@ -16,7 +16,7 @@
         </div>
 
         <div class="flex gap-2">
-            <a href="{{ route('forms.medication.export', request()->only(['search', 'location', 'type', 'date'])) }}"
+            <a href="{{ route('forms.medication.export', request()->only(['search', 'location', 'type', 'status', 'date'])) }}"
                class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800">
                 <i data-lucide="download" class="h-4 w-4"></i>
                 Export
@@ -68,6 +68,14 @@
                     @endforeach
                 </select>
 
+                {{-- Status dropdown --}}
+                <select name="status"
+                        class="rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-700 outline-none dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200">
+                    <option value="">All Statuses</option>
+                    <option value="submitted" {{ request('status') === 'submitted' ? 'selected' : '' }}>Submitted</option>
+                    <option value="completed" {{ request('status') === 'completed' ? 'selected' : '' }}>Completed</option>
+                </select>
+
                 {{-- Date --}}
                 <input type="date" name="date" value="{{ request('date') }}"
                        class="rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-700 outline-none dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200">
@@ -80,7 +88,7 @@
                 </button>
 
                 {{-- Clear (only when active) --}}
-                @if (request()->hasAny(['search', 'location', 'type', 'date']))
+                @if (request()->hasAny(['search', 'location', 'type', 'status', 'date']))
                     <a href="{{ route('forms.medication.index') }}"
                        class="inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-medium text-slate-500 hover:text-slate-700 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300">
                         <i data-lucide="x" class="h-4 w-4"></i>
@@ -118,9 +126,15 @@
                         <td class="table-td">{{ $row->pr_position }}</td>
                         <td class="table-td">{{ $row->cd_location }}</td>
                         <td class="table-td">
-                            <span class="status-badge bg-yellow-100 text-yellow-700 dark:bg-yellow-500/15 dark:text-yellow-300">
-                                Submitted
-                            </span>
+                            @if ($row->completed)
+                                <span class="status-badge bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
+                                    Completed
+                                </span>
+                            @else
+                                <span class="status-badge bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300">
+                                    Submitted
+                                </span>
+                            @endif
                         </td>
                         <td class="table-td">
                             <div class="flex justify-end gap-2">
@@ -144,7 +158,7 @@
                         <td colspan="9" class="table-td py-16 text-center text-slate-400 dark:text-slate-500">
                             <i data-lucide="file-x" class="mx-auto mb-2 h-8 w-8 opacity-40"></i>
                             <p>No medication incident reports found.</p>
-                            @if (request()->hasAny(['search', 'location', 'type', 'date']))
+                            @if (request()->hasAny(['search', 'location', 'type', 'status', 'date']))
                                 <a href="{{ route('forms.medication.index') }}"
                                    class="mt-1 inline-block text-brand-600 hover:underline">Clear filters</a>
                             @endif
