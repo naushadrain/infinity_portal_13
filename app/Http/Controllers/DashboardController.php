@@ -47,10 +47,18 @@ class DashboardController extends Controller
         $otherCount      = $feedbackCount;
         $formsTotal      = $incidentCount + $medicationCount + $feedbackCount;
 
-        $incidentCompletedCount   = ($since ? ReporterDetail::where('created_at', '>=', $since) : ReporterDetail::query())->where('completed', 1)->count();
-        $medicationCompletedCount = ($since ? Medication::where('created_at', '>=', $since)      : Medication::query())->where('completed', 1)->count();
-        $incidentActiveCount      = $incidentCount   - $incidentCompletedCount;
-        $medicationActiveCount    = $medicationCount - $medicationCompletedCount;
+        // Period-scoped "X completed" subtext under the Incidents/Medication KPI tiles —
+        // records marked completed (updated) within this period, so completing an older
+        // record today counts under "Last 30 days" even though it wasn't created then.
+        $incidentCompletedCount   = ReporterDetail::where('completed', 1)->when($since, fn($q) => $q->where('updated_at', '>=', $since))->count();
+        $medicationCompletedCount = Medication::where('completed', 1)->when($since, fn($q) => $q->where('updated_at', '>=', $since))->count();
+
+        // Status card — live, all-time snapshot (not period-scoped), so marking an older
+        // record Completed today is reflected immediately regardless of the period filter.
+        $incidentActiveCount      = ReporterDetail::where('completed', 0)->count();
+        $incidentStatusCompleted  = ReporterDetail::where('completed', 1)->count();
+        $medicationActiveCount    = Medication::where('completed', 0)->count();
+        $medicationStatusCompleted = Medication::where('completed', 1)->count();
 
         // incident_details has no timestamps — always all-time
         $fromIncidentsCount = IncidentDetail::count();
@@ -98,6 +106,7 @@ class DashboardController extends Controller
             'formsChange', 'feedbackChange', 'missingManagerNote',
             'incidentCompletedCount', 'medicationCompletedCount',
             'incidentActiveCount', 'medicationActiveCount',
+            'incidentStatusCompleted', 'medicationStatusCompleted',
         ));
     }
 
@@ -108,6 +117,9 @@ class DashboardController extends Controller
         $earliestDate = collect([
             ReporterDetail::min('created_at'),
             Medication::min('created_at'),
+            CustomerFeedback::min('created_at'),
+            CustomerSatisfaction::min('created_at'),
+            StaffSatisfaction::min('created_at'),
         ])->filter()->min();
 
         $startYear = $earliestDate ? \Carbon\Carbon::parse($earliestDate)->year : now()->year;
@@ -120,22 +132,36 @@ class DashboardController extends Controller
         $medications = Medication::where('created_at', '>=', $fetchFrom)
             ->select('created_at')->get()->map(fn($r) => $r->created_at);
 
+        $feedback = CustomerFeedback::where('created_at', '>=', $fetchFrom)
+            ->select('created_at')->get()->map(fn($r) => $r->created_at);
+
+        $surveys = CustomerSatisfaction::where('created_at', '>=', $fetchFrom)
+            ->select('created_at')->get()->map(fn($r) => $r->created_at)
+            ->concat(
+                StaffSatisfaction::where('created_at', '>=', $fetchFrom)
+                    ->select('created_at')->get()->map(fn($r) => $r->created_at)
+            );
+
         return [
-            'month' => $this->aggregateByType($incidents, $medications, 'month', 12),
-            'year'  => $this->aggregateByType($incidents, $medications, 'year', min($allYears, 5)),
-            'all'   => $this->aggregateByType($incidents, $medications, 'year', $allYears),
+            'month' => $this->aggregateByType($incidents, $medications, $feedback, $surveys, 'month', 12),
+            'year'  => $this->aggregateByType($incidents, $medications, $feedback, $surveys, 'year', min($allYears, 5)),
+            'all'   => $this->aggregateByType($incidents, $medications, $feedback, $surveys, 'year', $allYears),
         ];
     }
 
     private function aggregateByType(
         \Illuminate\Support\Collection $incidents,
         \Illuminate\Support\Collection $medications,
+        \Illuminate\Support\Collection $feedback,
+        \Illuminate\Support\Collection $surveys,
         string $unit,
         int $count
     ): array {
-        $labels     = [];
-        $incidentD  = [];
+        $labels      = [];
+        $incidentD   = [];
         $medicationD = [];
+        $feedbackD   = [];
+        $surveyD     = [];
 
         for ($i = $count - 1; $i >= 0; $i--) {
             [$label, $start, $end] = match ($unit) {
@@ -154,12 +180,16 @@ class DashboardController extends Controller
             $labels[]      = $label;
             $incidentD[]   = $incidents->filter(fn($d)   => $d >= $start && $d <= $end)->count();
             $medicationD[] = $medications->filter(fn($d) => $d >= $start && $d <= $end)->count();
+            $feedbackD[]   = $feedback->filter(fn($d)     => $d >= $start && $d <= $end)->count();
+            $surveyD[]     = $surveys->filter(fn($d)      => $d >= $start && $d <= $end)->count();
         }
 
         return [
             'labels'     => $labels,
             'incident'   => $incidentD,
             'medication' => $medicationD,
+            'feedback'   => $feedbackD,
+            'survey'     => $surveyD,
         ];
     }
 

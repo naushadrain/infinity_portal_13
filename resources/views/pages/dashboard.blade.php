@@ -152,11 +152,15 @@
                     </p>
                 </div>
                 <div class="flex items-center gap-3 flex-wrap">
-                    <div class="flex items-center gap-3 text-xs text-slate-500 dark:text-ink-400">
+                    <div class="flex items-center gap-3 text-xs text-slate-500 dark:text-ink-400 flex-wrap">
                         <span class="flex items-center gap-1.5"><span
                                 class="w-2.5 h-2.5 rounded-full bg-brand-500"></span>Incident</span>
                         <span class="flex items-center gap-1.5"><span
                                 class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>Medication</span>
+                        <span class="flex items-center gap-1.5"><span
+                                class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>Feedback</span>
+                        <span class="flex items-center gap-1.5"><span
+                                class="w-2.5 h-2.5 rounded-full bg-violet-500"></span>Survey</span>
                     </div>
                     <div class="flex gap-0.5 p-0.5 bg-slate-100 dark:bg-ink-800 rounded-lg text-xs">
                         <button data-range="month"
@@ -327,7 +331,7 @@
     <div
         class="bg-white dark:bg-ink-900 rounded-2xl p-4 sm:p-6 shadow-soft border border-slate-100 dark:border-ink-800 mb-6">
         <h3 class="font-semibold mb-1">Status</h3>
-        <p class="text-xs text-slate-500 dark:text-ink-400 mb-4">Active vs completed · {{ $periodLabel }}</p>
+        <p class="text-xs text-slate-500 dark:text-ink-400 mb-4">Active vs completed, all time</p>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <a href="{{ route('forms.incident.index') }}"
                 class="p-4 rounded-xl border border-slate-100 dark:border-ink-800 hover:border-brand-300 hover:bg-brand-50/40 dark:hover:bg-brand-500/10 transition">
@@ -342,7 +346,7 @@
                     </div>
                     <div>
                         <div class="text-xs text-emerald-600 dark:text-emerald-400 font-medium">Completed</div>
-                        <div class="text-xl font-bold mt-0.5">{{ number_format($incidentCompletedCount) }}</div>
+                        <div class="text-xl font-bold mt-0.5">{{ number_format($incidentStatusCompleted) }}</div>
                     </div>
                 </div>
             </a>
@@ -359,7 +363,7 @@
                     </div>
                     <div>
                         <div class="text-xs text-emerald-600 dark:text-emerald-400 font-medium">Completed</div>
-                        <div class="text-xl font-bold mt-0.5">{{ number_format($medicationCompletedCount) }}</div>
+                        <div class="text-xl font-bold mt-0.5">{{ number_format($medicationStatusCompleted) }}</div>
                     </div>
                 </div>
             </a>
@@ -535,6 +539,28 @@
                             pointHoverRadius: 5,
                             borderWidth: 2.5,
                         },
+                        {
+                            label: 'Feedback',
+                            data: raw.month.feedback,
+                            borderColor: '#f43f5e',
+                            backgroundColor: 'rgba(244,63,94,.08)',
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 3,
+                            pointHoverRadius: 5,
+                            borderWidth: 2.5,
+                        },
+                        {
+                            label: 'Survey',
+                            data: raw.month.survey,
+                            borderColor: '#8b5cf6',
+                            backgroundColor: 'rgba(139,92,246,.08)',
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 3,
+                            pointHoverRadius: 5,
+                            borderWidth: 2.5,
+                        },
                     ],
                 },
                 options: {
@@ -589,6 +615,8 @@
                     chart.data.labels = raw[range].labels;
                     chart.data.datasets[0].data = raw[range].incident;
                     chart.data.datasets[1].data = raw[range].medication;
+                    chart.data.datasets[2].data = raw[range].feedback;
+                    chart.data.datasets[3].data = raw[range].survey;
                     chart.update();
 
                     document.querySelectorAll('.range-tab').forEach(b => {

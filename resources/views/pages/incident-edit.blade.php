@@ -390,4 +390,26 @@
 
     </form>
 
+@push('scripts')
+<script>
+(function () {
+    var form = document.getElementById('edit-incident-form');
+    var completedCheckbox = form.querySelector('input[name="completed"][type="checkbox"]');
+    var informedDateInput = form.querySelector('input[name="informed_date"]');
+
+    if (completedCheckbox && informedDateInput) {
+        completedCheckbox.addEventListener('change', function () {
+            if (this.checked && !informedDateInput.value) {
+                var today = new Date();
+                var y = today.getFullYear();
+                var m = String(today.getMonth() + 1).padStart(2, '0');
+                var d = String(today.getDate()).padStart(2, '0');
+                informedDateInput.value = y + '-' + m + '-' + d;
+            }
+        });
+    }
+})();
+</script>
+@endpush
+
 @endsection

@@ -239,6 +239,21 @@
 (function () {
     var form = document.getElementById('medication-form');
 
+    var statusSelect = form.querySelector('select[name="completed"]');
+    var dateCompletedInput = form.querySelector('input[name="date_completed"]');
+
+    if (statusSelect && dateCompletedInput) {
+        statusSelect.addEventListener('change', function () {
+            if (this.value === '1' && !dateCompletedInput.value) {
+                var today = new Date();
+                var y = today.getFullYear();
+                var m = String(today.getMonth() + 1).padStart(2, '0');
+                var d = String(today.getDate()).padStart(2, '0');
+                dateCompletedInput.value = y + '-' + m + '-' + d;
+            }
+        });
+    }
+
     form.addEventListener('submit', function (e) {
         var errors = [];
         form.querySelectorAll('.is-invalid').forEach(function (el) { el.classList.remove('is-invalid'); });
