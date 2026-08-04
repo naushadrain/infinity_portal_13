@@ -154,7 +154,7 @@
                 <div class="flex items-center gap-3 flex-wrap">
                     <div class="flex items-center gap-3 text-xs text-slate-500 dark:text-ink-400 flex-wrap">
                         <span class="flex items-center gap-1.5"><span
-                                class="w-2.5 h-2.5 rounded-full bg-brand-500"></span>Incident</span>
+                                class="w-2.5 h-2.5 rounded-full bg-yellow-500"></span>Incident</span>
                         <span class="flex items-center gap-1.5"><span
                                 class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>Medication</span>
                         <span class="flex items-center gap-1.5"><span
@@ -520,8 +520,8 @@
                     datasets: [{
                             label: 'Incident',
                             data: raw.month.incident,
-                            borderColor: '#4f46e5',
-                            backgroundColor: 'rgba(99,102,241,.10)',
+                            borderColor: '#eab308',
+                            backgroundColor: 'rgba(234,179,8,.10)',
                             fill: true,
                             tension: 0.4,
                             pointRadius: 3,
