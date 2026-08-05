@@ -327,79 +327,123 @@
         </div>
     </div>
 
-    <!-- Form Status -->
-    <div
-        class="bg-white dark:bg-ink-900 rounded-2xl p-4 sm:p-6 shadow-soft border border-slate-100 dark:border-ink-800 mb-6">
-        <h3 class="font-semibold mb-1">Status</h3>
-        <p class="text-xs text-slate-500 dark:text-ink-400 mb-4">Active vs completed, all time</p>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <a href="{{ route('forms.incident.index') }}"
-                class="p-4 rounded-xl border border-slate-100 dark:border-ink-800 hover:border-brand-300 hover:bg-brand-50/40 dark:hover:bg-brand-500/10 transition">
-                <div class="flex items-center gap-2 mb-3">
-                    <i data-lucide="alert-triangle" class="w-4 h-4 text-brand-500"></i>
-                    <span class="text-sm font-semibold">Incident</span>
-                </div>
-                <div class="flex items-center gap-6">
-                    <div>
-                        <div class="text-xs text-amber-600 dark:text-amber-400 font-medium">Active</div>
-                        <div class="text-xl font-bold mt-0.5">{{ number_format($incidentActiveCount) }}</div>
-                    </div>
-                    <div>
-                        <div class="text-xs text-emerald-600 dark:text-emerald-400 font-medium">Completed</div>
-                        <div class="text-xl font-bold mt-0.5">{{ number_format($incidentStatusCompleted) }}</div>
-                    </div>
-                </div>
-            </a>
-            <a href="{{ route('forms.medication.index') }}"
-                class="p-4 rounded-xl border border-slate-100 dark:border-ink-800 hover:border-teal-300 hover:bg-teal-50/40 dark:hover:bg-teal-500/10 transition">
-                <div class="flex items-center gap-2 mb-3">
-                    <i data-lucide="pill" class="w-4 h-4 text-teal-500"></i>
-                    <span class="text-sm font-semibold">Medication</span>
-                </div>
-                <div class="flex items-center gap-6">
-                    <div>
-                        <div class="text-xs text-amber-600 dark:text-amber-400 font-medium">Active</div>
-                        <div class="text-xl font-bold mt-0.5">{{ number_format($medicationActiveCount) }}</div>
-                    </div>
-                    <div>
-                        <div class="text-xs text-emerald-600 dark:text-emerald-400 font-medium">Completed</div>
-                        <div class="text-xl font-bold mt-0.5">{{ number_format($medicationStatusCompleted) }}</div>
-                    </div>
-                </div>
-            </a>
-        </div>
-    </div>
+    <!-- Form Status + Complaint status pie chart -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mb-6">
 
-    <!-- Missing Manager's Note -->
-    <div
-        class="bg-white dark:bg-ink-900 rounded-2xl p-4 sm:p-6 shadow-soft border border-slate-100 dark:border-ink-800 mb-6">
-        <h3 class="font-semibold mb-1">Missing Manager's Note</h3>
-        <p class="text-xs text-slate-500 dark:text-ink-400 mb-4">Records still awaiting a manager's note, all time</p>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <a href="{{ route('forms.incident.index') }}"
-                class="flex items-center justify-between p-4 rounded-xl border border-slate-100 dark:border-ink-800 hover:border-amber-300 hover:bg-amber-50/40 dark:hover:bg-amber-500/10 transition">
-                <div>
-                    <div class="text-xs text-slate-500 dark:text-ink-400">Incident</div>
-                    <div class="text-2xl font-bold mt-0.5">{{ number_format($missingManagerNote['incident']) }}</div>
+        {{-- Status --}}
+        <div
+            class="lg:col-span-2 bg-white dark:bg-ink-900 rounded-2xl p-4 sm:p-6 shadow-soft border border-slate-100 dark:border-ink-800">
+            <h3 class="font-semibold mb-1">Status</h3>
+            <p class="text-xs text-slate-500 dark:text-ink-400 mb-4">Active vs completed, all time</p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <a href="{{ route('forms.incident.index') }}"
+                    class="p-4 rounded-xl border border-slate-100 dark:border-ink-800 hover:border-brand-300 hover:bg-brand-50/40 dark:hover:bg-brand-500/10 transition">
+                    <div class="flex items-center gap-2 mb-3">
+                        <i data-lucide="alert-triangle" class="w-4 h-4 text-brand-500"></i>
+                        <span class="text-sm font-semibold">Incident</span>
+                    </div>
+                    <div class="flex items-center gap-6">
+                        <div>
+                            <div class="text-xs text-amber-600 dark:text-amber-400 font-medium">Active</div>
+                            <div class="text-xl font-bold mt-0.5">{{ number_format($incidentActiveCount) }}</div>
+                        </div>
+                        <div>
+                            <div class="text-xs text-emerald-600 dark:text-emerald-400 font-medium">Completed</div>
+                            <div class="text-xl font-bold mt-0.5">{{ number_format($incidentStatusCompleted) }}</div>
+                        </div>
+                    </div>
+                </a>
+                <a href="{{ route('forms.medication.index') }}"
+                    class="p-4 rounded-xl border border-slate-100 dark:border-ink-800 hover:border-teal-300 hover:bg-teal-50/40 dark:hover:bg-teal-500/10 transition">
+                    <div class="flex items-center gap-2 mb-3">
+                        <i data-lucide="pill" class="w-4 h-4 text-teal-500"></i>
+                        <span class="text-sm font-semibold">Medication</span>
+                    </div>
+                    <div class="flex items-center gap-6">
+                        <div>
+                            <div class="text-xs text-amber-600 dark:text-amber-400 font-medium">Active</div>
+                            <div class="text-xl font-bold mt-0.5">{{ number_format($medicationActiveCount) }}</div>
+                        </div>
+                        <div>
+                            <div class="text-xs text-emerald-600 dark:text-emerald-400 font-medium">Completed</div>
+                            <div class="text-xl font-bold mt-0.5">{{ number_format($medicationStatusCompleted) }}</div>
+                        </div>
+                    </div>
+                </a>
+                <a href="{{ route('forms.complaint.index') }}"
+                    class="p-4 rounded-xl border border-slate-100 dark:border-ink-800 hover:border-rose-300 hover:bg-rose-50/40 dark:hover:bg-rose-500/10 transition">
+                    <div class="flex items-center gap-2 mb-3">
+                        <i data-lucide="message-square-warning" class="w-4 h-4 text-rose-500"></i>
+                        <span class="text-sm font-semibold">Feedback and Complaint</span>
+                    </div>
+                    <div class="flex items-center gap-6">
+                        <div>
+                            <div class="text-xs text-amber-600 dark:text-amber-400 font-medium">Active</div>
+                            <div class="text-xl font-bold mt-0.5">{{ number_format($complaintActiveCount) }}</div>
+                        </div>
+                        <div>
+                            <div class="text-xs text-emerald-600 dark:text-emerald-400 font-medium">Completed</div>
+                            <div class="text-xl font-bold mt-0.5">{{ number_format($complaintStatusCompleted) }}</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        {{-- Complaint status pie chart --}}
+        <div
+            class="bg-white dark:bg-ink-900 rounded-2xl p-4 sm:p-6 shadow-soft border border-slate-100 dark:border-ink-800">
+            <h3 class="font-semibold mb-1">Complaint status</h3>
+            <p class="text-xs text-slate-500 dark:text-ink-400 mb-4">New · In Progress · Closed, all time</p>
+            @if ($complaintStatusTotal > 0)
+                <div class="flex flex-col items-center gap-5">
+                    <div class="relative w-32 h-32 shrink-0">
+                        <svg viewBox="0 0 36 36" class="w-32 h-32 -rotate-90">
+                            <circle cx="18" cy="18" r="15.915" fill="none"
+                                class="stroke-slate-100 dark:stroke-ink-800" stroke-width="3.5" />
+                            <circle cx="18" cy="18" r="15.915" fill="none" stroke="#0ea5e9"
+                                stroke-width="3.5" stroke-dasharray="{{ $complaintStatusPercents['new'] }} 100"
+                                stroke-linecap="round" />
+                            <circle cx="18" cy="18" r="15.915" fill="none" stroke="#f59e0b"
+                                stroke-width="3.5" stroke-dasharray="{{ $complaintStatusPercents['in_progress'] }} 100"
+                                stroke-dashoffset="-{{ $complaintStatusPercents['new'] }}" stroke-linecap="round" />
+                            <circle cx="18" cy="18" r="15.915" fill="none" stroke="#10b981"
+                                stroke-width="3.5" stroke-dasharray="{{ $complaintStatusPercents['closed'] }} 100"
+                                stroke-dashoffset="-{{ $complaintStatusPercents['new'] + $complaintStatusPercents['in_progress'] }}"
+                                stroke-linecap="round" />
+                        </svg>
+                        <div class="absolute inset-0 grid place-items-center text-center">
+                            <div>
+                                <div class="text-2xl font-bold leading-none">{{ $complaintStatusTotal }}</div>
+                                <div class="text-[10px] text-slate-500 dark:text-ink-400 mt-1">Total</div>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="text-sm space-y-2 w-full">
+                        <li class="flex items-center justify-between">
+                            <span class="flex items-center gap-2"><span
+                                    class="w-2 h-2 rounded-full bg-sky-500"></span>New</span>
+                            <span class="font-medium">{{ $complaintStatusCounts['new'] }}</span>
+                        </li>
+                        <li class="flex items-center justify-between">
+                            <span class="flex items-center gap-2"><span
+                                    class="w-2 h-2 rounded-full bg-amber-500"></span>In Progress</span>
+                            <span class="font-medium">{{ $complaintStatusCounts['in_progress'] }}</span>
+                        </li>
+                        <li class="flex items-center justify-between">
+                            <span class="flex items-center gap-2"><span
+                                    class="w-2 h-2 rounded-full bg-emerald-500"></span>Closed</span>
+                            <span class="font-medium">{{ $complaintStatusCounts['closed'] }}</span>
+                        </li>
+                    </ul>
                 </div>
-                <i data-lucide="alert-triangle" class="w-6 h-6 text-amber-500"></i>
-            </a>
-            <a href="{{ route('forms.medication.index') }}"
-                class="flex items-center justify-between p-4 rounded-xl border border-slate-100 dark:border-ink-800 hover:border-emerald-300 hover:bg-emerald-50/40 dark:hover:bg-emerald-500/10 transition">
-                <div>
-                    <div class="text-xs text-slate-500 dark:text-ink-400">Medication</div>
-                    <div class="text-2xl font-bold mt-0.5">{{ number_format($missingManagerNote['medication']) }}</div>
+            @else
+                <div
+                    class="flex flex-col items-center justify-center py-8 text-center text-sm text-slate-400 dark:text-ink-500">
+                    <i data-lucide="pie-chart" class="w-8 h-8 mb-2 opacity-40"></i>
+                    <p>No complaints yet.</p>
                 </div>
-                <i data-lucide="pill" class="w-6 h-6 text-emerald-500"></i>
-            </a>
-            <a href="{{ route('forms.complaint.index') }}"
-                class="flex items-center justify-between p-4 rounded-xl border border-slate-100 dark:border-ink-800 hover:border-rose-300 hover:bg-rose-50/40 dark:hover:bg-rose-500/10 transition">
-                <div>
-                    <div class="text-xs text-slate-500 dark:text-ink-400">Feedback and Complaint</div>
-                    <div class="text-2xl font-bold mt-0.5">{{ number_format($missingManagerNote['complaint']) }}</div>
-                </div>
-                <i data-lucide="message-square-warning" class="w-6 h-6 text-rose-500"></i>
-            </a>
+            @endif
         </div>
     </div>
 
@@ -411,9 +455,9 @@
                 <h3 class="font-semibold">Latest submissions</h3>
                 <p class="text-xs text-slate-500 dark:text-ink-400 mt-0.5">Most recent forms across all types</p>
             </div>
-            <a href="{{ route('forms.incident.index') }}"
+            <a href="{{ route('forms.incident.index') }}" aria-label="View all submissions"
                 class="text-xs font-semibold text-brand-600 dark:text-brand-300 hover:text-brand-700 inline-flex items-center gap-1">
-                View all <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
             </a>
         </div>
 

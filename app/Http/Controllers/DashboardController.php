@@ -59,6 +59,20 @@ class DashboardController extends Controller
         $incidentStatusCompleted  = ReporterDetail::where('completed', 1)->count();
         $medicationActiveCount    = Medication::where('completed', 0)->count();
         $medicationStatusCompleted = Medication::where('completed', 1)->count();
+        $complaintActiveCount     = CustomerFeedback::where('status', '!=', 'Closed')->count();
+        $complaintStatusCompleted = CustomerFeedback::where('status', 'Closed')->count();
+
+        // Complaint status breakdown — New / In Progress / Closed, all-time, for the pie chart.
+        $complaintStatusCounts = [
+            'new'         => CustomerFeedback::where('status', 'New')->count(),
+            'in_progress' => CustomerFeedback::where('status', 'In Progress')->count(),
+            'closed'      => CustomerFeedback::where('status', 'Closed')->count(),
+        ];
+        $complaintStatusTotal = array_sum($complaintStatusCounts);
+        $complaintStatusPercents = array_map(
+            fn($count) => $complaintStatusTotal > 0 ? round(($count / $complaintStatusTotal) * 100) : 0,
+            $complaintStatusCounts
+        );
 
         // incident_details has no timestamps — always all-time
         $fromIncidentsCount = IncidentDetail::count();
@@ -91,22 +105,17 @@ class DashboardController extends Controller
         // --- Latest submissions table ---
         $latestSubmissions = $this->buildLatestSubmissions();
 
-        // --- Missing Manager's Note ---
-        $missingManagerNote = [
-            'incident'   => ReporterDetail::whereNull('manager_note')->orWhere('manager_note', '')->count(),
-            'medication' => Medication::whereNull('manager_note')->orWhere('manager_note', '')->count(),
-            'complaint'  => CustomerFeedback::whereNull('manager_note')->orWhere('manager_note', '')->count(),
-        ];
-
         return view('pages.dashboard', compact(
             'recentUsers', 'totalUsers', 'newUsersCount',
             'incidentCount', 'medicationCount', 'otherCount', 'feedbackCount',
             'formsTotal', 'incidentPercent', 'medicationPercent', 'otherPercent',
             'fromIncidentsCount', 'latestSubmissions', 'chartData', 'period', 'periodLabel',
-            'formsChange', 'feedbackChange', 'missingManagerNote',
+            'formsChange', 'feedbackChange',
             'incidentCompletedCount', 'medicationCompletedCount',
             'incidentActiveCount', 'medicationActiveCount',
             'incidentStatusCompleted', 'medicationStatusCompleted',
+            'complaintActiveCount', 'complaintStatusCompleted',
+            'complaintStatusCounts', 'complaintStatusTotal', 'complaintStatusPercents',
         ));
     }
 
