@@ -44,8 +44,11 @@ class DashboardController extends Controller
         $incidentCount   = $since ? ReporterDetail::where('created_at', '>=', $since)->count()        : ReporterDetail::count();
         $medicationCount = $since ? Medication::where('created_at', '>=', $since)->count()            : Medication::count();
         $feedbackCount   = $since ? CustomerFeedback::where('created_at', '>=', $since)->count()      : CustomerFeedback::count();
+        $surveyCount     = $since
+            ? CustomerSatisfaction::where('created_at', '>=', $since)->count() + StaffSatisfaction::where('created_at', '>=', $since)->count()
+            : CustomerSatisfaction::count() + StaffSatisfaction::count();
         $otherCount      = $feedbackCount;
-        $formsTotal      = $incidentCount + $medicationCount + $feedbackCount;
+        $formsTotal      = $incidentCount + $medicationCount + $feedbackCount + $surveyCount;
 
         // Period-scoped "X completed" subtext under the Incidents/Medication KPI tiles —
         // records marked completed (updated) within this period, so completing an older
@@ -61,6 +64,11 @@ class DashboardController extends Controller
         $medicationStatusCompleted = Medication::where('completed', 1)->count();
         $complaintActiveCount     = CustomerFeedback::where('status', '!=', 'Closed')->count();
         $complaintStatusCompleted = CustomerFeedback::where('status', 'Closed')->count();
+
+        // Survey has no active/completed workflow — each submission is a finished
+        // response, so the Status card splits it by respondent type instead.
+        $customerSatisfactionCount = CustomerSatisfaction::count();
+        $staffSatisfactionCount    = StaffSatisfaction::count();
 
         // Complaint status breakdown — New / In Progress / Closed, all-time, for the pie chart.
         $complaintStatusCounts = [
@@ -98,6 +106,7 @@ class DashboardController extends Controller
         $incidentPercent   = $formsTotal > 0 ? round(($incidentCount   / $formsTotal) * 100) : 0;
         $medicationPercent = $formsTotal > 0 ? round(($medicationCount / $formsTotal) * 100) : 0;
         $otherPercent      = $formsTotal > 0 ? round(($otherCount      / $formsTotal) * 100) : 0;
+        $surveyPercent     = $formsTotal > 0 ? round(($surveyCount     / $formsTotal) * 100) : 0;
 
         // --- Graph data: Perth vs Victoria — month / year / all ---
         $chartData = $this->buildChartData();
@@ -107,8 +116,8 @@ class DashboardController extends Controller
 
         return view('pages.dashboard', compact(
             'recentUsers', 'totalUsers', 'newUsersCount',
-            'incidentCount', 'medicationCount', 'otherCount', 'feedbackCount',
-            'formsTotal', 'incidentPercent', 'medicationPercent', 'otherPercent',
+            'incidentCount', 'medicationCount', 'otherCount', 'feedbackCount', 'surveyCount',
+            'formsTotal', 'incidentPercent', 'medicationPercent', 'otherPercent', 'surveyPercent',
             'fromIncidentsCount', 'latestSubmissions', 'chartData', 'period', 'periodLabel',
             'formsChange', 'feedbackChange',
             'incidentCompletedCount', 'medicationCompletedCount',
@@ -116,6 +125,7 @@ class DashboardController extends Controller
             'incidentStatusCompleted', 'medicationStatusCompleted',
             'complaintActiveCount', 'complaintStatusCompleted',
             'complaintStatusCounts', 'complaintStatusTotal', 'complaintStatusPercents',
+            'customerSatisfactionCount', 'staffSatisfactionCount',
         ));
     }
 
