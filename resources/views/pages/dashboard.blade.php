@@ -390,11 +390,11 @@
                     </div>
                     <div class="flex items-center gap-6">
                         <div>
-                            <div class="text-xs text-amber-600 dark:text-amber-400 font-medium">Active</div>
+                            <div class="text-xs text-amber-600 dark:text-amber-400 font-medium">New</div>
                             <div class="text-xl font-bold mt-0.5">{{ number_format($complaintActiveCount) }}</div>
                         </div>
                         <div>
-                            <div class="text-xs text-emerald-600 dark:text-emerald-400 font-medium">Completed</div>
+                            <div class="text-xs text-emerald-600 dark:text-emerald-400 font-medium">Close</div>
                             <div class="text-xl font-bold mt-0.5">{{ number_format($complaintStatusCompleted) }}</div>
                         </div>
                     </div>
