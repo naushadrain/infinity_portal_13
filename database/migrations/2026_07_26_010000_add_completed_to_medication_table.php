@@ -8,6 +8,10 @@ return new class extends Migration
 {
     public function up(): void
     {
+        if (Schema::hasColumn('medication', 'completed')) {
+            return;
+        }
+
         Schema::table('medication', function (Blueprint $table) {
             $table->boolean('completed')->default(false)->after('manager_note');
         });

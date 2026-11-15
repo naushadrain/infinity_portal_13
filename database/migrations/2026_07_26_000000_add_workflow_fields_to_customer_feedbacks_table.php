@@ -8,6 +8,11 @@ return new class extends Migration
 {
     public function up(): void
     {
+        // Already present when the table was created by 2026_07_25_000000_create_customer_feedbacks_table.
+        if (Schema::hasColumn('customer_feedbacks', 'ref_number')) {
+            return;
+        }
+
         Schema::table('customer_feedbacks', function (Blueprint $table) {
             $table->string('ref_number')->nullable()->unique()->after('id');
             $table->string('status')->default('New')->after('suggestions');
