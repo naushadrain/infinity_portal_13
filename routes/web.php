@@ -13,6 +13,7 @@ use App\Http\Controllers\User\UsersController;
 use App\Http\Controllers\User\UsersProfileController;
 use App\Http\Controllers\Forms\ABCMonitoringChart;
 use App\Http\Controllers\Public\CreateIncidentController;
+use App\Http\Controllers\Public\CreateMedicationController;
 use App\Http\Controllers\Forms\FeedbackComplaintController;
 use App\Http\Controllers\Public\CustomerSatisfyController;
 use App\Http\Controllers\Public\CustomerFeedbackController;
@@ -41,6 +42,8 @@ Route::post('/customersatisfy/feedback', [CustomerFeedbackController::class, 'st
 Route::get('/incident/create-incident', [CreateIncidentController::class,'index'])->name('incident.public.create');
 Route::post('/incident/create-incident', [CreateIncidentController::class,'store'])->name('incident.public.store');
 
+Route::get('/incident/create-medication', [CreateMedicationController::class,'index'])->name('medication.public.create');
+Route::post('/incident/create-medication', [CreateMedicationController::class,'store'])->name('medication.public.store');
 
 Route::middleware('guest')->group(function () {
     Route::get('/', function () {

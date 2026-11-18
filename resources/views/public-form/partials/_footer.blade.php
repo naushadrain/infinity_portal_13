@@ -73,7 +73,7 @@
                     </li>
                     <li class="flex items-center gap-2">
                         <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-sky-400 shrink-0"></i>
-                        <a href="https://infiniteability.com.au/Portal/public/login" target="_blank"
+                        <a href="https://infiniteability.com.au/portal/public/login" target="_blank"
                            class="hover:text-sky-400 transition">Portal Link</a>
                     </li>
                 </ul>
