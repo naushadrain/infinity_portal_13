@@ -15,7 +15,7 @@ class CustomerSatisfyController extends Controller
     }
     public function getVictoria()
     {
-        return view('public-form.customersatisfy-Victoria');
+        return view('public-form.customersatisfy-victoria');
     }
     // stroe the cities name perth
     public function store(Request $request)
