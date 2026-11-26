@@ -42,6 +42,11 @@ Route::post('/customersatisfy/feedback', [CustomerFeedbackController::class, 'st
 Route::get('/incident/create-incident', [CreateIncidentController::class,'index'])->name('incident.public.create');
 Route::post('/incident/create-incident', [CreateIncidentController::class,'store'])->name('incident.public.store');
 
+// Banner image (public, so it can also be used in email signatures)
+Route::get('/banner-image/{filename}', [SignatureBannerController::class, 'image'])
+    ->where('filename', '[A-Za-z0-9_\-\.]+')
+    ->name('banner.image');
+
 Route::get('/incident/create-medication', [CreateMedicationController::class,'index'])->name('medication.public.create');
 Route::post('/incident/create-medication', [CreateMedicationController::class,'store'])->name('medication.public.store');
 
@@ -140,7 +145,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/reports', [ReportsController::class, 'index'])->name('reports.index');
     Route::get('/activity-logs', [ActivityLogController::class, 'index'])->name('activity.index');
     Route::delete('/activity-logs/{log}', [ActivityLogController::class, 'destroy'])->name('activity.destroy');
-    Route::resource('/signature-banner', SignatureBannerController::class)
-        ->except(['create', 'edit', 'show'])
-        ->names('banner');
+    Route::get('/signature-banner',  [SignatureBannerController::class, 'index'])->name('banner.index');
+    Route::post('/signature-banner', [SignatureBannerController::class, 'store'])->name('banner.store');
 });
