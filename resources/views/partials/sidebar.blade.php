@@ -61,6 +61,7 @@
         ],
         // ['label' => 'Reports',          'route' => 'reports.index',  'icon' => 'bar-chart-3', 'staffHidden' => true],
         ['label' => 'Activity Logs', 'route' => 'activity.index', 'icon' => 'activity', 'managerHidden' => true],
+        ['label' => 'Laravel Logs', 'route' => 'logs.index', 'prefix' => 'logs', 'icon' => 'terminal-square', 'adminOnly' => true],
         ['label' => 'Signature Banner', 'route' => 'banner.index', 'icon' => 'image'],
     ];
 
@@ -96,7 +97,7 @@
                 $open = $parentActive || $childActive;
             @endphp
 
-            @if ((!empty($item['managerHidden']) && $isManager) || (!empty($item['staffHidden']) && $isStaff))
+            @if ((!empty($item['managerHidden']) && $isManager) || (!empty($item['staffHidden']) && $isStaff) || (!empty($item['adminOnly']) && (int) auth()->user()->role_id !== 1))
                 {{-- hidden by role --}}
             @elseif (empty($item['children']))
                 <a href="{{ route($item['route']) }}"

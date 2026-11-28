@@ -18,6 +18,7 @@ use App\Http\Controllers\Forms\FeedbackComplaintController;
 use App\Http\Controllers\Public\CustomerSatisfyController;
 use App\Http\Controllers\Public\CustomerFeedbackController;
 use App\Http\Controllers\ActivityLogController;
+use App\Http\Controllers\LogViewerController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\SignatureBannerController;
 
@@ -140,6 +141,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/reports', [ReportsController::class, 'index'])->name('reports.index');
     Route::get('/activity-logs', [ActivityLogController::class, 'index'])->name('activity.index');
     Route::delete('/activity-logs/{log}', [ActivityLogController::class, 'destroy'])->name('activity.destroy');
+
+    // Developer log viewer (storage/logs/*.log) — admin only, checked in the controller
+    Route::get('/laravel-logs',          [LogViewerController::class, 'index'])->name('logs.index');
+    Route::get('/laravel-logs/entries',  [LogViewerController::class, 'entries'])->name('logs.entries');
+    Route::get('/laravel-logs/download', [LogViewerController::class, 'download'])->name('logs.download');
+    Route::post('/laravel-logs/clear',   [LogViewerController::class, 'clear'])->name('logs.clear');
     Route::get('/signature-banner',  [SignatureBannerController::class, 'index'])->name('banner.index');
     Route::post('/signature-banner', [SignatureBannerController::class, 'store'])->name('banner.store');
 });
