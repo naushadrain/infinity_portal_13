@@ -36,13 +36,12 @@ class Signaturebanner extends Model
             return null;
         }
 
-        $version = '?v=' . ($this->updated_at?->timestamp ?? '');
-
-        // Fallback if routes are cached/outdated on the server.
-        if (! \Illuminate\Support\Facades\Route::has('banner.image')) {
-            return asset('storage/' . $this->file_path) . $version;
+        // New location: public/signaturebanner/banner.jpg -> /signaturebanner/banner.jpg
+        if (str_starts_with($this->file_path, 'signaturebanner/')) {
+            return asset($this->file_path);
         }
 
-        return route('banner.image', basename($this->file_path)) . $version;
+        // Older uploads still in storage/app/public/banners/...
+        return asset('storage/' . $this->file_path);
     }
 }

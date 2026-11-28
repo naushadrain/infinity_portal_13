@@ -42,11 +42,6 @@ Route::post('/customersatisfy/feedback', [CustomerFeedbackController::class, 'st
 Route::get('/incident/create-incident', [CreateIncidentController::class,'index'])->name('incident.public.create');
 Route::post('/incident/create-incident', [CreateIncidentController::class,'store'])->name('incident.public.store');
 
-// Banner image (public, so it can also be used in email signatures)
-Route::get('/banner-image/{filename}', [SignatureBannerController::class, 'image'])
-    ->where('filename', '[A-Za-z0-9_\-\.]+')
-    ->name('banner.image');
-
 Route::get('/incident/create-medication', [CreateMedicationController::class,'index'])->name('medication.public.create');
 Route::post('/incident/create-medication', [CreateMedicationController::class,'store'])->name('medication.public.store');
 
